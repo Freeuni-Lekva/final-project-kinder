@@ -7,11 +7,11 @@ import java.sql.*;
 
 import org.apache.ibatis.jdbc.ScriptRunner;
 
-public class ConnectionToDB {
+public class MyDatabase {
         private Connection connection;
         private static final String DATABASE_FILE = "src/main/resources/DB.sql";
 
-        public ConnectionToDB() throws SQLException {
+        public MyDatabase() throws SQLException {
 
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
@@ -20,15 +20,21 @@ public class ConnectionToDB {
             } catch (Exception ex) {
                 System.out.println("Can`t connect to database");
             }
-            try{
+            try {
                 ScriptRunner sr = new ScriptRunner(connection);
                 Reader reader = new BufferedReader(new FileReader(DATABASE_FILE));
                 sr.runScript(reader);
-            } catch(Exception ex){
+            } catch (Exception ex) {
                 System.out.println("Can`t run script");
             }
+        }
+            public Connection getConnection(){
+                return connection;
+            }
 
-
+            public void closeConnection() throws SQLException {
+            if(connection!=null) connection.close();
+            }
 
 
         }
@@ -37,4 +43,3 @@ public class ConnectionToDB {
 
 
 
-}

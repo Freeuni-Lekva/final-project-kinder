@@ -1,10 +1,11 @@
-import Database.ConnectionToDB;
+
+import Database.MyDatabase;
 
 import java.sql.SQLException;
 
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-        ConnectionToDB db = new ConnectionToDB();
+        MyDatabase db = new MyDatabase();
     }
 }
