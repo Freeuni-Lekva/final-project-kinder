@@ -13,6 +13,8 @@ public interface MessageDAO {
 
     Message getMessages(Chat chat);
 
+    // and so on...
+
 
 
 

@@ -21,7 +21,7 @@ public interface UserDAO  {
     User getUserById(int id);
 
 
-    // da sxva metodebi...
+    // and so on...
 
 
 }
