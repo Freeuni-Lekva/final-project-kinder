@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 public class User {
+
+    int user_id;
     String mail;
     String password;
 
@@ -48,6 +50,15 @@ public class User {
         this.gender = gender;
     }
     // აქ ზოგი სეტერე და გეტერი წასაშლელია
+
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 
     public String getMail() {
         return mail;
