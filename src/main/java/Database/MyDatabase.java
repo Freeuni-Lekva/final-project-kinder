@@ -36,7 +36,7 @@ public class MyDatabase {
             if(connection!=null) connection.close();
             }
 
-
+            // akve unda davamatot insertebi
         }
 
 

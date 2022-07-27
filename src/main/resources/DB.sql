@@ -10,24 +10,25 @@ drop table if exists Premium_Users;
 drop table if exists User;
 
 CREATE TABLE User (
-    First_Name        VARCHAR(20) NOT NULL,
+     First_Name       VARCHAR(20) NOT NULL,
      Last_Name        VARCHAR(20) NOT NULL,
      User_id          INT NOT NULL AUTO_INCREMENT,
      Bio              VARCHAR(200) NULL    ,
      Mail             VARCHAR(50) NOT NULL,
-     Country          VARCHAR(20) NULL    ,
-     City             VARCHAR(20) NULL    ,
+     Country          VARCHAR(20) NOT NULL    ,
+     City             VARCHAR(20) NOT NULL    ,
      Min_Age          INT     NULL    ,
      Max_Age          INT     NULL    ,
-     Gender           VARCHAR(20) NULL   ,
+     Gender           VARCHAR(20) NOT NULL   ,
      Orientation      VARCHAR(30) NULL    ,
      Birth_Date       DATE    NOT NULL,
 
      Registration_Date DATE    NOT NULL,
      Horoscope         VARCHAR(15) NULL    ,
-     Active            INT     NOT NULL,
      Hided             INT     NOT NULL,
-     Balance           INT     NULL    ,
+     Admin             INT   NOT NULL ,
+     Balance           INT     NULL  DEFAULT 100 ,
+
      PRIMARY KEY (User_id) );
 
 CREATE TABLE Chat (
