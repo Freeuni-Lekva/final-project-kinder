@@ -1,6 +1,33 @@
 package DAO.DAOimpl;
 
-public class LikesDAOimpl {
+import DAO.LikesDAO;
+import Models.User;
 
-    // აქ შეიქმნება სტრუქტურა, სადაც შევინახავთ ლაიქებს და მერე მოხდება იმ მეთოდების იმპლემენტაცია, რომელიც ეწერება LikesDAOში
+public class LikesDAOimpl implements LikesDAO {
+
+
+    @Override
+    public void addLike(User user_1, User user_2) {
+
+    }
+
+    @Override
+    public void addSuperLike(User user_1, User user_2) {
+
+    }
+
+    @Override
+    public boolean isLiked(User user_1, User user_2) {
+        return false;
+    }
+
+    @Override
+    public int numberOfLikes(User user) {
+        return 0;
+    }
+
+    @Override
+    public void deleteLike(User user_1, User user_2) {
+
+    }
 }

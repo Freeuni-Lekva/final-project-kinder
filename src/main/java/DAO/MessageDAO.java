@@ -11,7 +11,7 @@ public interface MessageDAO {
     // delete gvkondes?
     void deleteMessage(Message message);
 
-    Message getMessages(Chat chat);
+    Message  getMessages(int chat_id);
 
     // and so on...
 

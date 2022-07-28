@@ -10,24 +10,36 @@ drop table if exists Premium_Users;
 drop table if exists User;
 
 CREATE TABLE User (
-     First_Name       VARCHAR(20) NOT NULL,
-     Last_Name        VARCHAR(20) NOT NULL,
      User_id          INT NOT NULL AUTO_INCREMENT,
-     Bio              VARCHAR(200) NULL    ,
      Mail             VARCHAR(50) NOT NULL,
-     Country          VARCHAR(20) NOT NULL    ,
+     First_Name       VARCHAR(20) NOT NULL,
+     Birth_Date       DATE    NOT NULL,
      City             VARCHAR(20) NOT NULL    ,
+     Gender           VARCHAR(20) NOT NULL   ,
+     Show_Gender       INT   NOT NULL ,
+     Preference       VARCHAR(30) NOT NULL,
+
+     Orientation      VARCHAR(30) NULL    ,
+
+     Bio              VARCHAR(200) NULL    ,
+     Horoscope        VARCHAR(15) NULL    ,
+     Company          VARCHAR(15) NULL    ,
+     Job              VARCHAR(15) NULL    ,
+     School           VARCHAR(15) NULL    ,
+
      Min_Age          INT     NULL    ,
      Max_Age          INT     NULL    ,
-     Gender           VARCHAR(20) NOT NULL   ,
-     Orientation      VARCHAR(30) NULL    ,
-     Birth_Date       DATE    NOT NULL,
 
-     Registration_Date DATE    NOT NULL,
-     Horoscope         VARCHAR(15) NULL    ,
-     Hided             INT     NOT NULL,
-     Admin             INT   NOT NULL ,
+     Registration_Date DATE    NOT NULL auto_increment,
+
+     Show_Active       INT   NULL ,
+     Last_Session      DATE  NULL,
+
+     Hided             INT   NULL default 0,
+     Admin             INT   NULL ,
      Balance           INT     NULL  DEFAULT 100 ,
+
+     Password          INT NOT NULL,
 
      PRIMARY KEY (User_id) );
 
@@ -47,6 +59,7 @@ CREATE TABLE Images (
     Image_Id  INT     NOT NULL AUTO_INCREMENT,
     User_id   INT     NOT NULL,
     Image_Url VARCHAR(100) NOT NULL,
+    IsProfile INT  NULL,
     primary key (Image_Id) );
 
 ALTER TABLE Images   ADD CONSTRAINT FK_User_TO_Images     FOREIGN KEY (User_id)     REFERENCES User (User_id);
@@ -89,6 +102,7 @@ ALTER TABLE Messages   ADD CONSTRAINT FK_User_TO_Messages     FOREIGN KEY (User_
 CREATE TABLE Premium_Users (
     User_id    INT  NOT NULL,
     Start_Date DATE NOT NULL,
-    End_Date   DATE NULL     );
+    End_Date   DATE NULL,
+    Show_To_Liked INT NULL);
 
 ALTER TABLE Premium_Users   ADD CONSTRAINT FK_User_TO_Premium_Users     FOREIGN KEY (User_id)     REFERENCES User (User_id);
