@@ -4,11 +4,11 @@ import Models.User;
 
 public interface MatchesDAO {
 
-    void addMatch(User user_1, User user_2);
-    void deleteMatch(User user_1,User user_2);
+    void addMatch(int user_id_1, int user_id_2);
+    void deleteMatch(int user_id_1, int user_id_2);
 
-    void addChat(User user_1,User user_2); // ak unda shemowmdes ogond match xo aris namdvilad
-    void deleteChat(User user_1,User user_2);
+    int addChat(int user_id_1, int user_id_2); // ak unda shemowmdes ogond match xo aris namdvilad
+    void deleteChat(int user_id_1, int user_id_2);
 
     // and so on...
 

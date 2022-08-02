@@ -14,7 +14,6 @@ public class User {
     Date birth_date;
     String city;
     String gender;
-
     String genderPref;
 
     boolean genderIsShown;

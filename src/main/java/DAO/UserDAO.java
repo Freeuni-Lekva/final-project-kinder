@@ -20,10 +20,14 @@ public interface UserDAO  {
     // 3) დაჰაიდებული ხომ არაა?
     // 4) წესით ეს სია რომ ამოვიღე და მერე დისლაიქი დამიწერა ამ ტიპმა, სანამ ამ სიაში მაგ ადამიანამდე მივედი, მაშინ უნდა განახლდეს სია.
     // მაგაზე უნდა შევთანხმდეთ როგორ ვიზამთ
-    List<User> getUsers(String city); // ეს ჩველებრივი ძებნა
-    List<User> getUsers(boolean liked, boolean most_recent,String city); // ეს პრემიუმისთვისაა. შეუძლია ასევე ესენი მიუთითოს.
-    List<User> getUsers(int min_age, int max_age,String city); // ეს პრეფერენციებით
-    List<User> getUsers(int min_age, int max_age,boolean liked,boolean most_recent,String city); // ეს პრეფერენციებით პრემიუმისათვის
+    List<User> getUsers(String city,int user_id); // ეს ჩველებრივი ძებნა //აქ დავაბრუნოტ UserDTO
+
+
+    List<User> getUsers(boolean liked, boolean most_recent, String city); // ეს პრემიუმისთვისაა. შეუძლია ასევე ესენი მიუთითოს.
+    List<User> getUsers(int min_age, int max_age,String city,int user_id); // ეს პრეფერენციებით //აქ დავაბრუნოტ UserDTO
+
+
+    List<User> getUsers(int min_age, int max_age, boolean liked, boolean most_recent, String city); // ეს პრეფერენციებით პრემიუმისათვის
 
 
     // and so on...

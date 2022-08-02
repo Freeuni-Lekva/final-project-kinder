@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface HobbiesDAO {
 
-    void addHobbie(String hobbie);
-    void deleteHobbie(String hobbie);
-    List<String> getHobbies();
+    void addHobbie(String hobbie, int user_id);
+    void deleteHobbie(String hobbie, int user_id);
 
+    List<String> getHobbies(int user_id);
 }

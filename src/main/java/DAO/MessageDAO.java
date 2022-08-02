@@ -4,6 +4,8 @@ import Models.Chat;
 import Models.Message;
 import Models.User;
 
+import java.util.List;
+
 public interface MessageDAO {
 
     void addMessage(Message message);
@@ -11,7 +13,7 @@ public interface MessageDAO {
     // delete gvkondes?
     void deleteMessage(Message message);
 
-    Message  getMessages(int chat_id);
+    List<Message> getMessages(int chat_id);
 
     // and so on...
 

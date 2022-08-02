@@ -6,17 +6,17 @@ import java.util.List;
 
 public class HobbiesDAOimpl implements HobbiesDAO {
     @Override
-    public void addHobbie(String hobbie) {
+    public void addHobbie(String hobbie, int user_id) {
+        //insert into
+    }
+
+    @Override
+    public void deleteHobbie(String hobbie, int user_id) {
 
     }
 
     @Override
-    public void deleteHobbie(String hobbie) {
-
-    }
-
-    @Override
-    public List<String> getHobbies() {
+    public List<String> getHobbies(int user_id) {
         return null;
     }
 }

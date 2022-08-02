@@ -5,22 +5,23 @@ import Models.User;
 
 public class MatchesDAOimpl implements MatchesDAO {
     @Override
-    public void addMatch(User user_1, User user_2) {
-
+    public void addMatch(int user_id_1, int user_id_2) {
+        //insert into matches
     }
 
     @Override
-    public void deleteMatch(User user_1, User user_2) {
-
+    public void deleteMatch(int user_id_1, int user_id_2) {
+        //delete from matches
     }
 
     @Override
-    public void addChat(User user_1, User user_2) {
-
+    public int addChat(int user_id_1, int user_id_2) {
+        //insert into chats
+        return 0;
     }
 
     @Override
-    public void deleteChat(User user_1, User user_2) {
-
+    public void deleteChat(int user_id_1, int user_id_2) {
+        //delete from chats
     }
 }
