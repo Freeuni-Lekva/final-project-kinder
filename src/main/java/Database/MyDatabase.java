@@ -1,11 +1,13 @@
 package Database;
 
+import org.apache.ibatis.jdbc.ScriptRunner;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.Reader;
 import java.sql.*;
 
-import org.apache.ibatis.jdbc.ScriptRunner;
+
 
 public class MyDatabase {
         private Connection connection;
@@ -29,14 +31,14 @@ public class MyDatabase {
             }
         }
             public Connection getConnection(){
-                return connection;
+            return connection;
             }
 
             public void closeConnection() throws SQLException {
             if(connection!=null) connection.close();
             }
 
-            // akve unda davamatot insertebi
+
         }
 
 

@@ -10,7 +10,6 @@ public class Chat {
     User first_user;
     User second_user;
 
-    // eg ar vici tu unda ak
     List<Message> messages;
 
     public Chat(User first_user, User second_user) {

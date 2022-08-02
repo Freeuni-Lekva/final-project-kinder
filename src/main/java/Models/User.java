@@ -5,51 +5,52 @@ import java.util.List;
 
 public class User {
 
-    int user_id;
+    private int user_id;
 
+    private Role role;
 
     // during registration
-    String mail;
-    String first_name;
-    Date birth_date;
-    String city;
-    String gender;
-    String genderPref;
+    private String mail;
+    private String first_name;
+    private  Date birth_date;
+    private String city;
+    private String gender;
+    private String genderPref;
 
-    boolean genderIsShown;
+    private boolean genderIsShown;
 
-    List<String> images;
+    private  List<String> images;
 
     //optional during registration
-    List<String> hobbies;
-    String orientation;
+    private List<String> hobbies;
+    private String orientation;
 
     //optional
-    String bio;
-    String horoscope;
+    private String bio;
+    private String horoscope;
 
-    String company;
-    String job;
-    String school;
-    boolean show_age;
-    boolean show_active;
-    int min_age;
-    int max_age;
-
-
-    boolean showActiveStatus; // anu chandes tu ara, rom bolo 24 saatshi viyavi shemosuli an axla var shemosuli
-    Date last_session;
-
-    boolean is_premium;
-    boolean show_to_liked;
-
-    boolean is_hided;
+    private String company;
+    private String job;
+    private String school;
+    private boolean show_age;
+    private boolean show_active;
+    private int min_age;
+    private  int max_age;
 
 
-    boolean is_admin;  // admins tu unda hkodes useri, mashin egec movnishnot
-    Date registration_date; // es avtomaturad enicheba bazashi
-    int balance; // sawyisi defaultad hkondes 100 lari, rom sheedzlos premmiumis yidva
-    String password;  // es gvinda tu yoveljerze meilze ertjeradi kodi gavagzavnot?
+    private boolean showActiveStatus; // anu chandes tu ara, rom bolo 24 saatshi viyavi shemosuli an axla var shemosuli
+    private Date last_session;
+
+    private boolean is_premium;
+    private  boolean show_to_liked;
+
+    private boolean is_hided;
+
+
+    private boolean is_admin;  // admins tu unda hkodes useri, mashin egec movnishnot
+    private Date registration_date; // es avtomaturad enicheba bazashi
+    private int balance; // sawyisi defaultad hkondes 100 lari, rom sheedzlos premmiumis yidva
+
 
     public User(String mail, String first_name, Date birth_date, String city, String gender, String genderPref, boolean genderIsShown, List<String> images, List<String> hobbies, String orientation) {
         this.mail = mail;
@@ -75,24 +76,21 @@ public class User {
         this.images = images;
     }
 
-    // აქ ზოგი სეტერე და გეტერი წასაშლელია
+    public User(){
 
-    public void addImage(String path){
-       //
     }
 
-    public void deleteImage(String path){
-        //
-    }
-    public void addHobbie(){
-        //
+    public Role getRole() {
+        return role;
     }
 
-    public void deleteHobbie(){
-        //
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public int getUser_id() {
+
+
         return user_id;
     }
 
@@ -316,11 +314,5 @@ public class User {
         this.balance = balance;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

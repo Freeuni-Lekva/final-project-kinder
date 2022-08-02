@@ -23,11 +23,9 @@ public interface UserDAO  {
     List<User> getUsers(String city,int user_id); // ეს ჩველებრივი ძებნა //აქ დავაბრუნოტ UserDTO
 
 
-    List<User> getUsers(boolean liked, boolean most_recent, String city); // ეს პრემიუმისთვისაა. შეუძლია ასევე ესენი მიუთითოს.
     List<User> getUsers(int min_age, int max_age,String city,int user_id); // ეს პრეფერენციებით //აქ დავაბრუნოტ UserDTO
 
 
-    List<User> getUsers(int min_age, int max_age, boolean liked, boolean most_recent, String city); // ეს პრეფერენციებით პრემიუმისათვის
 
 
     // and so on...

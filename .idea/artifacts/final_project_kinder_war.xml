@@ -7,8 +7,18 @@
         <packaging>war</packaging>
       </options>
     </properties>
+    <properties id="ant-postprocessing">
+      <options enabled="true" />
+    </properties>
     <root id="archive" name="Kinder-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="final-project-kinder:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/../../mysql-connector-java-8.0.27.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/../ibatis-core-3.0.jar/ibatis-core-3.0.jar" />
+        </element>
+      </element>
+      <element id="artifact" artifact-name="Kinder:war" />
     </root>
   </artifact>
 </component>

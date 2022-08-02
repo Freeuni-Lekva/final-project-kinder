@@ -7,7 +7,7 @@ import java.util.List;
 
 public class UserDAOimpl implements UserDAO {
 
-    // es methodebi synchronised unda iyos albat
+
     @Override
     public void addUser(User user) {
         //
@@ -47,11 +47,7 @@ public class UserDAOimpl implements UserDAO {
         return null;
     }
 
-    @Override
-    //აქ დავაბრუნოტ UserDTO
-    public List<User> getUsers(boolean liked, boolean most_recent, String city) {
-        return null;
-    }
+
 
     @Override
     //აქ დავაბრუნოტ UserDTO
@@ -60,9 +56,5 @@ public class UserDAOimpl implements UserDAO {
         return null;
     }
 
-    @Override
-    //აქ დავაბრუნოტ UserDTO
-    public List<User> getUsers(int min_age, int max_age, boolean liked, boolean most_recent, String city) {
-        return null;
-    }
+
 }
