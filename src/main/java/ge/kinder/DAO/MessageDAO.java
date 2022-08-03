@@ -1,8 +1,6 @@
-package DAO;
+package ge.kinder.DAO;
 
-import Models.Chat;
-import Models.Message;
-import Models.User;
+import ge.kinder.Models.Message;
 
 import java.util.List;
 

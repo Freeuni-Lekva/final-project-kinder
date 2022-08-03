@@ -1,7 +1,7 @@
-package DAO.DAOimpl;
+package ge.kinder.DAO.DAOimpl;
 
-import DAO.MessageDAO;
-import Models.Message;
+import ge.kinder.DAO.MessageDAO;
+import ge.kinder.Models.Message;
 import java.util.List;
 
 public class MessageDAOimpl implements MessageDAO {

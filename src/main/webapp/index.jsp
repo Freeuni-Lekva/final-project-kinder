@@ -1,18 +1,19 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>First page</title>
 </head>
-<<body>
+<body>
 
-<h1 id="welcome_text"> Tinder start page </h1>
+<h1 id="welcome_text"> Tinder  </h1>
 <div id="buttons">
     <a href="/login">
-        <button class="button_class" id="register_button"> Login</button>
+        <button class="button_class" id="login_button"> Login</button>
     </a>
-    <a href="/register">
-        <button class="button_class" id="login_button"> Registration</button>
+    <a href=/registration">
+        <button class="button_class" id="registration_button"> Registration</button>
     </a>
 </div>
 

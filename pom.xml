@@ -20,6 +20,8 @@
         <junit.version>5.8.2</junit.version>
     </properties>
 
+
+
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -44,6 +46,20 @@
             <artifactId>mybatis</artifactId>
             <version>3.5.10</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.27</version>
+        </dependency>
+
+
 
     </dependencies>
 

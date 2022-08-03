@@ -1,4 +1,4 @@
-package Models;
+package ge.kinder.Models;
 
 import java.util.Date;
 

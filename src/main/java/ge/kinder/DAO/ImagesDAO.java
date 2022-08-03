@@ -1,4 +1,4 @@
-package DAO;
+package ge.kinder.DAO;
 
 import java.util.List;
 

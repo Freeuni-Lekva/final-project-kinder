@@ -1,7 +1,4 @@
-package Models;
-
-import java.util.Date;
-import java.util.List;
+package ge.kinder.Models;
 
 public class PremiumUser extends User{
 

@@ -1,6 +1,6 @@
-package DAO.DAOimpl;
+package ge.kinder.DAO.DAOimpl;
 
-import DAO.HobbiesDAO;
+import ge.kinder.DAO.HobbiesDAO;
 
 import java.util.List;
 

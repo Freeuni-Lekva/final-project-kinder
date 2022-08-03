@@ -1,6 +1,6 @@
-package DAO.DAOimpl;
+package ge.kinder.DAO.DAOimpl;
 
-import DAO.ImagesDAO;
+import ge.kinder.DAO.ImagesDAO;
 
 import java.util.List;
 

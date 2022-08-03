@@ -1,7 +1,6 @@
-package DAO.DAOimpl;
+package ge.kinder.DAO.DAOimpl;
 
-import DAO.MatchesDAO;
-import Models.User;
+import ge.kinder.DAO.MatchesDAO;
 
 public class MatchesDAOimpl implements MatchesDAO {
     @Override

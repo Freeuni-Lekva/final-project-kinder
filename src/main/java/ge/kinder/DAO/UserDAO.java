@@ -1,6 +1,6 @@
-package DAO;
+package ge.kinder.DAO;
 
-import Models.User;
+import ge.kinder.Models.User;
 
 import java.util.List;
 

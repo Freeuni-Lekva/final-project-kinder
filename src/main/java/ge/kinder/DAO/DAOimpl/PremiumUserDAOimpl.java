@@ -1,11 +1,16 @@
-package DAO.DAOimpl;
+package ge.kinder.DAO.DAOimpl;
 
-import DAO.PremiumUserDAO;
-import Models.User;
+import ge.kinder.DAO.PremiumUserDAO;
+import ge.kinder.Models.User;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class PremiumUserDAOimpl extends UserDAOimpl implements PremiumUserDAO {
+
+    public PremiumUserDAOimpl(Connection connection) {
+        super(connection);
+    }
 
     @Override
     public List<User> getUsers(boolean liked, boolean most_recent, String city) {

@@ -1,6 +1,4 @@
-package Models;
-
-import DAO.DAOimpl.MessageDAOimpl;
+package ge.kinder.Models;
 
 import java.util.Collections;
 import java.util.List;

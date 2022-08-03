@@ -1,6 +1,6 @@
-package DAO.DAOimpl;
+package ge.kinder.DAO.DAOimpl;
 
-import DAO.LikesDAO;
+import ge.kinder.DAO.LikesDAO;
 
 public class LikesDAOimpl implements LikesDAO {
 

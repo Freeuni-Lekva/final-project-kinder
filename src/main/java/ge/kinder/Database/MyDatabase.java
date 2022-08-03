@@ -1,9 +1,9 @@
-package Database;
+package ge.kinder.Database;
 
 import org.apache.ibatis.jdbc.ScriptRunner;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.sql.*;
 
@@ -11,7 +11,7 @@ import java.sql.*;
 
 public class MyDatabase {
         private Connection connection;
-        private static final String DATABASE_FILE = "src/main/resources/DB.sql";
+        private static final String DATABASE_FILE = "/DB.sql";
 
         public MyDatabase() throws SQLException {
 
@@ -24,13 +24,14 @@ public class MyDatabase {
             }
             try {
                 ScriptRunner sr = new ScriptRunner(connection);
-                Reader reader = new BufferedReader(new FileReader(DATABASE_FILE));
+                Reader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(DATABASE_FILE)));
                 sr.runScript(reader);
             } catch (Exception ex) {
                 System.out.println("Can`t run script");
             }
         }
             public Connection getConnection(){
+
             return connection;
             }
 

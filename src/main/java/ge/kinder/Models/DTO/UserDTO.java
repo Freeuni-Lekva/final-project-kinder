@@ -1,4 +1,4 @@
-package Models.DTO;
+package ge.kinder.Models.DTO;
 
 import java.util.Date;
 import java.util.List;

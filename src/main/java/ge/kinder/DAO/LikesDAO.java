@@ -1,6 +1,4 @@
-package DAO;
-
-import Models.User;
+package ge.kinder.DAO;
 
 public interface LikesDAO {
 

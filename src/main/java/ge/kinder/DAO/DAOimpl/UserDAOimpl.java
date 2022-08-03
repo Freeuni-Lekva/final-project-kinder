@@ -1,12 +1,20 @@
-package DAO.DAOimpl;
+package ge.kinder.DAO.DAOimpl;
 
-import DAO.UserDAO;
-import Models.User;
+import ge.kinder.DAO.UserDAO;
+import ge.kinder.Models.User;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class UserDAOimpl implements UserDAO {
 
+    private final Connection connection;
+
+    public UserDAOimpl(Connection connection) {
+        this.connection = connection;
+
+
+    }
 
     @Override
     public void addUser(User user) {
