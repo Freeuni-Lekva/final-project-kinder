@@ -1,11 +1,16 @@
 package ge.kinder.DAO;
 
+import ge.kinder.Models.Hobby;
+
+import java.sql.SQLException;
 import java.util.List;
 
 public interface HobbiesDAO {
 
-    void addHobbie(String hobbie, int user_id);
-    void deleteHobbie(String hobbie, int user_id);
+    void addHobby(Hobby hobby, int user_id) throws SQLException;
 
-    List<String> getHobbies(int user_id);
+    boolean deleteHobby(Hobby hobby, int user_id) throws SQLException;
+
+    List<Hobby> getHobbies(int user_id) throws SQLException;
+
 }

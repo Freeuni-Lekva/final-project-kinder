@@ -48,10 +48,10 @@ CREATE TABLE Chat (
                       PRIMARY KEY (Chat_Id) );
 
 CREATE TABLE Hobbies (
-                         Hobbie_id   INT     NOT NULL AUTO_INCREMENT,
+                         Hobby_id   INT     NOT NULL AUTO_INCREMENT,
                          User_id     INT     NOT NULL,
-                         Hobbie_Name VARCHAR(20) NOT NULL,
-                         primary key (Hobbie_Id) );
+                         Hobby_Name VARCHAR(20) NOT NULL,
+                         primary key (Hobby_Id) );
 
 ALTER TABLE Hobbies   ADD CONSTRAINT FK_User_TO_Hobbies     FOREIGN KEY (User_id)     REFERENCES User (User_id);
 
