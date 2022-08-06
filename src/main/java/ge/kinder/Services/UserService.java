@@ -6,11 +6,15 @@ import java.util.Optional;
 
 public interface UserService {
 
-    User registerUser(User user);
 
-    User loginUser(User user);
 
-    boolean confirmUserRegistration(String token);
+    User registerUser(String mail);
+
+    User loginUser(String user);
+
+    boolean confirmCode(String code);
+
+
 
     Optional<User> getUserByUsername(String username);
 }

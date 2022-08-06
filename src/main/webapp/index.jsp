@@ -7,14 +7,17 @@
 </head>
 <body>
 
-<h1 id="welcome_text"> Tinder  </h1>
+<h1> Tinder  </h1>
 <div id="buttons">
-    <a href="/login">
-        <button class="button_class" id="login_button"> Login</button>
-    </a>
-    <a href=/registration">
-        <button class="button_class" id="registration_button"> Registration</button>
-    </a>
+    <form action="Registration" method="get">
+        <button class="button_class" id="registration">Create Account</button>
+    </form>
+    </br>
+    <form action="Login" method="get">
+        <button class="button_class" id="login">Log In</button>
+    </form>
+
+
 </div>
 
 </body>
