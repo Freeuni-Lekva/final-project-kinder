@@ -15,6 +15,7 @@
 
 <form action="Registration" method="post" >
     Mail: <input type = "text" name="REGISTRATION_MAIL">
+
     <button id = "submitbutton" type="submit" disabled="disabled">Continue</button>
 
     <script type="text/javascript" language="javascript">

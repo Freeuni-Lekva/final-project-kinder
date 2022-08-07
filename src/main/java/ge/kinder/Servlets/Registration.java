@@ -33,6 +33,7 @@ public class Registration extends HttpServlet {
         String mail = req.getParameter("REGISTRATION_MAIL");
             try {
                 User user = userService.registerUser(mail);
+
                 req.getSession().setAttribute("user", user);
                 req.getRequestDispatcher("/WEB-INF/Confirm_Registration.jsp").forward(req, resp);
             } catch (Exception e) {

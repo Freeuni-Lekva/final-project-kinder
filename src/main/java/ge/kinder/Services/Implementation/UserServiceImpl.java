@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
             if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
                 User user = new User();
                 user.setMail(mail);
-                userDAO.addUser(user);
+               // userDAO.addUser(user);
                 return user;
         }}
 

@@ -25,6 +25,12 @@
 
 <form action="Registration_Confirmation" method="post" >
 
+    <%
+    String mail = request.getParameter("REGISTRATION_MAIL");
+    session.setAttribute("mail",mail);
+
+    %>
+
  <input type = "text" name="REGISTRATION_CODE">
     <button id = "submitbutton" type="submit" disabled="disabled">Continue</button>
 
