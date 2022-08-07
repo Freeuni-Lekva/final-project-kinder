@@ -1,17 +1,19 @@
 package ge.kinder.DAO;
 
+import ge.kinder.Models.DTO.UserDTO;
 import ge.kinder.Models.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface UserDAO  {
 
-    void addUser(User user);
-    void updateUser(User user);
-    void deleteUser(User user);
+    void addUser(User user) throws SQLException;
+    void updateUser(User user) throws SQLException;
+    boolean deleteUser(User user) throws SQLException;
 
-    boolean userExists(String mail);
-    User getUserByMail(String mail);
+    boolean userExists(String mail) throws SQLException;
+    UserDTO getUserByMail(String mail) throws SQLException;
 
 
     // აქ უნდა გავითვალისწინოთ, რომ როდესაც ვამატებთ სიაში იუზერს, უნდა შევამოწმოთ :
@@ -20,10 +22,10 @@ public interface UserDAO  {
     // 3) დაჰაიდებული ხომ არაა?
     // 4) წესით ეს სია რომ ამოვიღე და მერე დისლაიქი დამიწერა ამ ტიპმა, სანამ ამ სიაში მაგ ადამიანამდე მივედი, მაშინ უნდა განახლდეს სია.
     // მაგაზე უნდა შევთანხმდეთ როგორ ვიზამთ
-    List<User> getUsers(String city,int user_id); // ეს ჩველებრივი ძებნა //აქ დავაბრუნოტ UserDTO
+    List<UserDTO> getUsers(String city, int user_id) throws SQLException; // ეს ჩველებრივი ძებნა //აქ დავაბრუნოტ UserDTO
 
 
-    List<User> getUsers(int min_age, int max_age,String city,int user_id); // ეს პრეფერენციებით //აქ დავაბრუნოტ UserDTO
+    List<UserDTO> getUsers(int min_age, int max_age, String city, int user_id) throws SQLException; // ეს პრეფერენციებით //აქ დავაბრუნოტ UserDTO
 
 
 

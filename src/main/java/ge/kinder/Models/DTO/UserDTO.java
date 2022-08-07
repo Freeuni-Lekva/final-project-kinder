@@ -1,5 +1,7 @@
 package ge.kinder.Models.DTO;
 
+import ge.kinder.Models.Hobby;
+
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class UserDTO {
     private String gender;
     private List<String> images;
 
-    private  List<String> hobbies;
+    private  List<Hobby> hobbies;
     private String bio;
     private String horoscope;
 
@@ -22,7 +24,7 @@ public class UserDTO {
     private String job;
     private String school;
 
-    public UserDTO(int user_id, String first_name, Date birth_date, String city, String gender, List<String> images, List<String> hobbies, String bio, String horoscope, String company, String job, String school) {
+    public UserDTO(int user_id, String first_name, Date birth_date, String city, String gender, List<String> images, List<Hobby> hobbies, String bio, String horoscope, String company, String job, String school) {
         this.user_id = user_id;
         this.first_name = first_name;
         this.birth_date = birth_date;
@@ -89,11 +91,11 @@ public class UserDTO {
         this.images = images;
     }
 
-    public List<String> getHobbies() {
+    public List<Hobby> getHobbies() {
         return hobbies;
     }
 
-    public void setHobbies(List<String> hobbies) {
+    public void setHobbies(List<Hobby> hobbies) {
         this.hobbies = hobbies;
     }
 

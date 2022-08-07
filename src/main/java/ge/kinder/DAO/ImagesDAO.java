@@ -1,14 +1,15 @@
 package ge.kinder.DAO;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface ImagesDAO {
 
-    void addImage(String path, int user_id);
+    void addImage(String path, int user_id) throws SQLException;
 
-    void deleteImage(String path, int user_id);
+    boolean deleteImage(String path, int user_id) throws SQLException;
 
-    List<String> getImages(int user_id);
+    List<String> getImages(int user_id) throws SQLException;
 
-    void setImage(String path, int user_id);
+    void setImage(String path, int user_id) throws SQLException;
 }

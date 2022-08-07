@@ -20,13 +20,15 @@ public class HobbiesDAOimpl implements HobbiesDAO {
     public void addHobby(Hobby hobby, int user_id) throws SQLException {
         try {
             PreparedStatement stm = connection.prepareStatement(
-                    "INSERT INTO %s (%s, %s) VALUES (?, ?)".formatted(
+                    "INSERT INTO %s (%s, %s) VALUES (?, ?);".formatted(
                             TableConstants.HOBBIES_TABLE,
                             TableConstants.HOBBY_NAME,
                             TableConstants.HOBBY_USER_ID
                     ), Statement.RETURN_GENERATED_KEYS);
             stm.setString(1, hobby.toString());
             stm.setInt(2, user_id);
+            stm.executeUpdate();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {

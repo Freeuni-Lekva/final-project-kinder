@@ -4,6 +4,31 @@ import java.util.Date;
 import java.util.List;
 
 public class User {
+    public static final String USER_TABLE = "users";
+    public static final String USER_USER_ID = "user_id" ;
+    public static final String USER_MAIL = "Mail";
+    public static final String USER_FIRST_NAME = "First_Name";
+    public static final String USER_BIRTH_DATE = "Birth_Date";
+    public static final String USER_CITY = "City";
+    public static final String USER_GENDER = "Gender";
+    public static final String USER_SHOW_GENDER = "Show_Gender";
+    public static final String USER_PREFERENCE = "Preference";
+    public static final String USER_ORIENTATION = "Orientation";
+    public static final String USER_BIO = "Bio";
+    public static final String USER_HOROSCOPE = "Horoscope";
+    public static final String USER_COMPANY = "Company";
+    public static final String USER_JOB = "Job";
+    public static final String USER_SCHOOL = "School";
+    public static final String USER_MIN_AGE = "Min_Age";
+    public static final String USER_MAX_AGE = "Max_Age";
+    public static final String USER_REGISTRATION_DATE = "Registration_Date";
+    public static final String USER_SHOW_ACTIVE = "Show_Active";
+    public static final String USER_LAST_Session = "Last_Session";
+    public static final String USER_HIDED = "Hided";
+    public static final String USER_ROLE= "Role";
+    public static final String USER_BALANCE = "Balance";
+    public static final String SHOT_TO_LIKED = "Show_To_Liked";
+
 
     private int user_id;
 
