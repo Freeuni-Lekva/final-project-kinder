@@ -1,22 +1,113 @@
 package ge.kinder.DAO.DAOimpl;
 
+import com.mysql.cj.jdbc.ConnectionImpl;
 import ge.kinder.DAO.MessageDAO;
+import ge.kinder.Database.TableConstants;
+import ge.kinder.Models.Hobby;
 import ge.kinder.Models.Message;
+
+import javax.sql.DataSource;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageDAOimpl implements MessageDAO {
-    @Override
-    public void addMessage(Message message) {
-        // insert into messages
+
+    private final DataSource dataSource;
+
+    public MessageDAOimpl(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public  void deleteMessages(int chatId) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dataSource.getConnection();
+            PreparedStatement stm = connection.prepareStatement(
+                    "DELETE FROM %s WHERE %s = ?".formatted(
+                            Message.MESSAGE_TABLE,
+                            Message.MESSAGE_CHAT_ID
+                    ));
+            stm.setInt(1, chatId);
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            connection.close();
+        }
     }
 
     @Override
-    public void deleteMessage(Message message) {
-        // delete from messages where message.getMessage_id = message_id
+    public void addMessage(Message message) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dataSource.getConnection();
+            PreparedStatement stm = connection.prepareStatement(
+                    "INSERT INTO %s (%s, %s, %s, %s) VALUES (?, ?, ?, ?)".formatted(
+                            Message.MESSAGE_TABLE,
+                            Message.MESSAGE_CHAT_ID,
+                            Message.MESSAGE_MESSAGE_TEXT,
+                            Message.MESSAGE_DATE,
+                            Message.MESSAGE_USER_ID
+                    ), Statement.RETURN_GENERATED_KEYS);
+            stm.setInt(1, message.getChat_id());
+            stm.setString(2, message.getMessage_text());
+            stm.setDate(3, (Date) message.getSend_date());
+            stm.setInt(4, message.getUser_id());
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            connection.close();
+        }
     }
 
     @Override
-    public List<Message> getMessages(int chat_id) {
-        return null;
+    public void deleteMessage(Message message) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = dataSource.getConnection();
+            PreparedStatement stm = connection.prepareStatement(
+                    "DELETE FROM %s WHERE %s = ?".formatted(
+                            Message.MESSAGE_TABLE,
+                            Message.MESSAGE_MESSAGE_ID
+                    ));
+            stm.setInt(1, message.getMessage_id());
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            connection.close();
+        }
+
+    }
+    @Override
+    public List<Message> getMessages(int chat_id) throws SQLException {
+        Connection connection = null;
+        List <Message> messages = new ArrayList<>();
+        try {
+            connection = dataSource.getConnection();
+            PreparedStatement stm = connection.prepareStatement(
+                    "SELECT * FROM %s WHERE %s = ?;".formatted(
+                            Message.MESSAGE_TABLE,
+                            Message.MESSAGE_MESSAGE_ID,
+                            Message.MESSAGE_CHAT_ID
+                    )
+            );
+            stm.setInt(1, chat_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                messages.add(new Message(rs.getInt(1),rs.getInt(2),
+                        rs.getString(3),rs.getDate(4),rs.getInt(5)));
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            connection.close();
+        }
+        return messages;
     }
 }

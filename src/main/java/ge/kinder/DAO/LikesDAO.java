@@ -1,16 +1,17 @@
 package ge.kinder.DAO;
 
+import java.sql.SQLException;
+
 public interface LikesDAO {
 
-    void addLike(int user_id_1, int user_id_2);
+    void addLike(int user_id_1, int user_id_2, String status) throws SQLException;
 
-    void addSuperLike(int user_id_1, int user_id_2);
 
-    boolean isLiked(int user_id_1, int user_id_2);
+    boolean isLiked(int user_id_1, int user_id_2) throws SQLException;
 
-    int numberOfLikes(int user_id_1); // num of likes during last 24 hours
+    int numberOfLikes(int user_id_1) throws SQLException; // num of likes during last 24 hours
 
-    void deleteLike(int user_id_1, int user_id_2);
+    boolean deleteLike(int user_id_1, int user_id_2) throws SQLException;
 
 
     // and so on...

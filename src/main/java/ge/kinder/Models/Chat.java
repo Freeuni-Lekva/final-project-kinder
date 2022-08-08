@@ -4,7 +4,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class Chat {
-    int chat_id;
+    public static String CHAT_TABLE = "chat";
+    public static String CHAT_CHAT_ID = "Chat_Id";
+
+    private int  chat_id;
     User first_user;
     User second_user;
 
