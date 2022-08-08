@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class User {
-    public static final String USER_TABLE = "users";
+    public static final String USER_TABLE = "kinder_base.user";
     public static final String USER_USER_ID = "user_id" ;
     public static final String USER_MAIL = "Mail";
     public static final String USER_FIRST_NAME = "First_Name";
@@ -38,12 +38,12 @@ public class User {
     // during registration
     private String mail;
     private String first_name;
-    private  Date birth_date;
+    private  java.sql.Date birth_date;
     private String city;
     private String gender;
     private String genderPref;
 
-    private boolean genderIsShown;
+    private int genderIsShown;
 
     private  List<String> images;
 
@@ -58,27 +58,27 @@ public class User {
     private String company;
     private String job;
     private String school;
-    private boolean show_age;
-    private boolean show_active;
+    private int show_age;
+    private int show_active;
     private int min_age;
     private  int max_age;
 
 
-    private boolean showActiveStatus; // anu chandes tu ara, rom bolo 24 saatshi viyavi shemosuli an axla var shemosuli
-    private Date last_session;
-
-    private boolean is_premium;
-    private  boolean show_to_liked;
-
-    private boolean is_hided;
+    private int showActiveStatus; // anu chandes tu ara, rom bolo 24 saatshi viyavi shemosuli an axla var shemosuli
+    private java.sql.Date last_session;
 
 
-    private boolean is_admin;  // admins tu unda hkodes useri, mashin egec movnishnot
-    private Date registration_date; // es avtomaturad enicheba bazashi
+    private  int show_to_liked;
+
+    private int is_hided;
+
+
+
+    private java.sql.Date registration_date; // es avtomaturad enicheba bazashi
     private int balance; // sawyisi defaultad hkondes 100 lari, rom sheedzlos premmiumis yidva
 
 
-    public User(String mail, String first_name, Date birth_date, String city, String gender, String genderPref, boolean genderIsShown, List<String> images, List<String> hobbies, String orientation) {
+    public User(String mail, String first_name, java.sql.Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images, List<String> hobbies, String orientation) {
         this.mail = mail;
         this.first_name = first_name;
         this.birth_date = birth_date;
@@ -91,7 +91,7 @@ public class User {
         this.orientation = orientation;
     }
 
-    public User(String mail, String first_name, Date birth_date, String city, String gender, String genderPref, boolean genderIsShown, List<String> images) {
+    public User(String mail, String first_name, java.sql.Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images) {
         this.mail = mail;
         this.first_name = first_name;
         this.birth_date = birth_date;
@@ -106,8 +106,9 @@ public class User {
 
     }
 
-    public Role getRole() {
-        return role;
+    public String getRole() {
+
+        return role.toString();
     }
 
     public void setRole(Role role) {
@@ -140,11 +141,11 @@ public class User {
         this.first_name = first_name;
     }
 
-    public Date getBirth_date() {
-        return birth_date;
+    public java.sql.Date getBirth_date() {
+        return (java.sql.Date) birth_date;
     }
 
-    public void setBirth_date(Date birth_date) {
+    public void setBirth_date(java.sql.Date birth_date) {
         this.birth_date = birth_date;
     }
 
@@ -172,11 +173,11 @@ public class User {
         this.genderPref = genderPref;
     }
 
-    public boolean isGenderIsShown() {
+    public int isGenderIsShown() {
         return genderIsShown;
     }
 
-    public void setGenderIsShown(boolean genderIsShown) {
+    public void setGenderIsShown(int genderIsShown) {
         this.genderIsShown = genderIsShown;
     }
 
@@ -244,19 +245,19 @@ public class User {
         this.school = school;
     }
 
-    public boolean isShow_age() {
+    public int isShow_age() {
         return show_age;
     }
 
-    public void setShow_age(boolean show_age) {
+    public void setShow_age(int show_age) {
         this.show_age = show_age;
     }
 
-    public boolean isShow_active() {
+    public int isShow_active() {
         return show_active;
     }
 
-    public void setShow_active(boolean show_active) {
+    public void setShow_active(int show_active) {
         this.show_active = show_active;
     }
 
@@ -276,59 +277,48 @@ public class User {
         this.max_age = max_age;
     }
 
-    public boolean isShowActiveStatus() {
+    public int isShowActiveStatus() {
         return showActiveStatus;
     }
 
-    public void setShowActiveStatus(boolean showActiveStatus) {
+    public void setShowActiveStatus(int showActiveStatus) {
         this.showActiveStatus = showActiveStatus;
     }
 
-    public Date getLast_session() {
+    public java.sql.Date getLast_session() {
+
         return last_session;
     }
 
-    public void setLast_session(Date last_session) {
+    public void setLast_session(java.sql.Date last_session) {
         this.last_session = last_session;
     }
 
-    public boolean isIs_premium() {
-        return is_premium;
-    }
 
-    public void setIs_premium(boolean is_premium) {
-        this.is_premium = is_premium;
-    }
 
-    public boolean isShow_to_liked() {
+    public int isShow_to_liked() {
         return show_to_liked;
     }
 
-    public void setShow_to_liked(boolean show_to_liked) {
+    public void setShow_to_liked(int show_to_liked) {
         this.show_to_liked = show_to_liked;
     }
 
-    public boolean isIs_hided() {
+    public int isIs_hided() {
         return is_hided;
     }
 
-    public void setIs_hided(boolean is_hided) {
+    public void setIs_hided(int is_hided) {
         this.is_hided = is_hided;
     }
 
-    public boolean isIs_admin() {
-        return is_admin;
-    }
 
-    public void setIs_admin(boolean is_admin) {
-        this.is_admin = is_admin;
-    }
 
-    public Date getRegistration_date() {
+    public java.sql.Date getRegistration_date() {
         return registration_date;
     }
 
-    public void setRegistration_date(Date registration_date) {
+    public void setRegistration_date(java.sql.Date registration_date) {
         this.registration_date = registration_date;
     }
 

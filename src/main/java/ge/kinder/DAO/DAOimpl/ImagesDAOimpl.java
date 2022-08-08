@@ -32,8 +32,6 @@ public class ImagesDAOimpl implements ImagesDAO {
             // ექსეფშენების ამბავი
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
     }
 
@@ -58,8 +56,6 @@ public class ImagesDAOimpl implements ImagesDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
         return false;
     }
@@ -82,8 +78,7 @@ public class ImagesDAOimpl implements ImagesDAO {
             return rs.getString(1);
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
+
         }
     }
 
@@ -104,8 +99,6 @@ public class ImagesDAOimpl implements ImagesDAO {
             return rs.getInt(1) == 1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
     }
 
@@ -127,8 +120,6 @@ public class ImagesDAOimpl implements ImagesDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
         return images;
     }
@@ -174,8 +165,7 @@ public class ImagesDAOimpl implements ImagesDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
+
         }
     }
 }

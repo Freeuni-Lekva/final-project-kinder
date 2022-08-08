@@ -32,11 +32,11 @@ CREATE TABLE User (
 
                       Registration_Date DATETiME    NOT NULL  DEFAULT   CURRENT_TIMESTAMP,
 
-                      Show_Active       INT   NULL ,
+                      Show_Active       INT   NOT NULL default 0,
                       Last_Session      DATE  NULL,
 
                       Hided             INT   NULL default 0,
-                      Role              VARCHAR(20)   NOT NULL ,
+                      Role              VARCHAR(20)   NOT NULL default 'USER' ,
                       Show_To_Liked     INT NULL default 0,
                       Balance           INT     NULL  DEFAULT 100 ,
 
@@ -53,7 +53,7 @@ CREATE TABLE Hobbies (
                          Hobby_Name VARCHAR(20) NOT NULL,
                          primary key (Hobby_Id) );
 
-ALTER TABLE Hobbies   ADD CONSTRAINT FK_User_TO_Hobbies     FOREIGN KEY (User_id)     REFERENCES User (User_id);
+ALTER TABLE Hobbies   ADD CONSTRAINT FK_User_TO_Hobbies     FOREIGN KEY (User_id)     REFERENCES User (User_id) ON DELETE CASCADE;
 
 CREATE TABLE Images (
                         Image_Id  INT     NOT NULL AUTO_INCREMENT,
@@ -63,7 +63,7 @@ CREATE TABLE Images (
                         Date    DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         primary key (Image_Id) );
 
-ALTER TABLE Images   ADD CONSTRAINT FK_User_TO_Images     FOREIGN KEY (User_id)     REFERENCES User (User_id);
+ALTER TABLE Images   ADD CONSTRAINT FK_User_TO_Images     FOREIGN KEY (User_id)     REFERENCES User (User_id) ON DELETE CASCADE;
 
 CREATE TABLE Likes (
                        Like_Id INT         NOT NULL AUTO_INCREMENT,
@@ -73,9 +73,9 @@ CREATE TABLE Likes (
                        Date    DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         primary key (Like_Id));
 
-ALTER TABLE Likes   ADD CONSTRAINT FK_User_TO_Likes     FOREIGN KEY (User_id_1)     REFERENCES User (User_id);
+ALTER TABLE Likes   ADD CONSTRAINT FK_User_TO_Likes     FOREIGN KEY (User_id_1)     REFERENCES User (User_id) ON DELETE CASCADE;
 
-ALTER TABLE Likes   ADD CONSTRAINT FK_User_TO_Likes1     FOREIGN KEY (User_id_2)     REFERENCES User (User_id);
+ALTER TABLE Likes   ADD CONSTRAINT FK_User_TO_Likes1     FOREIGN KEY (User_id_2)     REFERENCES User (User_id) ON DELETE CASCADE;
 
 CREATE TABLE Matches (
                          User_id_1  INT  NOT NULL,
@@ -83,13 +83,13 @@ CREATE TABLE Matches (
                          Match_Id INT  NOT NULL auto_increment,
                          Unmatch   INT  NULL    ,
                          Date     DATETIME NULL  DEFAULT CURRENT_TIMESTAMP   ,
-                         Chat_Id  INT  NOT NULL,   primary key(Match_Id) );
+                         Chat_Id  INT  NOT NULL,   primary key(Match_Id) ) ;
 
-ALTER TABLE Matches   ADD CONSTRAINT FK_User_TO_Matches     FOREIGN KEY (User_id_1)     REFERENCES User (User_id);
+ALTER TABLE Matches   ADD CONSTRAINT FK_User_TO_Matches     FOREIGN KEY (User_id_1)     REFERENCES User (User_id) ON DELETE CASCADE;
 
-ALTER TABLE Matches   ADD CONSTRAINT FK_User_TO_Matches1     FOREIGN KEY (User_id_2)     REFERENCES User (User_id);
+ALTER TABLE Matches   ADD CONSTRAINT FK_User_TO_Matches1     FOREIGN KEY (User_id_2)     REFERENCES User (User_id) ON DELETE CASCADE;
 
-ALTER TABLE Matches   ADD CONSTRAINT FK_Chat_TO_Matches     FOREIGN KEY (Chat_Id)     REFERENCES Chat (Chat_Id);
+ALTER TABLE Matches   ADD CONSTRAINT FK_Chat_TO_Matches     FOREIGN KEY (Chat_Id)     REFERENCES Chat (Chat_Id) ON DELETE CASCADE;
 
 CREATE TABLE Messages (
                           Chat_Id      INT     NOT NULL,
@@ -99,9 +99,9 @@ CREATE TABLE Messages (
                           User_id      INT     NOT NULL,
                           primary key (Message_Id) );
 
-ALTER TABLE Messages   ADD CONSTRAINT FK_Chat_TO_Messages     FOREIGN KEY (Chat_Id)     REFERENCES Chat (Chat_Id);
+ALTER TABLE Messages   ADD CONSTRAINT FK_Chat_TO_Messages     FOREIGN KEY (Chat_Id)     REFERENCES Chat (Chat_Id) ON DELETE CASCADE;
 
-ALTER TABLE Messages   ADD CONSTRAINT FK_User_TO_Messages     FOREIGN KEY (User_id)     REFERENCES User (User_id);
+ALTER TABLE Messages   ADD CONSTRAINT FK_User_TO_Messages     FOREIGN KEY (User_id)     REFERENCES User (User_id) ON DELETE CASCADE;
 
 CREATE TABLE Premium_Users (
                                User_id    INT  NOT NULL,
@@ -109,6 +109,6 @@ CREATE TABLE Premium_Users (
                                End_Date   DATE NULL,
                                Show_To_Liked INT NULL);
 
-ALTER TABLE Premium_Users   ADD CONSTRAINT FK_User_TO_Premium_Users     FOREIGN KEY (User_id)     REFERENCES User (User_id);
+ALTER TABLE Premium_Users   ADD CONSTRAINT FK_User_TO_Premium_Users     FOREIGN KEY (User_id)     REFERENCES User (User_id) ON DELETE CASCADE;
 
 

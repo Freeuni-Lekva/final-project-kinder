@@ -2,14 +2,14 @@ package ge.kinder.Database;
 
 public class TableConstants {
 
-    public static String HOBBIES_TABLE = "hobbies";
+    public static String HOBBIES_TABLE = "kinder_base.hobbies";
 
     public static String HOBBY_ID = "Hobby_id";
 
     public static String HOBBY_NAME = "Hobby_name";
 
     public static String HOBBY_USER_ID = "User_id";
-    public static String IMAGES_TABLE = "images";
+    public static String IMAGES_TABLE = "kinder_base.images";
 
     public static String IMAGE_ID = "Image_id";
     public static String IMAGE_USER_ID = "User_id";

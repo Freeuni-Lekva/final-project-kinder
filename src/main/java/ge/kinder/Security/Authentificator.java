@@ -17,6 +17,7 @@ public class Authentificator {
         Random rnd = new Random();
         int number = rnd.nextInt(999999);
         String code =  String.format("%06d", number);
+       // String code = "111111";
         codes.put(code,mail);
 
         TimerTask task = new TimerTask() {

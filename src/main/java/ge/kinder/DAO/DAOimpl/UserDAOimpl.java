@@ -21,124 +21,110 @@ public class UserDAOimpl implements UserDAO {
 
     @Override
     public void addUser(User user) throws SQLException {
+        // tested
+        // registraciis dros ra monacemensac avsebs, isini unda iyos ak mxolod
+        // city ic davamatot prosta registraciis gverdze
 
         try {
-            PreparedStatement stm = connection.prepareStatement(
-                    ("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s," +
-                            "%s, %s, %s) VALUES (?,?, ?, ?, ?,?, ?, ?, ?,?, ?, ?, ?,?, ?, ?, ?,?)").formatted(
-                                    User.USER_TABLE,
-                            User.USER_MAIL,
+
+            PreparedStatement stm = connection.prepareStatement(("INSERT INTO kinder_base.user " +
+                    "( %s, %s, %s, %s, %s, %s, %s, %s) " +
+                    "VALUES (?, ?, ?, ?,?, ?, ?, ?)")
+                    .formatted(User.USER_MAIL,
                     User.USER_FIRST_NAME,
                     User.USER_BIRTH_DATE,
                     User.USER_CITY,
                     User.USER_GENDER ,
                     User.USER_SHOW_GENDER ,
                     User.USER_PREFERENCE ,
-                    User.USER_ORIENTATION ,
-                    User.USER_BIO ,
-                    User.USER_HOROSCOPE ,
-                    User.USER_COMPANY,
-                    User.USER_JOB,
-                    User.USER_SCHOOL ,
-                    User.USER_MIN_AGE,
-                    User.USER_MAX_AGE ,
-                    User.USER_SHOW_ACTIVE ,
-                    User.USER_LAST_Session,
-                    User.USER_ROLE
-                    ) , Statement.RETURN_GENERATED_KEYS);
+                    User.USER_ORIENTATION),Statement.RETURN_GENERATED_KEYS);
+
             stm.setString(1, user.getMail());
             stm.setString(2, user.getFirst_name());
-            stm.setDate(3, (Date) user.getBirth_date());
+            stm.setDate(3,  user.getBirth_date());
             stm.setString(4, user.getCity());
             stm.setString(5, user.getGender());
-            stm.setBoolean(6, user.isGenderIsShown());
+            stm.setInt(6, user.isGenderIsShown());
             stm.setString(7, user.getGenderPref());
             stm.setString(8,user.getOrientation());
-            stm.setString(9,user.getBio());
-            stm.setString(10,user.getHoroscope());
-            stm.setString(11,user.getCompany());
-            stm.setString(12,user.getJob());
-            stm.setString(13,user.getSchool());
-            stm.setInt(14,user.getMin_age());
-            stm.setInt(15,user.getMax_age());
-            stm.setBoolean(16, user.isShow_active());
-            stm.setDate(17, (Date) user.getLast_session());
-            stm.setString(18, user.getRole().toString());
+
+            if (stm.executeUpdate() == 1) {
+                ResultSet rs = stm.getGeneratedKeys();
+                rs.next();
+                user.setUser_id(rs.getInt(1));
+            }
+            connection.commit();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+
+
+    @Override
+    public void updateRow(User user, String rowName, int value) {
+        int user_id = user.getUser_id();
+
+        try {
+            PreparedStatement stm = connection.prepareStatement(
+                    "UPDATE kinder_base.user SET %s = ? WHERE %s = ?;".formatted(
+                            rowName,
+                            User.USER_USER_ID));
+            stm.setInt(1, value);
+            stm.setInt(2, user_id);
             stm.executeUpdate();
+            connection.commit();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
+    }
+        @Override
+    public void updateRow(User user, String rowName, String value) {
+            int user_id = user.getUser_id();
+
+            try {
+                PreparedStatement stm = connection.prepareStatement(
+                        "UPDATE kinder_base.user SET %s = ? WHERE %s = ?;".formatted(
+                                rowName,
+                                User.USER_USER_ID));
+                stm.setString(1, value);
+                stm.setInt(2, user_id);
+                stm.executeUpdate();
+                connection.commit();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
     }
 
     @Override
-    public void updateUser(User user) throws SQLException {
+    public void updateRow(User user, String rowName, Date value) {
+        int user_id = user.getUser_id();
+
         try {
             PreparedStatement stm = connection.prepareStatement(
-                    ("UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s=?, %s=?, %s=?," +
-                            " %s = ?, %s = ?, %s= ?, %s= ?, %s=?, %s =?, %s = ?, %s =?" +
-                            " WHERE %s = ?;").formatted(
-                            User.USER_TABLE,
-                            User.USER_MAIL,
-                            User.USER_FIRST_NAME,
-                            User.USER_BIRTH_DATE,
-                            User.USER_CITY,
-                            User.USER_GENDER ,
-                            User.USER_SHOW_GENDER ,
-                            User.USER_PREFERENCE ,
-                            User.USER_ORIENTATION ,
-                            User.USER_BIO ,
-                            User.USER_HOROSCOPE ,
-                            User.USER_COMPANY,
-                            User.USER_JOB,
-                            User.USER_SCHOOL ,
-                            User.USER_MIN_AGE,
-                            User.USER_MAX_AGE,
-                            User.USER_REGISTRATION_DATE,
-                            User.USER_SHOW_ACTIVE ,
-                            User.USER_LAST_Session,
-                            User.USER_HIDED,
-                            User.USER_ROLE,
-                            User.SHOT_TO_LIKED,
-                            User.USER_BALANCE,
-                            User.USER_USER_ID
-                    ) , Statement.RETURN_GENERATED_KEYS);
-            stm.setString(1, user.getMail());
-            stm.setString(2, user.getFirst_name());
-            stm.setDate(3, (Date) user.getBirth_date());
-            stm.setString(4, user.getCity());
-            stm.setString(5, user.getGender());
-            stm.setBoolean(6, user.isGenderIsShown());
-            stm.setString(7, user.getGenderPref());
-            stm.setString(8,user.getOrientation());
-            stm.setString(9,user.getBio());
-            stm.setString(10,user.getHoroscope());
-            stm.setString(11,user.getCompany());
-            stm.setString(12,user.getJob());
-            stm.setString(13,user.getSchool());
-            stm.setInt(14,user.getMin_age());
-            stm.setInt(15,user.getMax_age());
-            stm.setDate(16, (Date) user.getRegistration_date());
-            stm.setBoolean(17, user.isShow_active());
-            stm.setDate(18, (Date) user.getLast_session());
-            stm.setBoolean(19, user.isIs_hided());
-            stm.setString(20, user.getRole().toString());
-            stm.setBoolean(21, user.isShow_to_liked());
-            stm.setInt(22, user.getBalance());
-            stm.setInt(23,user.getUser_id());
+                    "UPDATE kinder_base.user SET %s = ? WHERE %s = ?;".formatted(
+                            rowName,
+                            User.USER_USER_ID));
+            stm.setDate(1, value);
+            stm.setInt(2, user_id);
             stm.executeUpdate();
+            connection.commit();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
+
     }
+
+
 
     @Override
     public boolean deleteUser(User user) throws SQLException {
-        // ბაზაში სადაც იუზერი ფორინ ქი არის მანდაც უნდა წაიშალოს და ეგ როგორ ხდება?
+
         try {
             PreparedStatement stm = connection.prepareStatement(
                     "DELETE FROM %s WHERE %s = ?;".formatted(
@@ -148,19 +134,19 @@ public class UserDAOimpl implements UserDAO {
             );
             stm.setInt(1, user.getUser_id());
             if (stm.executeUpdate() == 1) {
+                connection.commit();
                 return true;
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
         return false;
     }
 
     @Override
     public boolean userExists(String mail) throws SQLException {
+        // tested
         try {
             PreparedStatement stm = connection.prepareStatement(
                     "SELECT 1 FROM %s WHERE %s = ?;".formatted(
@@ -179,8 +165,7 @@ public class UserDAOimpl implements UserDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
+
         }
         return false;
     }
@@ -188,15 +173,17 @@ public class UserDAOimpl implements UserDAO {
     @Override
     //აქ დავაბრუნოტ UserDTO
     public UserDTO getUserByMail(String mail) throws SQLException {
+         // ak jobs user davabrunot da vabshe yvela info wamovigot bazidan. am metods gamoviyenebt piradi gverdis asawyobad
+        // rac avtorizebul users gamouchndes(settingebic da a.sh)
         try {
 
             PreparedStatement stm = connection.prepareStatement(
-                    "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s where %s = ?;".formatted(
+                    "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s where %s = ?;".formatted(
                             User.USER_USER_ID,
                             User.USER_FIRST_NAME,
                             User.USER_BIRTH_DATE,
                             User.USER_CITY,
-                            User.USER_GENDER,
+                            User.USER_GENDER ,
                             User.USER_BIO,
                             User.USER_HOROSCOPE,
                             User.USER_COMPANY,
@@ -215,17 +202,16 @@ public class UserDAOimpl implements UserDAO {
                         rs.getString(5),
                         imagesDAO.getImages(rs.getInt(1)),
                         hobbiesDAO.getHobbies(rs.getInt(1)),
+                        rs.getString(6),
+                        rs.getString(7),
                         rs.getString(8),
                         rs.getString(9),
-                        rs.getString(10),
-                        rs.getString(11),
-                        rs.getString(12)
+                        rs.getString(10)
                 );
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            connection.close();
+
         }
         return null;
     }
@@ -274,8 +260,7 @@ public class UserDAOimpl implements UserDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
+
         }
         return users;
     }
@@ -330,8 +315,7 @@ public class UserDAOimpl implements UserDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
+
         }
         return users;
     }

@@ -1,5 +1,6 @@
 package ge.kinder.Servlets;
 
+import ge.kinder.Models.DTO.UserDTO;
 import ge.kinder.Models.User;
 import ge.kinder.Services.UserService;
 
@@ -30,7 +31,7 @@ public class Login extends HttpServlet {
         if (mail.isBlank()) req.getRequestDispatcher("/WEB-INF/Login.jsp").forward(req, resp);
         else {
             try {
-                User user = userService.loginUser(mail);
+                UserDTO user = userService.loginUser(mail);
                 req.getSession().setAttribute("user", user);
                 req.getRequestDispatcher("/WEB-INF/Confirm_Login.jsp").forward(req, resp);
             } catch (Exception e) {

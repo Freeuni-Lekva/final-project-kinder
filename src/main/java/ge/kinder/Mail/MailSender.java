@@ -40,9 +40,9 @@ public class MailSender {
             message.setSubject(subject);
             message.setText(msg);
             Transport.send(message);
+            return true;
 
         } catch (MessagingException mex) {
-            System.out.println("kai ra");
             mex.printStackTrace();
         }
         return false;

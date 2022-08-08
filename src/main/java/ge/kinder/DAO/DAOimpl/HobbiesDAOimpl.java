@@ -31,8 +31,6 @@ public class HobbiesDAOimpl implements HobbiesDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
     }
 
@@ -53,8 +51,6 @@ public class HobbiesDAOimpl implements HobbiesDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
         return false;
     }
@@ -77,8 +73,6 @@ public class HobbiesDAOimpl implements HobbiesDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
         return hobbies;
     }

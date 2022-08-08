@@ -13,16 +13,17 @@ import java.util.List;
 
 public class MessageDAOimpl implements MessageDAO {
 
-    private final DataSource dataSource;
+    private final Connection connection;
 
-    public MessageDAOimpl(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public MessageDAOimpl(Connection connection) {
+        this.connection = connection;
+
     }
 
     public  void deleteMessages(int chatId) throws SQLException {
-        Connection connection = null;
+
         try {
-            connection = dataSource.getConnection();
+
             PreparedStatement stm = connection.prepareStatement(
                     "DELETE FROM %s WHERE %s = ?".formatted(
                             Message.MESSAGE_TABLE,
@@ -33,16 +34,15 @@ public class MessageDAOimpl implements MessageDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
+
     }
 
     @Override
     public void addMessage(Message message) throws SQLException {
-        Connection connection = null;
+
         try {
-            connection = dataSource.getConnection();
+
             PreparedStatement stm = connection.prepareStatement(
                     "INSERT INTO %s (%s, %s, %s, %s) VALUES (?, ?, ?, ?)".formatted(
                             Message.MESSAGE_TABLE,
@@ -58,16 +58,14 @@ public class MessageDAOimpl implements MessageDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
     }
 
     @Override
     public void deleteMessage(Message message) throws SQLException {
-        Connection connection = null;
+
         try {
-            connection = dataSource.getConnection();
+
             PreparedStatement stm = connection.prepareStatement(
                     "DELETE FROM %s WHERE %s = ?".formatted(
                             Message.MESSAGE_TABLE,
@@ -78,17 +76,15 @@ public class MessageDAOimpl implements MessageDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
 
     }
     @Override
     public List<Message> getMessages(int chat_id) throws SQLException {
-        Connection connection = null;
+
         List <Message> messages = new ArrayList<>();
         try {
-            connection = dataSource.getConnection();
+
             PreparedStatement stm = connection.prepareStatement(
                     "SELECT * FROM %s WHERE %s = ?;".formatted(
                             Message.MESSAGE_TABLE,
@@ -105,8 +101,6 @@ public class MessageDAOimpl implements MessageDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
         return messages;
     }

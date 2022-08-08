@@ -4,10 +4,12 @@ import ge.kinder.DAO.UserDAO;
 import ge.kinder.Mail.AuthentificationMail;
 import ge.kinder.Mail.MailSender;
 import ge.kinder.Mail.RegistrationMail;
+import ge.kinder.Models.DTO.UserDTO;
 import ge.kinder.Models.User;
 import ge.kinder.Security.Authentificator;
 import ge.kinder.Services.UserService;
 
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -20,18 +22,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User registerUser(String mail) {
+    public User registerUser(String mail) throws SQLException {
         if(!patternMatches(mail)){
             // throw exception
         }
-        if(!userDAO.userExists(mail)){
+        if(!userDAO.
+                userExists(mail)){
             RegistrationMail m = new RegistrationMail(mail,authentificator.generateCode(mail));
             if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
                 User user = new User();
                 user.setMail(mail);
-               // userDAO.addUser(user);
+                //userDAO.addUser(user);
                 return user;
-        }}
+        }
+        }
 
         // throw exceptions
         // or user already exists exception or mail class exceptions
@@ -48,14 +52,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User loginUser(String mail) {
+    public UserDTO loginUser(String mail) throws SQLException {
         if(!patternMatches(mail)){
             // throw exception
         }
         if(userDAO.userExists(mail)){
             AuthentificationMail m = new AuthentificationMail(mail,authentificator.generateCode(mail));
             if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
-                User user = userDAO.getUserByMail(mail);
+                UserDTO user = userDAO.getUserByMail(mail);
                 return user;
             }}
 

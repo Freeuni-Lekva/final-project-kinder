@@ -2,7 +2,6 @@ package ge.kinder.Servlets;
 
 import ge.kinder.Models.User;
 import ge.kinder.Services.UserService;
-import jdk.swing.interop.SwingInterOpUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,9 +31,10 @@ public class Registration extends HttpServlet {
         UserService userService = (UserService) req.getServletContext().getAttribute("USER_SERVICE");
         String mail = req.getParameter("REGISTRATION_MAIL");
             try {
-                User user = userService.registerUser(mail);
+              User user = userService.registerUser(mail);
 
                 req.getSession().setAttribute("user", user);
+
                 req.getRequestDispatcher("/WEB-INF/Confirm_Registration.jsp").forward(req, resp);
             } catch (Exception e) {
 

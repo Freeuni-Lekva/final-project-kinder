@@ -8,19 +8,19 @@ import javax.sql.DataSource;
 import java.sql.*;
 
 public class MatchesDAOimpl implements MatchesDAO {
-    private final DataSource dataSource;
+    private final Connection connection;
     private  MessageDAOimpl messageDAO;
-    public MatchesDAOimpl(DataSource dataSource, MessageDAOimpl messageDAO) {
+    public MatchesDAOimpl(Connection connection, MessageDAOimpl messageDAO) {
 
-        this.dataSource = dataSource;
+        this.connection = connection;
         this.messageDAO = messageDAO;
     }
     @Override
     public void addMatch(int user_id_1, int user_id_2) throws SQLException {
         int newChatId = addChat();
-        Connection connection = null;
+
         try {
-            connection = dataSource.getConnection();
+
             PreparedStatement stm = connection.prepareStatement(
                     "INSERT INTO %s (%s, %s, %s, %s) VALUES (?, ?, ?, ?);".formatted(
                             TableConstants.MATCH_TABLE,
@@ -39,17 +39,15 @@ public class MatchesDAOimpl implements MatchesDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
     }
 
     @Override
     public int deleteMatch(int user_id_1, int user_id_2) throws SQLException {
         int chatId = getChatId(user_id_1,user_id_2);
-        Connection connection = null;
+
         try {
-            connection = dataSource.getConnection();
+
             PreparedStatement stm = connection.prepareStatement(
                     "DELETE FROM %s WHERE %s = ? AND %s = ?;".formatted(
                             TableConstants.HOBBIES_TABLE,
@@ -73,9 +71,9 @@ public class MatchesDAOimpl implements MatchesDAO {
     }
 
     private int getChatId(int user_id_1, int user_id_2) throws SQLException {
-        Connection connection = null;
+
         try {
-            connection = dataSource.getConnection();
+
             PreparedStatement stm = connection.prepareStatement(
                     "SELECT %s FROM %s WHERE %s = ? AND %s =?;".formatted(
                             TableConstants.MATCH_CHAT_ID,
@@ -101,9 +99,9 @@ public class MatchesDAOimpl implements MatchesDAO {
 
     @Override
     public int addChat() throws SQLException {
-        Connection connection = null;
+
         try {
-            connection = dataSource.getConnection();
+
             PreparedStatement stm = connection.prepareStatement(
                     "INSERT INTO %s VALUES ();".formatted(
                             Chat.CHAT_TABLE
@@ -117,8 +115,6 @@ public class MatchesDAOimpl implements MatchesDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
         return 0;
     }
@@ -128,9 +124,9 @@ public class MatchesDAOimpl implements MatchesDAO {
 
         int chatId = deleteMatch(user_id_1,user_id_2);
         messageDAO.deleteMessages(chatId);
-        Connection connection = null;
+
         try {
-            connection = dataSource.getConnection();
+
 
             PreparedStatement stm = connection.prepareStatement(
                     "DELETE FROM %s WHERE %s = ?;".formatted(
@@ -142,8 +138,6 @@ public class MatchesDAOimpl implements MatchesDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
 
     }

@@ -18,7 +18,7 @@ public class MyDatabase {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = DriverManager.getConnection(("jdbc:mysql://localhost:3306/Kinder_Base"),
-                        "root", "rootroot");
+                        "root", "admin");
             } catch (Exception ex) {
                 System.out.println("Can`t connect to database");
             }
@@ -30,7 +30,7 @@ public class MyDatabase {
                 System.out.println("Can`t run script");
             }
         }
-        public static Connection getConnection(){
+        public  Connection getConnection(){
             return connection;
         }
 

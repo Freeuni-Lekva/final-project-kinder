@@ -8,13 +8,17 @@ import java.util.List;
 
 public interface UserDAO  {
 
-    void addUser(User user) throws SQLException;
-    void updateUser(User user) throws SQLException;
-    boolean deleteUser(User user) throws SQLException;
+    void addUser(User user) throws SQLException;  // tested
 
-    boolean userExists(String mail) throws SQLException;
-    UserDTO getUserByMail(String mail) throws SQLException;
+    void updateRow(User user, String rowName, int value); //tested
+    void updateRow(User user, String rowName, String value); //tested
+    void updateRow(User user, String rowName, java.sql.Date value); //tested
 
+    boolean deleteUser(User user) throws SQLException; // tested without dependencies
+
+    boolean userExists(String mail) throws SQLException; // tested
+    UserDTO getUserByMail(String mail) throws SQLException;// tested, but UserDTO should be changed to User object
+    // not tested
 
     // აქ უნდა გავითვალისწინოთ, რომ როდესაც ვამატებთ სიაში იუზერს, უნდა შევამოწმოთ :
     // 1) დისლაიქი ხომ არ დამიწერა. თუ დამიწერა, აღარ ვაგდებ სიაში.
@@ -26,8 +30,7 @@ public interface UserDAO  {
 
 
     List<UserDTO> getUsers(int min_age, int max_age, String city, int user_id) throws SQLException; // ეს პრეფერენციებით //აქ დავაბრუნოტ UserDTO
-
-
+        // not tested
 
 
     // and so on...
