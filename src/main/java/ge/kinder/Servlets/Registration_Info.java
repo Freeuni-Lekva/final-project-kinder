@@ -32,6 +32,9 @@ public class Registration_Info extends HttpServlet {
         System.out.println(req.getParameter("YEAR"));
         System.out.println(req.getParameter("SHOW_GENDER"));
         System.out.println(req.getParameter("SHOW_ME"));
+        //photos
+        // passions
+        // orientation
 
 
 

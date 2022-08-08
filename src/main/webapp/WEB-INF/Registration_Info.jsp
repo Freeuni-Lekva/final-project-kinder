@@ -20,21 +20,21 @@
             First Name
             <br/>
             <br/>
-            <input type = "text" name="FIRST_NAME" placeholder="First Name" >
+            <input type = "text"  id = "name" name="FIRST_NAME" placeholder="First Name"  class="required" >
 
             <br/>
             <br/>
             Birthday
             <br/>
             <br/>
-            <input type = "text" name="MONTH" placeholder="MM">
-            <input type = "text" name="DAY" placeholder="DD">
-            <input type = "text" name="YEAR" placeholder="YYYY">
+            <input type = "text" id = "month" name="MONTH" placeholder="MM"  class="required">
+            <input type = "text" id =  "day" name="DAY" placeholder="DD">
+            <input type = "text" id = "year" name="YEAR" placeholder="YYYY">
             <br/>
             <br/>
             Gender
-            <select name="GENDER">
-                <option disabled selected value></option>
+            <select name="GENDER" id = "gender">
+                <option value="nothing"></option>
                 <option value="MAN">Man</option>
                 <option value="WOMAN">Woman</option>
                 <option value="AGENDER">Agender</option>
@@ -73,8 +73,8 @@
             <br/>
             <br/>
             Show Me
-            <select name="SHOW_ME">
-                <option disabled selected value></option>
+            <select name="SHOW_ME" id = "show">
+                <option value=""></option>
                 <option value="MEN">Men</option>
                 <option value="WOMEN">Women</option>
                 <option value="EVERYONE">Everyone</option>
@@ -95,6 +95,29 @@
             <br/>
             <br/>
 
+        Passions
+        <select name="PASSIONS">
+            <option disabled selected value></option>
+            <option value="STRAIGHT">Straight</option>
+            <option value="GAY">Gay</option>
+            <option value="LESBIAN">Lesbian</option>
+
+
+        </select>
+        <br/>
+        <br/>
+
+        Sexual Orientation
+        <select name="ORIENTATION">
+            <option disabled selected value></option>
+            <option value="YOGA">Yoga</option>
+            <option value="MEDITATION">Meditation</option>
+            <option value="MANGA">Manga</option>
+            <option value="WALKING">Walking</option>
+
+        </select>
+        <br/>
+
        </div>
 
     <div style="width:50%; float: left; display: inline-block;">Profile Photo
@@ -104,14 +127,14 @@
 
         <div class="fileUpload btn btn-primary">
             <label class="upload">
-                <input type='file'  onchange="readURL(this,'#photo_1');" />
+                <input type='file' name = "PHOTO_1"  onchange="readURL(this,'#photo_1');" />
                 <img id="photo_1" src=""  />
             </label>
         </div>
         <br/>
         <div class="fileUpload btn btn-primary">
             <label class="upload">
-                <input type='file'  onchange="readURL(this,'#photo_2');" />
+                <input type='file' name = "PHOTO_2" onchange="readURL(this,'#photo_2');" />
                 <img id="photo_2" src=""  />
             </label>
         </div>
@@ -166,13 +189,92 @@
             }
         </script>
 
+
+
+
     </div>
 </div>
-    <button id = "submitbutton" type="submit" >Continue</button>
+
+
+
+    <button id = "submitbutton" type="submit" disabled="disabled">Continue</button>
+
+
 </form>
 
 
 
 
 </body>
+
+<script>
+    let inputs = document.querySelectorAll('input');
+    let buttonSend = document.getElementById('submitbutton');
+    let selects = document.querySelectorAll('select');
+
+
+
+
+    let inputValidator = {
+        "FIRST_NAME": false,
+        "MONTH": false,
+        "DAY": false,
+        "YEAR": false,
+        "GENDER": false,
+        "SHOW_GENDER": false,
+         "SHOW_ME": false
+        // "PHOTO_1": false,
+        // "PHOTO_2": false,
+    }
+
+
+        selects.forEach((select) => {
+            select.addEventListener('input', () => {
+                let name = event.target.getAttribute('name');
+
+
+                if (event.target.value === "nothing") {
+                    inputValidator[name] = false;
+                } else {
+                    inputValidator[name] = true;
+                };
+                let allTrue = Object.keys(inputValidator).every((item) => {
+                    return inputValidator[item] === true
+                });
+
+                if (allTrue) {
+                    buttonSend.disabled = false;
+                } else {
+                    buttonSend.disabled = true;
+                }
+
+
+            })
+        })
+
+
+
+    inputs.forEach((input) => {
+        input.addEventListener('input', () => {
+            let name = event.target.getAttribute('name');
+
+            if (event.target.value.length > 0) {
+                inputValidator[name] = true;
+            } else {
+                inputValidator[name] = false;
+            };
+
+
+            let allTrue = Object.keys(inputValidator).every((item) => {
+                return inputValidator[item] === true
+            });
+
+            if (allTrue) {
+                buttonSend.disabled = false;
+            } else {
+                buttonSend.disabled = true;
+            }
+        })
+    })
+</script>
 </html>
