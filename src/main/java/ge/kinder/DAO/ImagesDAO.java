@@ -5,11 +5,11 @@ import java.util.List;
 
 public interface ImagesDAO {
 
-    void addImage(String path, int user_id) throws SQLException;
+    void addImage(String path, int user_id) throws SQLException; //works
 
-    boolean deleteImage(String path, int user_id) throws SQLException;
+    boolean deleteImage(String path, int user_id) throws SQLException; //works
 
-    List<String> getImages(int user_id) throws SQLException;
+    List<String> getImages(int user_id) throws SQLException; //works
 
-    void setImage(String path, int user_id) throws SQLException;
+    void setImage(String path, int user_id) throws SQLException; // works
 }

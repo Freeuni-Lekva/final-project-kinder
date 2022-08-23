@@ -2,6 +2,7 @@ package ge.kinder.DAO.DAOimpl;
 
 import ge.kinder.DAO.UserDAO;
 import ge.kinder.Models.DTO.UserDTO;
+import ge.kinder.Models.Role;
 import ge.kinder.Models.User;
 
 import java.sql.*;
@@ -21,9 +22,6 @@ public class UserDAOimpl implements UserDAO {
 
     @Override
     public void addUser(User user) throws SQLException {
-        // tested
-        // registraciis dros ra monacemensac avsebs, isini unda iyos ak mxolod
-        // city ic davamatot prosta registraciis gverdze
 
         try {
 
@@ -172,41 +170,68 @@ public class UserDAOimpl implements UserDAO {
 
     @Override
     //აქ დავაბრუნოტ UserDTO
-    public UserDTO getUserByMail(String mail) throws SQLException {
-         // ak jobs user davabrunot da vabshe yvela info wamovigot bazidan. am metods gamoviyenebt piradi gverdis asawyobad
-        // rac avtorizebul users gamouchndes(settingebic da a.sh)
+    public User getUserByMail(String mail) throws SQLException {
+
         try {
 
             PreparedStatement stm = connection.prepareStatement(
-                    "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s where %s = ?;".formatted(
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s" +
+                            ", %s, %s, %s, %s, %s, %s, %s, %s FROM %s where %s = ?;").formatted(
                             User.USER_USER_ID,
+                            User.USER_MAIL,
                             User.USER_FIRST_NAME,
                             User.USER_BIRTH_DATE,
                             User.USER_CITY,
-                            User.USER_GENDER ,
+                            User.USER_GENDER,
+                            User.USER_SHOW_GENDER,
+                            User.USER_PREFERENCE,
+                            User.USER_ORIENTATION,
                             User.USER_BIO,
                             User.USER_HOROSCOPE,
                             User.USER_COMPANY,
                             User.USER_JOB,
                             User.USER_SCHOOL,
+                            User.USER_MIN_AGE,
+                            User.USER_MAX_AGE,
+                            User.USER_REGISTRATION_DATE,
+                            User.USER_SHOW_ACTIVE,
+                            User.USER_LAST_Session,
+                            User.USER_HIDED,
+                            User.USER_ROLE,
+                            User.SHOT_TO_LIKED,
+                            User.USER_BALANCE,
                             User.USER_TABLE,
                             User.USER_MAIL
                     ));
             stm.setString(1, mail);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                return new UserDTO(rs.getInt(1),
+                return new User(rs.getInt(1),
+                        rs.getString(21),
                         rs.getString(2),
-                        rs.getDate(3),
-                        rs.getString(4),
+                        rs.getString(3),
+                        rs.getDate(4),
                         rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(8),
+                        rs.getInt(7),
                         imagesDAO.getImages(rs.getInt(1)),
                         hobbiesDAO.getHobbies(rs.getInt(1)),
-                        rs.getString(6),
-                        rs.getString(7),
-                        rs.getString(8),
                         rs.getString(9),
-                        rs.getString(10)
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getString(12),
+                        rs.getString(13),
+                        rs.getString(14),
+                        rs.getInt(15),
+                        rs.getInt(16),
+                        rs.getInt(18),
+                        rs.getDate(19),
+                        rs.getInt(22),
+                        rs.getInt(20),
+                        rs.getDate(17),
+                        rs.getInt(23)
+
                 );
             }
         } catch (SQLException e) {

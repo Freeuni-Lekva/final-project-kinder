@@ -8,17 +8,21 @@ import java.util.List;
 
 public interface UserDAO  {
 
-    void addUser(User user) throws SQLException;  // tested
+    void addUser(User user) throws SQLException;  // works
 
-    void updateRow(User user, String rowName, int value); //tested
-    void updateRow(User user, String rowName, String value); //tested
-    void updateRow(User user, String rowName, java.sql.Date value); //tested
+    void updateRow(User user, String rowName, int value); //works
+    void updateRow(User user, String rowName, String value); //works
+    void updateRow(User user, String rowName, java.sql.Date value); //works
 
-    boolean deleteUser(User user) throws SQLException; // tested without dependencies
+    boolean deleteUser(User user) throws SQLException; // works
 
-    boolean userExists(String mail) throws SQLException; // tested
-    UserDTO getUserByMail(String mail) throws SQLException;// tested, but UserDTO should be changed to User object
-    // not tested
+    boolean userExists(String mail) throws SQLException; // works
+    User getUserByMail(String mail) throws SQLException;// works
+
+
+
+
+
 
     // აქ უნდა გავითვალისწინოთ, რომ როდესაც ვამატებთ სიაში იუზერს, უნდა შევამოწმოთ :
     // 1) დისლაიქი ხომ არ დამიწერა. თუ დამიწერა, აღარ ვაგდებ სიაში.

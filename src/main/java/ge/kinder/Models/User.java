@@ -1,7 +1,8 @@
 package ge.kinder.Models;
 
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -48,7 +49,7 @@ public class User {
     private  List<String> images;
 
     //optional during registration
-    private List<String> hobbies;
+    private List<Hobby> hobbies;
     private String orientation;
 
     //optional
@@ -58,8 +59,8 @@ public class User {
     private String company;
     private String job;
     private String school;
-    private int show_age;
-    private int show_active;
+
+
     private int min_age;
     private  int max_age;
 
@@ -78,7 +79,7 @@ public class User {
     private int balance; // sawyisi defaultad hkondes 100 lari, rom sheedzlos premmiumis yidva
 
 
-    public User(String mail, String first_name, java.sql.Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images, List<String> hobbies, String orientation) {
+    public User(String mail, String first_name, java.sql.Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images, List<Hobby> hobbies, String orientation) {
         this.mail = mail;
         this.first_name = first_name;
         this.birth_date = birth_date;
@@ -100,6 +101,35 @@ public class User {
         this.genderPref = genderPref;
         this.genderIsShown = genderIsShown;
         this.images = images;
+    }
+
+
+    public User(int user_id, String role, String mail, String first_name, Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images, List<Hobby> hobbies, String orientation, String bio, String horoscope, String company, String job, String school, int min_age, int max_age, int showActiveStatus, Date last_session, int show_to_liked, int is_hided, Date registration_date, int balance) {
+        this.user_id = user_id;
+        this.role = Role.valueOf(role);
+        this.mail = mail;
+        this.first_name = first_name;
+        this.birth_date = birth_date;
+        this.city = city;
+        this.gender = gender;
+        this.genderPref = genderPref;
+        this.genderIsShown = genderIsShown;
+        this.images = images;
+        this.hobbies = hobbies;
+        this.orientation = orientation;
+        this.bio = bio;
+        this.horoscope = horoscope;
+        this.company = company;
+        this.job = job;
+        this.school = school;
+        this.min_age = min_age;
+        this.max_age = max_age;
+        this.showActiveStatus = showActiveStatus;
+        this.last_session = last_session;
+        this.show_to_liked = show_to_liked;
+        this.is_hided = is_hided;
+        this.registration_date = registration_date;
+        this.balance = balance;
     }
 
     public User(){
@@ -189,11 +219,11 @@ public class User {
         this.images = images;
     }
 
-    public List<String> getHobbies() {
+    public List<Hobby> getHobbies() {
         return hobbies;
     }
 
-    public void setHobbies(List<String> hobbies) {
+    public void setHobbies(ArrayList<Hobby> hobbies) {
         this.hobbies = hobbies;
     }
 
@@ -245,21 +275,7 @@ public class User {
         this.school = school;
     }
 
-    public int isShow_age() {
-        return show_age;
-    }
 
-    public void setShow_age(int show_age) {
-        this.show_age = show_age;
-    }
-
-    public int isShow_active() {
-        return show_active;
-    }
-
-    public void setShow_active(int show_active) {
-        this.show_active = show_active;
-    }
 
     public int getMin_age() {
         return min_age;

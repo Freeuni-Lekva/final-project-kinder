@@ -28,6 +28,7 @@ public class HobbiesDAOimpl implements HobbiesDAO {
             stm.setString(1, hobby.toString());
             stm.setInt(2, user_id);
             stm.executeUpdate();
+            connection.commit();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -47,8 +48,10 @@ public class HobbiesDAOimpl implements HobbiesDAO {
             stm.setString(1, hobby.toString());
             stm.setInt(2, user_id);
             if (stm.executeUpdate() == 1) {
+                connection.commit();
                 return true;
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
