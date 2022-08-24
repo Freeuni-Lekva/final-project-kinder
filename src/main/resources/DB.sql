@@ -45,7 +45,13 @@ CREATE TABLE User (
 
 CREATE TABLE Chat (
                       Chat_Id INT NOT NULL AUTO_INCREMENT,
+                      User_id_1 INT     NOT NULL,
+                      User_id_2 INT     NOT NULL,
                       PRIMARY KEY (Chat_Id) );
+ALTER TABLE Chat  ADD CONSTRAINT FK_User_TO_Chat     FOREIGN KEY (User_id_1)     REFERENCES User (User_id) ON DELETE CASCADE;
+
+ALTER TABLE Chat   ADD CONSTRAINT FK_User_TO_Chat1    FOREIGN KEY (User_id_2)     REFERENCES User (User_id) ON DELETE CASCADE;
+
 
 CREATE TABLE Hobbies (
                          Hobby_id   INT     NOT NULL AUTO_INCREMENT,
@@ -93,9 +99,9 @@ ALTER TABLE Matches   ADD CONSTRAINT FK_Chat_TO_Matches     FOREIGN KEY (Chat_Id
 
 CREATE TABLE Messages (
                           Chat_Id      INT     NOT NULL,
-                          Message_Id   INT     NOT NULL,
+                          Message_Id   INT     NOT NULL auto_increment,
                           Message_Text VARCHAR(500) NOT NULL,
-                          Date         DATE    NOT NULL,
+                          Date         DATETIME    NOT NULL DEFAULT current_timestamp,
                           User_id      INT     NOT NULL,
                           primary key (Message_Id) );
 

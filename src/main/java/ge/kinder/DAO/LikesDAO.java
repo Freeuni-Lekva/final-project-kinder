@@ -4,15 +4,12 @@ import java.sql.SQLException;
 
 public interface LikesDAO {
 
-    void addLike(int user_id_1, int user_id_2, String status) throws SQLException;
+    void addLike(int user_id_1, int user_id_2, String status) throws SQLException; //works
 
 
-    boolean isLiked(int user_id_1, int user_id_2) throws SQLException;
+    boolean isLiked(int user_id_1, int user_id_2) throws SQLException; // works
 
-    int numberOfLikes(int user_id_1) throws SQLException; // num of likes during last 24 hours
+    int numberOfLikes(int user_id_1) throws SQLException; //works without taking into account last 24 hours
+    boolean deleteLike(int user_id_1, int user_id_2) throws SQLException; //works
 
-    boolean deleteLike(int user_id_1, int user_id_2) throws SQLException;
-
-
-    // and so on...
 }

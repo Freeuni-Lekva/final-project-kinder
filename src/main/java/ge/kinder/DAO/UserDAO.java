@@ -30,14 +30,13 @@ public interface UserDAO  {
     // 3) დაჰაიდებული ხომ არაა?
     // 4) წესით ეს სია რომ ამოვიღე და მერე დისლაიქი დამიწერა ამ ტიპმა, სანამ ამ სიაში მაგ ადამიანამდე მივედი, მაშინ უნდა განახლდეს სია.
     // მაგაზე უნდა შევთანხმდეთ როგორ ვიზამთ
-    List<UserDTO> getUsers(String city, int user_id) throws SQLException; // ეს ჩველებრივი ძებნა //აქ დავაბრუნოტ UserDTO
+    List<UserDTO> getUsers(String city, int user_id) throws SQLException;
+    //works without taking into account special cases
+
+    List<UserDTO> getUsers(int min_age, int max_age, String city, int user_id) throws SQLException;
+      //works without taking into account special cases
 
 
-    List<UserDTO> getUsers(int min_age, int max_age, String city, int user_id) throws SQLException; // ეს პრეფერენციებით //აქ დავაბრუნოტ UserDTO
-        // not tested
-
-
-    // and so on...
 
 
 }

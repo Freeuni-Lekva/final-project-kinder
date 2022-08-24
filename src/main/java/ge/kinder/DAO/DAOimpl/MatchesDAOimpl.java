@@ -10,67 +10,48 @@ import java.sql.*;
 public class MatchesDAOimpl implements MatchesDAO {
     private final Connection connection;
     private  MessageDAOimpl messageDAO;
-    public MatchesDAOimpl(Connection connection, MessageDAOimpl messageDAO) {
+
+    private LikesDAOimpl likesDAO;
+    public MatchesDAOimpl(Connection connection, MessageDAOimpl messageDAO,LikesDAOimpl likesDAO) {
 
         this.connection = connection;
         this.messageDAO = messageDAO;
+        this.likesDAO = likesDAO;
     }
     @Override
     public void addMatch(int user_id_1, int user_id_2) throws SQLException {
-        int newChatId = addChat();
+        if (likesDAO.isLiked(user_id_1, user_id_2) && likesDAO.isLiked(user_id_2, user_id_1)) {
+            int newChatId = addChat(user_id_1,user_id_2);
 
-        try {
+            try {
 
-            PreparedStatement stm = connection.prepareStatement(
-                    "INSERT INTO %s (%s, %s, %s, %s) VALUES (?, ?, ?, ?);".formatted(
-                            TableConstants.MATCH_TABLE,
-                            TableConstants.MATCH_USER_ID1,
-                            TableConstants.MATCH_USER_ID2,
-                            TableConstants.MATCH_UNMATCH,
-                            TableConstants.MATCH_CHAT_ID
-                    ), Statement.RETURN_GENERATED_KEYS);
-            stm.setInt(1, user_id_1);
-            stm.setInt(2, user_id_2);
-            stm.setInt(3, 0);
-            stm.setInt(4,newChatId);
-            stm.executeUpdate();
+                PreparedStatement stm = connection.prepareStatement(
+                        "INSERT INTO %s (%s, %s, %s, %s) VALUES (?, ?, ?, ?);".formatted(
+                                TableConstants.MATCH_TABLE,
+                                TableConstants.MATCH_USER_ID1,
+                                TableConstants.MATCH_USER_ID2,
+                                TableConstants.MATCH_UNMATCH,
+                                TableConstants.MATCH_CHAT_ID
+                        ), Statement.RETURN_GENERATED_KEYS);
+                stm.setInt(1, user_id_1);
+                stm.setInt(2, user_id_2);
+                stm.setInt(3, 0);
+                stm.setInt(4, newChatId);
+                stm.executeUpdate();
+                connection.commit();
 
-            // ექსეშენები?
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public int deleteMatch(int user_id_1, int user_id_2) throws SQLException {
-        int chatId = getChatId(user_id_1,user_id_2);
-
-        try {
-
-            PreparedStatement stm = connection.prepareStatement(
-                    "DELETE FROM %s WHERE %s = ? AND %s = ?;".formatted(
-                            TableConstants.HOBBIES_TABLE,
-                            TableConstants.MATCH_USER_ID1,
-                            TableConstants.MATCH_USER_ID2
-                    )
-            );
-            stm.setInt(1, user_id_1);
-            stm.setInt(2, user_id_2);
-
-            if (stm.executeUpdate() == 1) {
-                return chatId;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
-        return chatId;
+    }
+    @Override
+    public void deleteMatch(int user_id_1, int user_id_2) throws SQLException {
+        deleteChat(user_id_1,user_id_2);
+
     }
 
-    private int getChatId(int user_id_1, int user_id_2) throws SQLException {
+    private int getChatId(int user_id_1, int user_id_2) throws SQLException{
 
         try {
 
@@ -88,26 +69,28 @@ public class MatchesDAOimpl implements MatchesDAO {
             rs.next();
             return rs.getInt(1);
 
-            // ექსეშენები?
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
     }
 
-    @Override
-    public int addChat() throws SQLException {
+
+    private int addChat(int user_id_1,int user_id_2) throws SQLException {
 
         try {
 
             PreparedStatement stm = connection.prepareStatement(
-                    "INSERT INTO %s VALUES ();".formatted(
-                            Chat.CHAT_TABLE
-                    ),Statement.RETURN_GENERATED_KEYS);
+                    "INSERT INTO %s (%s,%s) VALUES (?,?);".formatted(
+                            Chat.CHAT_TABLE,
+                            Chat.USER_1,
+                            Chat.USER_2
 
+                    ),Statement.RETURN_GENERATED_KEYS);
+            stm.setInt(1,user_id_1);
+            stm.setInt(2,user_id_2);
             if(stm.executeUpdate() == 1){
+                connection.commit();
                 ResultSet rs = stm.getGeneratedKeys();
                 rs.next();
                 return rs.getInt(1);
@@ -119,11 +102,11 @@ public class MatchesDAOimpl implements MatchesDAO {
         return 0;
     }
 
-    @Override
-    public void deleteChat(int user_id_1, int user_id_2) throws SQLException {
 
-        int chatId = deleteMatch(user_id_1,user_id_2);
-        messageDAO.deleteMessages(chatId);
+    private void deleteChat(int user_id_1, int user_id_2) throws SQLException {
+
+       int chatId = getChatId(user_id_1,user_id_2);
+
 
         try {
 
@@ -135,6 +118,7 @@ public class MatchesDAOimpl implements MatchesDAO {
                     ));
             stm.setInt(1,chatId);
             stm.executeUpdate();
+            connection.commit();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -14,13 +14,13 @@ public class PremiumUserDAOimpl extends UserDAOimpl implements PremiumUserDAO {
 
     @Override
     public List<User> getUsers(boolean most_recent, String city) {
-        // აქ ზუსტად ვერ მივხვდი
+
         return null;
     }
 
     @Override
     public List<User> getUsers(int min_age, int max_age, boolean liked, boolean most_recent, String city) {
-        // აქ ზუსტად ვერ მივხვდი
+
         return null;
     }
 }

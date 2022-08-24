@@ -6,15 +6,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface MessageDAO {
-    void deleteMessages(int chatId) throws SQLException;
-    void addMessage(Message message) throws SQLException;
 
-    // delete gvkondes?
-    void deleteMessage(Message message) throws SQLException;
+    void addMessage(int user_id_1,int user_id_2,String msg) throws SQLException; //works
 
-    List<Message> getMessages(int chat_id) throws SQLException;
+    List<Message> getMessages(int user_id_1,int user_id_2) throws SQLException; //works
 
-    // and so on...
+
+    void deleteMessage(int message_id) throws SQLException; // works
+
+
+
+
 
 
 

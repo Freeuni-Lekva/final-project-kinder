@@ -25,6 +25,8 @@ public class LikesDAOimpl implements LikesDAO {
             stm.setInt(1, user_id_1);
             stm.setInt(2, user_id_2);
             stm.setString(3, status);
+            stm.executeUpdate();
+            connection.commit();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -87,7 +89,7 @@ public class LikesDAOimpl implements LikesDAO {
 
     @Override
     public boolean deleteLike(int user_id_1, int user_id_2) throws SQLException {
-        // update უნდა დავწეროთ
+
         try {
             PreparedStatement stm = connection.prepareStatement(
                     "DELETE FROM %s WHERE %s = ? AND %s = ?;".formatted(
@@ -98,10 +100,9 @@ public class LikesDAOimpl implements LikesDAO {
             );
             stm.setInt(1, user_id_1);
             stm.setInt(2, user_id_2);
-            ResultSet rs = stm.executeQuery();
 
-            // ექსეფშენების ამბავი მგონი ზოგადად დაგვჭირდება
             if (stm.executeUpdate() == 1) {
+                connection.commit();
                 return true;
             }
 
