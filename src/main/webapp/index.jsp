@@ -10,7 +10,7 @@
 
 <h1> Tinder  </h1>
 <div id="buttons">
-    <form action="Registration" method="get">
+    <form action="Registration_Confirmation" method="get">
         <button class="button_class" id="registration">Create Account</button>
     </form>
     </br>

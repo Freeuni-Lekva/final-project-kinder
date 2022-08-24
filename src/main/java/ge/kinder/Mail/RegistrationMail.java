@@ -1,7 +1,5 @@
 package ge.kinder.Mail;
 
-import ge.kinder.Servlets.Registration;
-
 public class RegistrationMail extends Mail{
 
     private static final String subject = "Tinder";

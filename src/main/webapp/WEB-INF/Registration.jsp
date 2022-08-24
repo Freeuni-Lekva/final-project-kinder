@@ -13,7 +13,7 @@
 <body>
 <h1> Enter your email</h1>
 
-<form action="Registration" method="post" >
+<form action="Registration_Confirmation" method="post" >
     Mail: <input type = "text" name="REGISTRATION_MAIL">
 
     <button id = "submitbutton" type="submit" disabled="disabled">Continue</button>

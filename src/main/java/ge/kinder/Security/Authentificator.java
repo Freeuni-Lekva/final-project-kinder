@@ -31,6 +31,7 @@ public class Authentificator {
     }
 
     public boolean CodeIsCorrect(String code){
+        //add mail
         return codes.containsKey(code);
 
     }

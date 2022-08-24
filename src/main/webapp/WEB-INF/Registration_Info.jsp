@@ -9,7 +9,7 @@
     <meta charset=utf-8 />
 </head>
 <body>
-<form action="Registration_Info" method="post">
+<form action="Profile" method="post">
     <h1> Create Account  </h1>
 <div style="display:block; width:100%;">
     <div style="width:50%; float: left; display: inline-block;">
@@ -21,6 +21,13 @@
             <br/>
             <br/>
             <input type = "text"  id = "name" name="FIRST_NAME" placeholder="First Name"  class="required" >
+            <br/>
+            <br/>
+
+            City
+            <br/>
+            <br/>
+            <input type = "text"  id = "city" name="CITY" placeholder="City"  class="required" >
 
             <br/>
             <br/>
@@ -35,36 +42,36 @@
             Gender
             <select name="GENDER" id = "gender">
                 <option value="nothing"></option>
-                <option value="MAN">Man</option>
-                <option value="WOMAN">Woman</option>
-                <option value="AGENDER">Agender</option>
-                <option value="ANDROGYNE">Androgyne</option>
-                <option value="ANDROGYNOUS">Androgynous</option>
-                <option value="BIGENDER">Bigender</option>
-                <option value="FEMALE_TO_MALE">Female to Male</option>
-                <option value="FTM">FTM</option>
-                <option value="GENDER_FLUID">Gender Fluid</option>
-                <option value="GENDER_NONCONFORMING">Gender Nonconforming</option>
-                <option value="GENDER_QUESTIONING">Gender Questitioning</option>
-                <option value="GENDERQUEER">Genderqueer</option>
-                <option value="MTF">MTF</option>
-                <option value="NEUTROIS">Neutrois</option>
-                <option value="NON-BINARY">Non-Binary</option>
-                <option value="OTHER">Other</option>
-                <option value="PANGENDER">Pangender</option>
-                <option value="TRANS">Trans</option>
-                <option value="TRANS_MAN">Trans Man</option>
-                <option value="TRANS_PERSON">Trans Person</option>
-                <option value="TRANS_WOMAN">Trans Woman</option>
-                <option value="TRANSFEMININE">Transfeminine</option>
-                <option value="TRANSGENDER">Transgender</option>
-                <option value="TRASNGENDER_FEMALE">Transgender Female</option>
-                <option value="TRASNGENDER_MALE">Transgender Male</option>
-                <option value="TRASNGENDER_MAN">Transgender Man</option>
-                <option value="TRASNGENDER_PERSON">Transgender Person</option>
-                <option value="TRASNGENDER_WOMAN">Transgender Woman</option>
-                <option value="TRASNSMASCULINE">Transmasculine</option>
-                <option value="TWO-SPIRIT">Two-Spirit</option>
+                <option value="Man">Man</option>
+                <option value="Woman">Woman</option>
+                <option value="Agender">Agender</option>
+                <option value="Androgyne">Androgyne</option>
+                <option value="Androgynous">Androgynous</option>
+                <option value="Bigender">Bigender</option>
+                <option value="Female to Male">Female to Male</option>
+                <option value="Ftm">FTM</option>
+                <option value="Gender Fluid">Gender Fluid</option>
+                <option value="Gender Nonconforming">Gender Nonconforming</option>
+                <option value="Gender Questioning">Gender Questitioning</option>
+                <option value="Genderqueer">Genderqueer</option>
+                <option value="Mtf">MTF</option>
+                <option value="Neutrois">Neutrois</option>
+                <option value="Non-Binary">Non-Binary</option>
+                <option value="Other">Other</option>
+                <option value="Pangender">Pangender</option>
+                <option value="Trans">Trans</option>
+                <option value="Trans Man">Trans Man</option>
+                <option value="Trans Person">Trans Person</option>
+                <option value="Trans Woman">Trans Woman</option>
+                <option value="Transfeminine">Transfeminine</option>
+                <option value="Transgender">Transgender</option>
+                <option value="Transgender Female">Transgender Female</option>
+                <option value="Transgender Male">Transgender Male</option>
+                <option value="Transgender Man">Transgender Man</option>
+                <option value="Transgender Person">Transgender Person</option>
+                <option value="Transgender Woman">Transgender Woman</option>
+                <option value="Transmasculine">Transmasculine</option>
+                <option value="Two-Spirit">Two-Spirit</option>
             </select>
             <br/>
             <br/>
@@ -75,9 +82,9 @@
             Show Me
             <select name="SHOW_ME" id = "show">
                 <option value=""></option>
-                <option value="MEN">Men</option>
-                <option value="WOMEN">Women</option>
-                <option value="EVERYONE">Everyone</option>
+                <option value="Men">Men</option>
+                <option value="Women">Women</option>
+                <option value="Everyone">Everyone</option>
             </select>
 
             <br/>
@@ -85,7 +92,7 @@
         <%
 
             String mail = (String) session.getAttribute("mail");
-            System.out.println(mail);
+
 
         %>
 
@@ -223,8 +230,7 @@
         "GENDER": false,
         "SHOW_GENDER": false,
          "SHOW_ME": false
-        // "PHOTO_1": false,
-        // "PHOTO_2": false,
+
     }
 
 

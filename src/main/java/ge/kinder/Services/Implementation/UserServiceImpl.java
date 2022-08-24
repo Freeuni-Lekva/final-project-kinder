@@ -9,7 +9,10 @@ import ge.kinder.Models.User;
 import ge.kinder.Security.Authentificator;
 import ge.kinder.Services.UserService;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -52,22 +55,67 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO loginUser(String mail) throws SQLException {
+    public User loginUser(String mail) throws SQLException {
+//        User user_1 = new User();
+//        user_1.setMail("mshas18@freeuni.edu.ge");
+//        user_1.setFirst_name("Megi");
+//        LocalDate date = LocalDate.of(1999,10,4);
+//        user_1.setBirth_date(Date.valueOf(date));
+//        user_1.setCity("Batumi");
+//        user_1.setGender("Female");
+//        user_1.setGenderIsShown(0);
+//        user_1.setGenderPref("Men");
+//        user_1.setOrientation("Straight");
+//
+//
+//        User user_2 = new User();
+//        user_2.setMail("ainau18@freeuni.edu.ge");
+//        user_2.setFirst_name("Aleksi");
+//         date = LocalDate.of(2000,10,6);
+//        user_2.setBirth_date(Date.valueOf(date));
+//        user_2.setCity("Gori");
+//        user_2.setGender("Male");
+//        user_2.setGenderIsShown(0);
+//        user_2.setGenderPref("Women");
+//        user_2.setOrientation("Straight");
+//        ArrayList<String> list = new ArrayList<>();
+//        list.add("first");
+//        user_1.setImages(list);
+//        user_2.setImages(list);
+//        System.out.println(user_1.getImages().get(0));
+//
+//        userDAO.addUser(user_1);
+//        userDAO.addUser(user_2);
+
+
+
         if(!patternMatches(mail)){
             // throw exception
         }
         if(userDAO.userExists(mail)){
             AuthentificationMail m = new AuthentificationMail(mail,authentificator.generateCode(mail));
             if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
-                UserDTO user = userDAO.getUserByMail(mail);
+                User user = userDAO.getUserByMail(mail);
                 return user;
             }}
 
         // throw exceptions
-        // or user doesnt exsit exception or mail class exceptions
+        // or user doesnt exist exception or mail class exceptions
 
 
         return null;
+    }
+
+    @Override
+    public void verificateUser(User user, String mail) {
+
+            AuthentificationMail m = new AuthentificationMail(mail,authentificator.generateCode(mail));
+            if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
+
+
+    }else {
+                //throw ex
+            }
     }
 
     @Override
@@ -79,5 +127,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserByUsername(String username) {
         return Optional.empty();
+    }
+
+    @Override
+    public void changeSettings(User user, String setting, String value) {
+        userDAO.updateRow(user,setting,value);
     }
 }
