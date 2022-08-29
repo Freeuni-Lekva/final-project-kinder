@@ -14,12 +14,20 @@ import java.io.IOException;
 public class Email_Verification extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-      //
+        if (!(req.getSession() != null && req.getSession().getAttribute("user") != null)) {
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        } else {
+            req.getRequestDispatcher("/WEB-INF/Confirm_Email.jsp").forward(req, resp);
+        }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserService userService = (UserService) req.getServletContext().getAttribute("USER_SERVICE");
+        if ( req.getParameter("BackFromEmail")!=null) {
+            req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
+        }
         String email = req.getParameter("VERIFICATION_MAIL");
         req.getSession().setAttribute("newMail",email);
         User user = (User) req.getSession().getAttribute("user");

@@ -10,36 +10,13 @@
 
 <h1> Tinder  </h1>
 <div id="buttons">
-    <form action="Registration_Confirmation" method="get">
-        <button class="button_class" id="registration">Create Account</button>
+    <form action="Registration" method="post">
+        <button class="button_class" id="registration" name = "CREATEACCOUNT">Create Account</button>
     </form>
     </br>
-    <form action="Login" method="get">
-        <button class="button_class" id="login">Log In</button>
+    <form action="Login" method="post">
+        <button class="button_class" id="login" name="LOGIN">Log In</button>
     </form>
-
-<%--   <button id = "register" type="submit" onclick='javascript:window.open("/kinder/Registration","ModalPopUp", "scrollbars=1,resizable=1,height=300,width=450")'>Create Account</button>--%>
-
-<%--    <button id = "login" type="submit" onclick='javascript:window.open("/kinder/Login", "ModalPopUp", "scrollbars=1,resizable=1,height=300,width=450")'>Log In</button>--%>
-<%--    <dialog id="dialog">--%>
-
-<%--        <object data="/kinder/Registration"--%>
-<%--                width="400"--%>
-<%--                height="400"--%>
-<%--                type="text/html">--%>
-<%--        </object>--%>
-<%--    </dialog>--%>
-
-<%--    <button id="show" onclick="dialogShow()">Open Dialog!</button>--%>
-
-
-<%--    <script>--%>
-<%--        function dialogShow() {--%>
-<%--            document.getElementById("dialog").showModal();--%>
-<%--        };--%>
-
-
-<%--    </script>--%>
 
 
 </div>

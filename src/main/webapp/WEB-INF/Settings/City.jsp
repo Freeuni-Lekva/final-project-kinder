@@ -1,5 +1,6 @@
 <%@ page import="ge.kinder.Models.User" %>
-<%@ page import="java.sql.Date" %><%--
+<%@ page import="java.sql.Date" %>
+<%@ page import="ge.kinder.DAO.DAOimpl.UserDAOimpl" %><%--
   Created by IntelliJ IDEA.
   User: User
   Date: 20.08.2022
@@ -16,17 +17,8 @@
 
 <form action="Settings" method="post">
     <%
-        User user = (User) request.getSession().getAttribute("user");
-        String image = user.getImages().get(0);
-        System.out.println(image);
-        String name = user.getFirst_name();
-        String city = user.getCity();
-        Date date = (Date) user.getBirth_date();
-        String gender = user.getGender();
-        int showGender = user.isGenderIsShown();
-        System.out.println("gender" + showGender);
-        String pref = user.getGenderPref();
-
+        UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
+        User user = userDao.getUserByMail((String) session.getAttribute("mail"));
     %>
     <div   style="display:block; width:100%;">
 
@@ -39,7 +31,10 @@
             %>
             <br/>
             <br/>
-            <input id = "input" type = "text" name="City"  value=<%=city%>  >
+            <button id = "backButton" name="BackFromEmail" type="submit" >Back</button>
+            <br/>
+            <br/>
+            <input id = "input" type = "text" name="City"  value=<%=user.getCity()%>  >
             <br/>
             <br/>
             <output id ="output">My Current Location</output>
@@ -47,7 +42,7 @@
             <script>
                 document.getElementById('input').addEventListener('input', function() {
 
-                    document.getElementById("output").innerHTML = "By changing city,<%=city%> will no longer be associated with your account";
+                    document.getElementById("output").innerHTML = "By changing city,<%=user.getCity()%> will no longer be associated with your account";
                     document.getElementById("b").disabled = false;
                 } );
             </script>
@@ -58,7 +53,32 @@
 
         <div style="width:70%; height:100%; ">
 
-            <img src="images/<%=user.getImages().get(0)%>" alt="photo" width="400px" height="400px">
+            <%
+                if (user.getImages().size()>0) {%>
+            <img src="images/<%=user.getImages().get(0)%>" alt="photo" width="200px" height="200px">
+            <% }%>
+            <%--            <%--%>
+            <%--            if (user.getImages().size()>1) {%>--%>
+            <%--            <img src="images/<%=user.getImages().get(1)%>" alt="photo" width="200px" height="200px">--%>
+            <%--            <% }%>--%>
+            <%--            <%--%>
+            <%--                if (user.getImages().size()>2) {%>--%>
+            <%--            <img src="images/<%=user.getImages().get(2)%>" alt="photo" width="200px" height="200px">--%>
+            <%--            <% }%>--%>
+            <%--            <%--%>
+            <%--                if (user.getImages().size()>3) {%>--%>
+            <%--            <img src="images/<%=user.getImages().get(3)%>" alt="photo" width="200px" height="200px">--%>
+            <%--            <% }%>--%>
+            <%--            <%--%>
+            <%--                if (user.getImages().size()>4) {%>--%>
+            <%--            <img src="images/<%=user.getImages().get(4)%>" alt="photo" width="200px" height="200px">--%>
+            <%--            <% }%>--%>
+            <%--            <%--%>
+            <%--                if (user.getImages().size()>5) {%>--%>
+            <%--            <img src="images/<%=user.getImages().get(5)%>" alt="photo" width="200px" height="200px">--%>
+            <%--            <% }%>--%>
+
+
 
 
             <br/>
@@ -67,7 +87,7 @@
             <%=(int) Math.floor((new Date(System.currentTimeMillis()).getTime()-user.getBirth_date().getTime() ) / 3.15576e+10) %>
 
             <br/>
-            <% if (showGender==1) {%> <%=user.getGender()%> <% }%>
+            <% if (user.isGenderIsShown()==1) {%> <%=user.getGender()%> <% }%>
 
         </div>
     </div>

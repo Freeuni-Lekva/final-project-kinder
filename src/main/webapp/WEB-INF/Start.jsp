@@ -3,7 +3,9 @@
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.temporal.ChronoUnit" %>
 <%@ page import="java.time.temporal.Temporal" %>
-<%@ page import="ge.kinder.Models.DTO.UserDTO" %><%--
+<%@ page import="ge.kinder.Models.DTO.UserDTO" %>
+<%@ page import="ge.kinder.DAO.UserDAO" %>
+<%@ page import="ge.kinder.DAO.DAOimpl.UserDAOimpl" %><%--
   Created by IntelliJ IDEA.
   User: User
   Date: 06.08.2022
@@ -23,16 +25,8 @@
         <div style="width: 30%; height: 100%; overflow-y: scroll;  float: left;">
 
         <%
-            User user = (User) request.getSession().getAttribute("user");
-            String image = user.getImages().get(0);
-            System.out.println(image);
-            String name = user.getFirst_name();
-            String city = user.getCity();
-            Date date = (Date) user.getBirth_date();
-            String gender = user.getGender();
-            int showGender = user.isGenderIsShown();
-            System.out.println("gender" + showGender);
-            String pref = user.getGenderPref();
+            UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
+            User user = userDao.getUserByMail((String) session.getAttribute("mail"));
         %>
         ACCOUNT SETTINGS
         <br/>
@@ -48,10 +42,10 @@
         <br/>
         <br/>
 
-        <button name="settingsButton" type="submit" value="City">City <%=city%></button>
+        <button name="settingsButton" type="submit" value="City">City <%=user.getCity()%></button>
         <br/>
         <br/>
-         <button name="settingsButton" type="submit" value="Preference">Looking for <%=pref%></button>
+         <button name="settingsButton" type="submit" value="Preference">Looking for <%=user.getGenderPref()%></button>
         <br/>
         <br/>
 
@@ -183,9 +177,31 @@
 
         </div>
 
-        <div style="width:70%; height:100%; ">
+        <div style="width:70%; height:100%; "> <%
+            if (user.getImages().size()>0) {%>
+            <img src="images/<%=user.getImages().get(0)%>" alt="photo" width="200px" height="200px">
+            <% }%>
+<%--            <%--%>
+<%--            if (user.getImages().size()>1) {%>--%>
+<%--            <img src="images/<%=user.getImages().get(1)%>" alt="photo" width="200px" height="200px">--%>
+<%--            <% }%>--%>
+<%--            <%--%>
+<%--                if (user.getImages().size()>2) {%>--%>
+<%--            <img src="images/<%=user.getImages().get(2)%>" alt="photo" width="200px" height="200px">--%>
+<%--            <% }%>--%>
+<%--            <%--%>
+<%--                if (user.getImages().size()>3) {%>--%>
+<%--            <img src="images/<%=user.getImages().get(3)%>" alt="photo" width="200px" height="200px">--%>
+<%--            <% }%>--%>
+<%--            <%--%>
+<%--                if (user.getImages().size()>4) {%>--%>
+<%--            <img src="images/<%=user.getImages().get(4)%>" alt="photo" width="200px" height="200px">--%>
+<%--            <% }%>--%>
+<%--            <%--%>
+<%--                if (user.getImages().size()>5) {%>--%>
+<%--            <img src="images/<%=user.getImages().get(5)%>" alt="photo" width="200px" height="200px">--%>
+<%--            <% }%>--%>
 
-     <img src="images/<%=user.getImages().get(0)%>" alt="photo" width="400px" height="400px">
 
 
     <br/>
@@ -194,7 +210,7 @@
     <%=(int) Math.floor((new Date(System.currentTimeMillis()).getTime()-user.getBirth_date().getTime() ) / 3.15576e+10) %>
 
             <br/>
-    <% if (showGender==1) {%> <%=user.getGender()%> <% }%>
+    <% if (user.isGenderIsShown()==1) {%> <%=user.getGender()%> <% }%>
 
         </div>
     </div>

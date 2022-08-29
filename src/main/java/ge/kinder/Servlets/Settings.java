@@ -17,12 +17,12 @@ import java.io.IOException;
 public class Settings extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        if (!(req.getSession() != null && req.getSession().getAttribute("user") != null)) {
-//            req.getRequestDispatcher("/index.jsp").forward(req, resp);
-//        } else {
-//            req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
-//        }
-        req.getRequestDispatcher("/WEB-INF/Settings/Preference.jsp").forward(req, resp);
+        if (!(req.getSession() != null && req.getSession().getAttribute("user") != null)) {
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        } else {
+            req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
+        }
+
 
     }
 
@@ -41,6 +41,9 @@ public class Settings extends HttpServlet {
         String preference = req.getParameter("preference");
 
 
+        if ( req.getParameter("BackFromCity")!=null || req.getParameter("BackFromPref")!=null) {
+            req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
+        }
         if (settings != null) {
 
             if (settings.equals("Email")) {
@@ -51,6 +54,9 @@ public class Settings extends HttpServlet {
 
             }else if(settings.equals("Preference")){
                 req.getRequestDispatcher("/WEB-INF/Settings/Preference.jsp").forward(req, resp);
+            } else if(settings.equals("Logout")){
+                req.getSession(false).invalidate();
+                req.getRequestDispatcher("/index.jsp").forward(req, resp);
             }
         }
 

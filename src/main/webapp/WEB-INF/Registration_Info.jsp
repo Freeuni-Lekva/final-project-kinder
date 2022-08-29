@@ -102,25 +102,110 @@
             <br/>
             <br/>
 
-        Passions
-        <select name="PASSIONS">
-            <option disabled selected value></option>
-            <option value="STRAIGHT">Straight</option>
-            <option value="GAY">Gay</option>
-            <option value="LESBIAN">Lesbian</option>
+         <div class="multipleSelection">
+                <div class="selectBox"
+                     onclick="showCheckboxes()">
+                    <select>
+                        <option>Select hobbies</option>
+                    </select>
+                    <div class="overSelect"></div>
+                </div>
+
+                <div id="checkBoxes">
+                    <label for="first">
+                        <input type="checkbox" id="first" name="SPORT" />
+                        Sport
+                    </label>
+
+                    <label for="second">
+                        <input type="checkbox" id="second" />
+                        Instagram
+                    </label>
+                    <label for="third">
+                        <input type="checkbox" id="third" />
+                        Photos
+                    </label>
+                    <label for="fourth">
+                        <input type="checkbox" id="fourth" />
+                      Cars
+                    </label>
+                    <label for="fifth">
+                        <input type="checkbox" id="fifth" />
+                        Football
+                    </label>
+                </div>
+            </div>
 
 
-        </select>
-        <br/>
+        <script>
+            var show = true;
+
+            function showCheckboxes() {
+                var checkboxes =
+                    document.getElementById("checkBoxes");
+
+                if (show) {
+                    checkboxes.style.display = "block";
+                    show = false;
+                } else {
+                    checkboxes.style.display = "none";
+                    show = true;
+                }
+            }
+        </script>
+        <style>
+
+
+            .multipleSelection {
+                width: 300px;
+                background-color: #BCC2C1;
+            }
+
+            .selectBox {
+                position: relative;
+            }
+
+            .selectBox select {
+                width: 100%;
+                font-weight: bold;
+            }
+
+            .overSelect {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+            }
+
+            #checkBoxes {
+                display: none;
+                border: 1px #8DF5E4 solid;
+            }
+
+            #checkBoxes label {
+                display: block;
+            }
+
+            #checkBoxes label:hover {
+                background-color: #4F615E;
+            }
+        </style>
+
+
         <br/>
 
         Sexual Orientation
         <select name="ORIENTATION">
             <option disabled selected value></option>
-            <option value="YOGA">Yoga</option>
-            <option value="MEDITATION">Meditation</option>
-            <option value="MANGA">Manga</option>
-            <option value="WALKING">Walking</option>
+            <option value="Straight">Straight</option>
+            <option value="Gay">Gay</option>
+            <option value="Lesbian">Lesbian</option>
+            <option value="Bisexual">Bisexual</option>
+            <option value="Asexual">Asexual</option>
+            <option value="Demisexual">Demisexual</option>
+            <option value="Queer">Pansexual</option>
+            <option value="Questioning">Questioning</option>
 
         </select>
         <br/>
@@ -229,7 +314,9 @@
         "YEAR": false,
         "GENDER": false,
         "SHOW_GENDER": false,
-         "SHOW_ME": false
+         "SHOW_ME": false,
+        "PHOTO_1":false,
+        "PHOTO_2":false
 
     }
 

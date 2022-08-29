@@ -1,6 +1,7 @@
 <%@ page import="java.util.regex.Pattern" %>
 <%@ page import="ge.kinder.Models.User" %>
-<%@ page import="java.sql.Date" %><%--
+<%@ page import="java.sql.Date" %>
+<%@ page import="ge.kinder.DAO.DAOimpl.UserDAOimpl" %><%--
   Created by IntelliJ IDEA.
   User: User
   Date: 18.08.2022
@@ -19,23 +20,24 @@
 
 <form action="Email_Verification" method="post">
     <%
-        User user = (User) request.getSession().getAttribute("user");
-        String image = user.getImages().get(0);
-        System.out.println(image);
+        UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
+        User user = userDao.getUserByMail((String) session.getAttribute("mail"));
 
-        int showGender = user.isGenderIsShown();
-        System.out.println("gender" + showGender);
 
     %>
     <div   style="display:block; width:100%;">
 
         <div style="width: 30%; height: 100%; overflow-y: scroll;  float: left;">
+            <button id = "backButton" name="BackFromEmail" type="submit" >Back</button>
+            <br/>
+            <br/>
 EMAIL
 <%
     String mail = (String) session.getAttribute("mail");
 
 
 %>
+
 <br/>
 <br/>
 <input id = "input" type = "text" name="VERIFICATION_MAIL"  value=<%=mail%>  >
@@ -58,7 +60,32 @@ EMAIL
 
     <div style="width:70%; height:100%; ">
 
-        <img src="images/<%=user.getImages().get(0)%>" alt="photo" width="400px" height="400px">
+        <%
+            if (user.getImages().size()>0) {%>
+        <img src="images/<%=user.getImages().get(0)%>" alt="photo" width="200px" height="200px">
+        <% }%>
+        <%--            <%--%>
+        <%--            if (user.getImages().size()>1) {%>--%>
+        <%--            <img src="images/<%=user.getImages().get(1)%>" alt="photo" width="200px" height="200px">--%>
+        <%--            <% }%>--%>
+        <%--            <%--%>
+        <%--                if (user.getImages().size()>2) {%>--%>
+        <%--            <img src="images/<%=user.getImages().get(2)%>" alt="photo" width="200px" height="200px">--%>
+        <%--            <% }%>--%>
+        <%--            <%--%>
+        <%--                if (user.getImages().size()>3) {%>--%>
+        <%--            <img src="images/<%=user.getImages().get(3)%>" alt="photo" width="200px" height="200px">--%>
+        <%--            <% }%>--%>
+        <%--            <%--%>
+        <%--                if (user.getImages().size()>4) {%>--%>
+        <%--            <img src="images/<%=user.getImages().get(4)%>" alt="photo" width="200px" height="200px">--%>
+        <%--            <% }%>--%>
+        <%--            <%--%>
+        <%--                if (user.getImages().size()>5) {%>--%>
+        <%--            <img src="images/<%=user.getImages().get(5)%>" alt="photo" width="200px" height="200px">--%>
+        <%--            <% }%>--%>
+
+
 
 
         <br/>
@@ -67,7 +94,7 @@ EMAIL
         <%=(int) Math.floor((new Date(System.currentTimeMillis()).getTime()-user.getBirth_date().getTime() ) / 3.15576e+10) %>
 
         <br/>
-        <% if (showGender==1) {%> <%=user.getGender()%> <% }%>
+        <% if (user.isGenderIsShown()==1) {%> <%=user.getGender()%> <% }%>
 
     </div>
 </div>

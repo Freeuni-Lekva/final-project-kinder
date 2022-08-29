@@ -40,6 +40,8 @@ public class ContextListener implements ServletContextListener {
         Authentificator authentificator = new Authentificator(new HashMap<>());
         sc.setAttribute("USER_SERVICE",new UserServiceImpl(userDAO,authentificator));
         sc.setAttribute("USERDAO",userDAO);
+        sc.setAttribute("IMAGESDAO",imagesDAO);
+        sc.setAttribute("HOBBIESDAO",hobbiesDAO);
 
 
 

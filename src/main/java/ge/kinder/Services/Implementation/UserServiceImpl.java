@@ -27,24 +27,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registerUser(String mail) throws SQLException {
         if(!patternMatches(mail)){
-            // throw exception
+            throw new RuntimeException();
         }
-        if(!userDAO.
-                userExists(mail)){
+        if(!userDAO.userExists(mail)){
             RegistrationMail m = new RegistrationMail(mail,authentificator.generateCode(mail));
             if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
                 User user = new User();
                 user.setMail(mail);
-                //userDAO.addUser(user);
                 return user;
-        }
-        }
+        } else throw new RuntimeException();
+        }else throw new RuntimeException();
 
-        // throw exceptions
-        // or user already exists exception or mail class exceptions
-
-
-        return null;
     }
 
     private boolean patternMatches(String mail) {
@@ -56,66 +49,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User loginUser(String mail) throws SQLException {
-//        User user_1 = new User();
-//        user_1.setMail("mshas18@freeuni.edu.ge");
-//        user_1.setFirst_name("Megi");
-//        LocalDate date = LocalDate.of(1999,10,4);
-//        user_1.setBirth_date(Date.valueOf(date));
-//        user_1.setCity("Batumi");
-//        user_1.setGender("Female");
-//        user_1.setGenderIsShown(0);
-//        user_1.setGenderPref("Men");
-//        user_1.setOrientation("Straight");
-//
-//
-//        User user_2 = new User();
-//        user_2.setMail("ainau18@freeuni.edu.ge");
-//        user_2.setFirst_name("Aleksi");
-//         date = LocalDate.of(2000,10,6);
-//        user_2.setBirth_date(Date.valueOf(date));
-//        user_2.setCity("Gori");
-//        user_2.setGender("Male");
-//        user_2.setGenderIsShown(0);
-//        user_2.setGenderPref("Women");
-//        user_2.setOrientation("Straight");
-//        ArrayList<String> list = new ArrayList<>();
-//        list.add("first");
-//        user_1.setImages(list);
-//        user_2.setImages(list);
-//        System.out.println(user_1.getImages().get(0));
-//
-//        userDAO.addUser(user_1);
-//        userDAO.addUser(user_2);
-
-
 
         if(!patternMatches(mail)){
-            // throw exception
+            throw new RuntimeException();
         }
         if(userDAO.userExists(mail)){
             AuthentificationMail m = new AuthentificationMail(mail,authentificator.generateCode(mail));
             if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
                 User user = userDAO.getUserByMail(mail);
                 return user;
-            }}
-
-        // throw exceptions
-        // or user doesnt exist exception or mail class exceptions
+            }else throw new RuntimeException();
+        } else throw new RuntimeException();
 
 
-        return null;
+
     }
 
     @Override
     public void verificateUser(User user, String mail) {
 
-            AuthentificationMail m = new AuthentificationMail(mail,authentificator.generateCode(mail));
-            if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
-
-
-    }else {
-                //throw ex
-            }
+        AuthentificationMail m = new AuthentificationMail(mail,authentificator.generateCode(mail));
+        if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
+    }else throw new RuntimeException();
     }
 
     @Override
