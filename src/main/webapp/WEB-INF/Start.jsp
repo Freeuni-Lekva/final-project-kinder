@@ -16,14 +16,20 @@
     <div   style="display:block; width:100%;">
 
         <div style="width: 30%; height: 100%; overflow-y: scroll;  float: left;">
-        Account Settings
+
+            Account Settings
+            <%User user = (User) request.getSession().getAttribute("user");%>
+
+                <p>
+                    '<%=user.toString()%>'
+                </p>
         </div>
 
         <div style="width:70%; height:100%; ">
 <%--        <%User user = (User) request.getSession().getAttribute("user");--%>
 <%--          String image = user.getImages().get(0);--%>
 <%--           System.out.println(image);--%>
-        %>
+<%--        %>--%>
 
 <%--            <img height="100" width="100" scr="C:/Users/User/Desktop"+<%=image%> />--%>
 <%--            <img  scr="C:/Users/User/Downloads/IMG_20220807_211523.jpg" width="500" height="600"/>--%>

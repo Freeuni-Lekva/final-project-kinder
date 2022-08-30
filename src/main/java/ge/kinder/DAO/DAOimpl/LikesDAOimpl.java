@@ -2,6 +2,7 @@ package ge.kinder.DAO.DAOimpl;
 
 import ge.kinder.DAO.LikesDAO;
 import ge.kinder.Database.TableConstants;
+import ge.kinder.Models.Status;
 
 import java.sql.*;
 
@@ -13,7 +14,7 @@ public class LikesDAOimpl implements LikesDAO {
     }
 
     @Override
-    public void addLike(int user_id_1, int user_id_2, String status) throws SQLException {
+    public void addLike(int user_id_1, int user_id_2, Status status) throws SQLException {
         try {
             PreparedStatement stm = connection.prepareStatement(
                     "INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?);".formatted(
@@ -24,7 +25,7 @@ public class LikesDAOimpl implements LikesDAO {
                     ), Statement.RETURN_GENERATED_KEYS);
             stm.setInt(1, user_id_1);
             stm.setInt(2, user_id_2);
-            stm.setString(3, status);
+            stm.setString(3, status.toString());
             stm.executeUpdate();
             connection.commit();
 
@@ -48,8 +49,8 @@ public class LikesDAOimpl implements LikesDAO {
             );
             stm.setInt(1, user_id_1);
             stm.setInt(2, user_id_2);
-            stm.setString(3, "LIKE");
-            stm.setString(4, "SUPERLIKE");
+            stm.setString(3, Status.LIKE.toString());
+            stm.setString(4, Status.SUPERLIKE.toString());
             ResultSet rs = stm.executeQuery();
 
             while(rs.next()){
@@ -68,12 +69,17 @@ public class LikesDAOimpl implements LikesDAO {
     public int numberOfLikes(int user_id_1) throws SQLException {
         try {
             PreparedStatement stm = connection.prepareStatement(
-                    "SELECT COUNT(*) FROM %s WHERE %s = ?;".formatted(
+                    "SELECT COUNT(*) FROM %s WHERE %s = ? AND (%s = ? OR %s = ?) AND TIMESTAMPDIFF(hour,%s,SYSDATE()) <= 24 ;".formatted(
                             TableConstants.LIKE_TABLE,
-                            TableConstants.LIKE_USER_ID2
+                            TableConstants.LIKE_USER_ID2,
+                            TableConstants.LIKE_STATUS,
+                            TableConstants.LIKE_STATUS,
+                            TableConstants.LIKE_DATE
                     )
             );
             stm.setInt(1, user_id_1);
+            stm.setString(2,Status.LIKE.toString());
+            stm.setString(3,Status.SUPERLIKE.toString());
             ResultSet rs = stm.executeQuery();
 
             rs.next();

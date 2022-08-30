@@ -1,10 +1,12 @@
 package ge.kinder.DAO;
 
+import ge.kinder.Models.Status;
+
 import java.sql.SQLException;
 
 public interface LikesDAO {
 
-    void addLike(int user_id_1, int user_id_2, String status) throws SQLException; //works
+    void addLike(int user_id_1, int user_id_2, Status status) throws SQLException; //works
 
 
     boolean isLiked(int user_id_1, int user_id_2) throws SQLException; // works

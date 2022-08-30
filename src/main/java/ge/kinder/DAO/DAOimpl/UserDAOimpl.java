@@ -1,5 +1,7 @@
 package ge.kinder.DAO.DAOimpl;
 
+import ge.kinder.DAO.HobbiesDAO;
+import ge.kinder.DAO.ImagesDAO;
 import ge.kinder.DAO.UserDAO;
 import ge.kinder.Models.DTO.UserDTO;
 import ge.kinder.Models.Role;
@@ -12,9 +14,9 @@ import java.util.List;
 public class UserDAOimpl implements UserDAO {
 
     private final Connection connection;
-    private ImagesDAOimpl imagesDAO;
-    private HobbiesDAOimpl hobbiesDAO;
-    public UserDAOimpl(Connection connection, HobbiesDAOimpl hobbiesDAO, ImagesDAOimpl imagesDAO) {
+    private ImagesDAO imagesDAO;
+    private HobbiesDAO hobbiesDAO;
+    public UserDAOimpl(Connection connection, HobbiesDAO hobbiesDAO, ImagesDAO imagesDAO) {
         this.hobbiesDAO = hobbiesDAO;
         this.imagesDAO = imagesDAO;
         this.connection = connection;
@@ -248,7 +250,8 @@ public class UserDAOimpl implements UserDAO {
         List <UserDTO> users = new ArrayList<>();
         try {
             PreparedStatement stm = connection.prepareStatement(
-                    "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s  FROM %s WHERE %s = ? AND %s != ?;".formatted(
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s  " +
+                       "FROM %s WHERE %s = ? AND %s != ? AND %s != ?;").formatted(
                             User.USER_USER_ID,
                             User.USER_FIRST_NAME,
                             User.USER_BIRTH_DATE,
@@ -261,11 +264,13 @@ public class UserDAOimpl implements UserDAO {
                             User.USER_SCHOOL,
                             User.USER_TABLE,
                             User.USER_CITY,
-                            User.USER_USER_ID
+                            User.USER_USER_ID,
+                            User.USER_HIDED
                     )
             );
             stm.setString(1, city);
             stm.setInt(2, user_id);
+            stm.setInt(3,1);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 users.add(new UserDTO(
@@ -298,7 +303,10 @@ public class UserDAOimpl implements UserDAO {
         List <UserDTO> users = new ArrayList<>();
         try {
             PreparedStatement stm = connection.prepareStatement(
-                    "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s  FROM %s WHERE %s = ? AND %s != ?;".formatted(
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s  FROM %s WHERE %s = ? AND %s != ? " +
+                            "AND TIMESTAMPDIFF(year,%s,SYSDATE()) >= ? " +
+                            "AND TIMESTAMPDIFF(year,%s,SYSDATE()) <= ?" +
+                            "AND %s != ?;").formatted(
                             User.USER_USER_ID,
                             User.USER_FIRST_NAME,
                             User.USER_BIRTH_DATE,
@@ -311,21 +319,27 @@ public class UserDAOimpl implements UserDAO {
                             User.USER_SCHOOL,
                             User.USER_TABLE,
                             User.USER_CITY,
-                            User.USER_USER_ID
+                            User.USER_USER_ID,
+                            User.USER_BIRTH_DATE,
+                            User.USER_BIRTH_DATE,
+                            User.USER_HIDED
                     )
             );
             stm.setString(1, city);
             stm.setInt(2, user_id);
+            stm.setInt(3,min_age);
+            stm.setInt(4,max_age);
+            stm.setInt(5,1);
             ResultSet rs = stm.executeQuery();
 
             while (rs.next()) {
-                Date birthDate = rs.getDate(3);
-                int age = (int) Math.floor((new Date(System.currentTimeMillis()).getTime()-birthDate.getTime() ) / 3.15576e+10);
-                if(age >= min_age && age <=max_age){
+//                Date birthDate = rs.getDate(3);
+//                int age = (int) Math.floor((new Date(System.currentTimeMillis()).getTime()-birthDate.getTime() ) / 3.15576e+10);
+//                if(age >= min_age && age <=max_age){
                 users.add(new UserDTO(
                         rs.getInt(1),
                         rs.getString(2),
-                        birthDate,
+                        rs.getDate(3),
                         rs.getString(4),
                         rs.getString(5),
                         imagesDAO.getImages(rs.getInt(1)),
@@ -335,8 +349,9 @@ public class UserDAOimpl implements UserDAO {
                         rs.getString(8),
                         rs.getString(9),
                         rs.getString(10)
-                ));
-            }}
+                        ));
+              //}
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
 

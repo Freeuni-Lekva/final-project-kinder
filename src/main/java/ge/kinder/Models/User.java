@@ -346,5 +346,34 @@ public class User {
         this.balance = balance;
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_id=" + user_id +
+                ", role=" + role +
+                ", mail='" + mail + '\'' +
+                ", first_name='" + first_name + '\'' +
+                ", birth_date=" + birth_date +
+                ", city='" + city + '\'' +
+                ", gender='" + gender + '\'' +
+                ", genderPref='" + genderPref + '\'' +
+                ", genderIsShown=" + genderIsShown +
+                ", images=" + images +
+                ", hobbies=" + hobbies +
+                ", orientation='" + orientation + '\'' +
+                ", bio='" + bio + '\'' +
+                ", horoscope='" + horoscope + '\'' +
+                ", company='" + company + '\'' +
+                ", job='" + job + '\'' +
+                ", school='" + school + '\'' +
+                ", min_age=" + min_age +
+                ", max_age=" + max_age +
+                ", showActiveStatus=" + showActiveStatus +
+                ", last_session=" + last_session +
+                ", show_to_liked=" + show_to_liked +
+                ", is_hided=" + is_hided +
+                ", registration_date=" + registration_date +
+                ", balance=" + balance +
+                '}';
+    }
 }

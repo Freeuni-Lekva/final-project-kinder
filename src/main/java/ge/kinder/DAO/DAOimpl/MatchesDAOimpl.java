@@ -1,6 +1,8 @@
 package ge.kinder.DAO.DAOimpl;
 
+import ge.kinder.DAO.LikesDAO;
 import ge.kinder.DAO.MatchesDAO;
+import ge.kinder.DAO.MessageDAO;
 import ge.kinder.Database.TableConstants;
 import ge.kinder.Models.Chat;
 
@@ -9,10 +11,10 @@ import java.sql.*;
 
 public class MatchesDAOimpl implements MatchesDAO {
     private final Connection connection;
-    private  MessageDAOimpl messageDAO;
+    private  MessageDAO messageDAO;
 
-    private LikesDAOimpl likesDAO;
-    public MatchesDAOimpl(Connection connection, MessageDAOimpl messageDAO,LikesDAOimpl likesDAO) {
+    private LikesDAO likesDAO;
+    public MatchesDAOimpl(Connection connection, MessageDAO messageDAO, LikesDAO likesDAO) {
 
         this.connection = connection;
         this.messageDAO = messageDAO;
@@ -66,9 +68,9 @@ public class MatchesDAOimpl implements MatchesDAO {
             stm.setInt(1, user_id_1);
             stm.setInt(2, user_id_2);
             ResultSet rs = stm.executeQuery();
-            rs.next();
-            return rs.getInt(1);
-
+            if(rs.next())
+                return rs.getInt(1);
+            return 0;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

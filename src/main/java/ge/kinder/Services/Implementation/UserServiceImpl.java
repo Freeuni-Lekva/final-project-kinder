@@ -59,8 +59,8 @@ public class UserServiceImpl implements UserService {
         if(userDAO.userExists(mail)){
             AuthentificationMail m = new AuthentificationMail(mail,authentificator.generateCode(mail));
             if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
-                UserDTO user = userDAO.getUserByMail(mail);
-                return user;
+                User user = userDAO.getUserByMail(mail);
+                return  new UserDTO();//return user;
             }}
 
         // throw exceptions

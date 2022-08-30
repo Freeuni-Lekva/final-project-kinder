@@ -43,8 +43,8 @@ public class ImagesDAOimpl implements ImagesDAO {
         boolean isProfile  = false;
         if (isProfile(path,user_id)){
             isProfile=true;
-
         }
+
         try {
             PreparedStatement stm = connection.prepareStatement(
                     "DELETE FROM %s WHERE %s = ? AND %s = ?;".formatted(
@@ -90,6 +90,7 @@ public class ImagesDAOimpl implements ImagesDAO {
     }
 
     private boolean isProfile(String path, int user_id) throws SQLException {
+        System.out.println(path+ " " + user_id);
         try {
             PreparedStatement stm = connection.prepareStatement(
                     "SELECT %s FROM %s WHERE %s = ? AND %s = ?;".formatted(
@@ -102,8 +103,9 @@ public class ImagesDAOimpl implements ImagesDAO {
             stm.setString(1, path);
             stm.setInt(2, user_id);
             ResultSet rs = stm.executeQuery();
-            rs.next();
-            return rs.getInt(1) == 1;
+            if(rs.next())
+                return rs.getInt(1) == 1;
+            return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
