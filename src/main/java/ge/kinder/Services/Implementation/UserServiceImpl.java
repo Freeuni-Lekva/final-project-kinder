@@ -9,7 +9,10 @@ import ge.kinder.Models.User;
 import ge.kinder.Security.Authentificator;
 import ge.kinder.Services.UserService;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -24,24 +27,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registerUser(String mail) throws SQLException {
         if(!patternMatches(mail)){
-            // throw exception
+            throw new RuntimeException();
         }
-        if(!userDAO.
-                userExists(mail)){
+        if(!userDAO.userExists(mail)){
             RegistrationMail m = new RegistrationMail(mail,authentificator.generateCode(mail));
             if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
                 User user = new User();
                 user.setMail(mail);
-                //userDAO.addUser(user);
                 return user;
-        }
-        }
+        } else throw new RuntimeException();
+        }else throw new RuntimeException();
 
-        // throw exceptions
-        // or user already exists exception or mail class exceptions
-
-
-        return null;
     }
 
     private boolean patternMatches(String mail) {
@@ -52,22 +48,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO loginUser(String mail) throws SQLException {
+    public User loginUser(String mail) throws SQLException {
+
         if(!patternMatches(mail)){
-            // throw exception
+            throw new RuntimeException();
         }
         if(userDAO.userExists(mail)){
             AuthentificationMail m = new AuthentificationMail(mail,authentificator.generateCode(mail));
             if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
                 User user = userDAO.getUserByMail(mail);
-                return  new UserDTO();//return user;
-            }}
-
-        // throw exceptions
-        // or user doesnt exsit exception or mail class exceptions
+                return user;
+            }else throw new RuntimeException();
+        } else throw new RuntimeException();
 
 
-        return null;
+
+    }
+
+    @Override
+    public void verificateUser(User user, String mail) {
+
+        AuthentificationMail m = new AuthentificationMail(mail,authentificator.generateCode(mail));
+        if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
+    }else throw new RuntimeException();
     }
 
     @Override
@@ -79,5 +82,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserByUsername(String username) {
         return Optional.empty();
+    }
+
+    @Override
+    public void changeSettings(User user, String setting, String value) {
+        userDAO.updateRow(user,setting,value);
     }
 }

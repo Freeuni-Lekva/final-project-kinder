@@ -23,9 +23,13 @@
 <div id = "error_text"><%=Login_Error%></div>
 <% }%>
 
-<form action="Login_Confirmation" method="post" >
+<form action="Profile" method="post" >
 
+    <%
+        String mail = request.getParameter("LOGIN_MAIL");
+        session.setAttribute("mail",mail);
 
+    %>
 
     <input type = "text" name="LOGIN_CODE">
 
