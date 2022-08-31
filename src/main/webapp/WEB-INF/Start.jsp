@@ -5,7 +5,10 @@
 <%@ page import="java.time.temporal.Temporal" %>
 <%@ page import="ge.kinder.Models.DTO.UserDTO" %>
 <%@ page import="ge.kinder.DAO.UserDAO" %>
-<%@ page import="ge.kinder.DAO.DAOimpl.UserDAOimpl" %><%--
+<%@ page import="ge.kinder.DAO.DAOimpl.UserDAOimpl" %>
+<%@ page import="ge.kinder.Services.Implementation.SuggestionServiceImpl" %>
+<%@ page import="ge.kinder.Services.SuggestionService" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: User
   Date: 06.08.2022
@@ -219,6 +222,13 @@
         </div>
     </div>
 
+<div>
+    <% SuggestionService ss = (SuggestionService) request.getSession().getServletContext().getAttribute("SUGGESTION_SERVICE");
+        List<UserDTO> suggestions = ss.getSuggestions(user);
+    %>
+    '<%= suggestions.toString() %>'
+
+</div>
 
 </form>
 

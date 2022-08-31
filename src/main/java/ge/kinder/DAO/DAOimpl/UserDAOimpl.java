@@ -248,7 +248,7 @@ public class UserDAOimpl implements UserDAO {
     @Override
     //
     public List<UserDTO> getUsers(String city, int user_id) throws SQLException {
-
+        System.out.println("CITY --> " +city + " USER_ID --> " + user_id );
         List <UserDTO> users = new ArrayList<>();
         try {
             PreparedStatement stm = connection.prepareStatement(
@@ -273,8 +273,12 @@ public class UserDAOimpl implements UserDAO {
             stm.setString(1, city);
             stm.setInt(2, user_id);
             stm.setInt(3,1);
+            System.out.println(stm.toString());
+
             ResultSet rs = stm.executeQuery();
+            //System.out.println("out-->"+ rs.getInt(1));
             while (rs.next()) {
+                System.out.println(rs.getInt(1));
                 users.add(new UserDTO(
                         rs.getInt(1),
                         rs.getString(2),
@@ -289,12 +293,17 @@ public class UserDAOimpl implements UserDAO {
                         rs.getString(9),
                         rs.getString(10)
                         ));
+
             }
+
+            System.out.println(users);
+            return users;
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
 
         }
-        return users;
+        //return users;
     }
 
 
@@ -307,7 +316,7 @@ public class UserDAOimpl implements UserDAO {
             PreparedStatement stm = connection.prepareStatement(
                     ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s  FROM %s WHERE %s = ? AND %s != ? " +
                             "AND TIMESTAMPDIFF(year,%s,SYSDATE()) >= ? " +
-                            "AND TIMESTAMPDIFF(year,%s,SYSDATE()) <= ?" +
+                            "AND TIMESTAMPDIFF(year,%s,SYSDATE()) <= ? " +
                             "AND %s != ?;").formatted(
                             User.USER_USER_ID,
                             User.USER_FIRST_NAME,

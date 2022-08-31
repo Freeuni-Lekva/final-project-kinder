@@ -8,7 +8,9 @@ import ge.kinder.DAO.ImagesDAO;
 import ge.kinder.DAO.UserDAO;
 import ge.kinder.Database.MyDatabase;
 import ge.kinder.Security.Authentificator;
+import ge.kinder.Services.Implementation.SuggestionServiceImpl;
 import ge.kinder.Services.Implementation.UserServiceImpl;
+import ge.kinder.Services.SuggestionService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -42,6 +44,8 @@ public class ContextListener implements ServletContextListener {
         sc.setAttribute("USERDAO",userDAO);
         sc.setAttribute("IMAGESDAO",imagesDAO);
         sc.setAttribute("HOBBIESDAO",hobbiesDAO);
+        sc.setAttribute("SUGGESTION_SERVICE", new SuggestionServiceImpl(userDAO));
+
 
 
 
