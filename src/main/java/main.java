@@ -67,10 +67,10 @@ public class main {
 
 
         LikesDAOimpl likesDAOimpl = new LikesDAOimpl(connection);
-        likesDAOimpl.addLike(user_1.getUser_id(),user_2.getUser_id(), String.valueOf(Status.LIKE));
-        likesDAOimpl.addLike(user_2.getUser_id(),user_1.getUser_id(), String.valueOf(Status.LIKE));
-        likesDAOimpl.addLike(user_1.getUser_id(),user_3.getUser_id(), String.valueOf(Status.LIKE));
-        likesDAOimpl.addLike(user_3.getUser_id(),user_1.getUser_id(), String.valueOf(Status.LIKE));
+        likesDAOimpl.addLike(user_1.getUser_id(),user_2.getUser_id(), Status.LIKE);
+        likesDAOimpl.addLike(user_2.getUser_id(),user_1.getUser_id(), Status.LIKE);
+        likesDAOimpl.addLike(user_1.getUser_id(),user_3.getUser_id(), Status.LIKE);
+        likesDAOimpl.addLike(user_3.getUser_id(),user_1.getUser_id(), Status.LIKE);
 
 //        System.out.println(likesDAOimpl.isLiked(user_1.getUser_id(),user_2.getUser_id()));
 //        likesDAOimpl.deleteLike(user_1.getUser_id(),user_2.getUser_id());

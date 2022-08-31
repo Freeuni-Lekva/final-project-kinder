@@ -75,6 +75,7 @@ public class HobbiesDAOimpl implements HobbiesDAO {
                 hobbies.add(Hobby.valueOf(rs.getString(1)));
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
         return hobbies;
