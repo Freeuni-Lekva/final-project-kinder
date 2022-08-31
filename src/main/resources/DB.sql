@@ -39,6 +39,7 @@ CREATE TABLE User (
                       Role              VARCHAR(20)   NOT NULL default 'USER' ,
                       Show_To_Liked     INT NULL default 0,
                       Balance           INT     NULL  DEFAULT 100 ,
+                      Show_Recently_Active int NULL DEFAULT 0,
 
 
                       PRIMARY KEY (User_id) );

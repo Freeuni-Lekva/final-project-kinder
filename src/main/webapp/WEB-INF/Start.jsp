@@ -28,6 +28,11 @@
             UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
             User user = userDao.getUserByMail((String) session.getAttribute("mail"));
         %>
+
+            <button name="settingsButton" type="submit" value="toMainPage">Main Page</button>
+
+            <br/>
+            <br/>
         ACCOUNT SETTINGS
         <br/>
         <br/>
@@ -50,20 +55,20 @@
         <br/>
 
         <label for="pref_1">Min Age Preference</label>
-        <input type="range"  value = "18" id="pref_1" name="pref" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
-            <output>18</output>
+        <input type="range"  value = "18" id="pref_1" name="pref_1" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
+            <output name="min"></output>
         <br/>
         <br/>
         <label for="pref_2">Max Age Preference</label>
-            <input type="range"  value = "100" id="pref_2" name="pref" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
-            <output>100</output>
+            <input type="range"  value = "100" id="pref_2" name="pref_2" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
+            <output name ="max"></output>
         <br/>
         <br/>
 
 
 
         Only show people in this range
-        <input type="checkbox" id="age_range" class="checkbox" />
+        <input type="checkbox" id="age_range" class="checkbox" name ="SHOW" />
 
                 <br/>
                 <br/>
@@ -76,12 +81,12 @@
                 <br/>
 
                 <label class="btn btn-primary">
-                        <input type="radio" name="test_1" checked="checked" value="A">Balanced Recomendations &#x00A; See the most relevant people to you(default)
+                        <input type="radio" name="test_1" checked="checked" value="0">Balanced Recomendations &#x00A; See the most relevant people to you(default)
                 </label>
                 <br/>
                 <br/>
                 <label class="btn btn-primary">
-                        <input type="radio" name="test_1" value="B">Recently Active &#x00A; See the most recently active people first
+                        <input type="radio" name="test_1" value="1">Recently Active &#x00A; See the most recently active people first
                 </label>
                 <br/>
                 <br/>
@@ -96,12 +101,12 @@
                 <br/>
 
                 <label class="btn btn-primary">
-                        <input type="radio" name="test" checked="checked" value="A">Standard &#x00A; Only be shown to certain types of people &#x00A; for individual recommendations
+                        <input type="radio" name="test" checked="checked" value="0">Standard &#x00A; Only be shown to certain types of people &#x00A; for individual recommendations
                 </label>
                 <br/>
                 <br/>
                 <label class="btn btn-primary">
-                        <input type="radio" name="test" value="B">Only people I`ve Liked &#x00A; Only people I`ve right swiped will see me
+                        <input type="radio" name="test" value="1">Only people I`ve Liked &#x00A; Only people I`ve right swiped will see me
                 </label>
 
 
@@ -156,15 +161,14 @@
 
 
         Show me on Tinder
-        <input type="checkbox" id="show_me" class="checkbox" />
+        <input type="checkbox" id="show_me" class="checkbox" name = "SHOW_ME"/>
 
+        <
         <br/>
         <br/>
-        ACTIVITY STATUS
-        <br/>
-        <br/>
+            Show Activity Status
+            <input type="checkbox" id="activity_status" class="checkbox" name ="SHOW_STATUS" />
 
-            <button name="settingsButton" type="submit" value="Status">Recently Active Status</button>
             <br/>
         <br/>
 

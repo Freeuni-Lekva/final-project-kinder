@@ -31,6 +31,7 @@ public class User {
     public static final String USER_BALANCE = "Balance";
     public static final String SHOT_TO_LIKED = "Show_To_Liked";
 
+    public static final String SHOW_RECENTLTY_ACTIVE = "Show_Recently_Active";
 
     private int user_id;
 
@@ -71,6 +72,8 @@ public class User {
 
     private  int show_to_liked;
 
+    private int show_active_people;
+
     private int is_hided;
 
 
@@ -104,7 +107,7 @@ public class User {
     }
 
 
-    public User(int user_id, String role, String mail, String first_name, Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images, List<Hobby> hobbies, String orientation, String bio, String horoscope, String company, String job, String school, int min_age, int max_age, int showActiveStatus, Date last_session, int show_to_liked, int is_hided, Date registration_date, int balance) {
+    public User(int user_id, String role, String mail, String first_name, Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images, List<Hobby> hobbies, String orientation, String bio, String horoscope, String company, String job, String school, int min_age, int max_age, int showActiveStatus, Date last_session, int show_to_liked, int is_hided, Date registration_date, int balance,int show_active_people) {
         this.user_id = user_id;
         this.role = Role.valueOf(role);
         this.mail = mail;
@@ -130,10 +133,39 @@ public class User {
         this.is_hided = is_hided;
         this.registration_date = registration_date;
         this.balance = balance;
+        this.show_active_people = show_active_people;
     }
 
     public User(){
 
+    }
+
+    public int getGenderIsShown() {
+        return genderIsShown;
+    }
+
+    public void setHobbies(List<Hobby> hobbies) {
+        this.hobbies = hobbies;
+    }
+
+    public int getShowActiveStatus() {
+        return showActiveStatus;
+    }
+
+    public int getShow_to_liked() {
+        return show_to_liked;
+    }
+
+    public int getShow_active_people() {
+        return show_active_people;
+    }
+
+    public void setShow_active_people(int show_active_people) {
+        this.show_active_people = show_active_people;
+    }
+
+    public int getIs_hided() {
+        return is_hided;
     }
 
     public String getRole() {

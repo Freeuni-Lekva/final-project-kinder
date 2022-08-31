@@ -177,7 +177,7 @@ public class UserDAOimpl implements UserDAO {
         try {
 
             PreparedStatement stm = connection.prepareStatement(
-                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s" +
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s" +
                             ", %s, %s, %s, %s, %s, %s, %s, %s FROM %s where %s = ?;").formatted(
                             User.USER_USER_ID,
                             User.USER_MAIL,
@@ -202,6 +202,7 @@ public class UserDAOimpl implements UserDAO {
                             User.USER_ROLE,
                             User.SHOT_TO_LIKED,
                             User.USER_BALANCE,
+                            User.SHOW_RECENTLTY_ACTIVE,
                             User.USER_TABLE,
                             User.USER_MAIL
                     ));
@@ -232,7 +233,8 @@ public class UserDAOimpl implements UserDAO {
                         rs.getInt(22),
                         rs.getInt(20),
                         rs.getDate(17),
-                        rs.getInt(23)
+                        rs.getInt(23),
+                        rs.getInt(24)
 
                 );
             }
