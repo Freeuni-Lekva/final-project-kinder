@@ -82,18 +82,32 @@ public class Profile extends HttpServlet {
                 }
 
                 List<Hobby> hobbies = new ArrayList<>();
+
                 if (req.getParameter("SPORT") != null) {
                     hobbies.add(Hobby.SPORT);
-
                 }
+                if (req.getParameter("INSTAGRAM") != null) {
+                    hobbies.add(Hobby.INSTAGRAM);
+                }
+                if (req.getParameter("PHOTOS") != null) {
+                    hobbies.add(Hobby.PHOTOS);
+                }
+                if (req.getParameter("CARS") != null) {
+                    hobbies.add(Hobby.CARS);
+                }
+                if (req.getParameter("FOOTBALL") != null) {
+                    hobbies.add(Hobby.FOOTBALL);
+                }
+
                 user_1.setHobbies((ArrayList<Hobby>) hobbies);
 
 
                 try {
                     userDao.addUser(user_1);
                     imagesDAOimplDao.addImage(req.getParameter("PHOTO_1"), user_1.getUser_id());
-                    if (req.getParameter("SPORT") != null) hobbiesDAOimpl.addHobby(Hobby.SPORT, user_1.getUser_id());
-
+                    for (Hobby hobby : hobbies){
+                        hobbiesDAOimpl.addHobby(hobby, user_1.getUser_id());
+                    }
 
                 } catch (SQLException e) {
                     System.out.println("ups");

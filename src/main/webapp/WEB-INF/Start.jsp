@@ -8,7 +8,8 @@
 <%@ page import="ge.kinder.DAO.DAOimpl.UserDAOimpl" %>
 <%@ page import="ge.kinder.Services.Implementation.SuggestionServiceImpl" %>
 <%@ page import="ge.kinder.Services.SuggestionService" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="ge.kinder.Models.Hobby" %><%--
   Created by IntelliJ IDEA.
   User: User
   Date: 06.08.2022
@@ -188,6 +189,7 @@
             if (user.getImages().size()>0) {%>
             <img src="images/<%=user.getImages().get(0)%>" alt="photo" width="200px" height="200px">
             <% }%>
+
 <%--            <%--%>
 <%--            if (user.getImages().size()>1) {%>--%>
 <%--            <img src="images/<%=user.getImages().get(1)%>" alt="photo" width="200px" height="200px">--%>
@@ -218,17 +220,13 @@
 
             <br/>
     <% if (user.isGenderIsShown()==1) {%> <%=user.getGender()%> <% }%>
+            <br/>
+    <% for (Hobby hobby : user.getHobbies()) { %>
+        <%=hobby.toString()%>
+    <%}%>
 
         </div>
     </div>
-
-<div>
-    <% SuggestionService ss = (SuggestionService) request.getSession().getServletContext().getAttribute("SUGGESTION_SERVICE");
-        List<UserDTO> suggestions = ss.getSuggestions(user);
-    %>
-    '<%= suggestions.toString() %>'
-
-</div>
 
 </form>
 

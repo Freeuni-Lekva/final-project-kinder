@@ -118,19 +118,19 @@
                     </label>
 
                     <label for="second">
-                        <input type="checkbox" id="second" />
+                        <input type="checkbox" id="second" name="INSTAGRAM" />
                         Instagram
                     </label>
                     <label for="third">
-                        <input type="checkbox" id="third" />
+                        <input type="checkbox" id="third"name="PHOTOS" />
                         Photos
                     </label>
                     <label for="fourth">
-                        <input type="checkbox" id="fourth" />
+                        <input type="checkbox" id="fourth" name="CARS"/>
                       Cars
                     </label>
                     <label for="fifth">
-                        <input type="checkbox" id="fifth" />
+                        <input type="checkbox" id="fifth"name="FOOTBALL" />
                         Football
                     </label>
                 </div>

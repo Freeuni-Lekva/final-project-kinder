@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 
 @WebServlet(name = "Settings", urlPatterns = "/Settings")
@@ -22,8 +23,6 @@ public class Settings extends HttpServlet {
         } else {
             req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
         }
-
-
     }
 
     @Override
@@ -106,7 +105,17 @@ public class Settings extends HttpServlet {
 
               }
                 req.getRequestDispatcher("/WEB-INF/MainPage.jsp").forward(req, resp);
-        }}
+            } else if (settings.equals("Delete")){
+                req.getSession(false).invalidate();
+                req.getRequestDispatcher("/index.jsp").forward(req, resp);
+                try {
+                    userDAOimpl.deleteUser(user);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+            }
+        }
 
         if (verification != null && verification.equals("verificationCode")) {
             if (userService.confirmCode(otp)) {

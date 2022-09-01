@@ -5,5 +5,10 @@ import ge.kinder.Models.DTO.UserDTO;
 import ge.kinder.Models.User;
 import java.util.List;
 public interface MatchesService {
-    List<UserDTO> getMatches(User user);
+
+    void addMatch(int userId1, int userId2);
+    List<UserDTO> getMatches(int userId);
+    void deleteMatch(int deleterUserId, int deletedUserId);
+
+
 }

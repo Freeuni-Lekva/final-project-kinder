@@ -5,9 +5,11 @@ import ge.kinder.DAO.MatchesDAO;
 import ge.kinder.DAO.MessageDAO;
 import ge.kinder.Database.TableConstants;
 import ge.kinder.Models.Chat;
+import ge.kinder.Models.DTO.UserDTO;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.List;
 
 public class MatchesDAOimpl implements MatchesDAO {
     private final Connection connection;
@@ -126,5 +128,10 @@ public class MatchesDAOimpl implements MatchesDAO {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public List<UserDTO> getMatches(int user_id) {
+        return null;
     }
 }

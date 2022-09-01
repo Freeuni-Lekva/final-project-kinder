@@ -2,9 +2,11 @@ package ge.kinder.DAO.DAOimpl;
 
 import ge.kinder.DAO.LikesDAO;
 import ge.kinder.Database.TableConstants;
+import ge.kinder.Models.DTO.UserDTO;
 import ge.kinder.Models.Status;
 
 import java.sql.*;
+import java.util.List;
 
 public class LikesDAOimpl implements LikesDAO {
     private final Connection connection;
@@ -116,5 +118,10 @@ public class LikesDAOimpl implements LikesDAO {
             throw new RuntimeException(e);
         }
         return false;
+    }
+
+    @Override
+    public List<UserDTO> getLikers(int user_id) {
+        return null;
     }
 }
