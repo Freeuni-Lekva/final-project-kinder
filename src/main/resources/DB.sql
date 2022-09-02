@@ -39,13 +39,20 @@ CREATE TABLE User (
                       Role              VARCHAR(20)   NOT NULL default 'USER' ,
                       Show_To_Liked     INT NULL default 0,
                       Balance           INT     NULL  DEFAULT 100 ,
+                      Show_Recently_Active int NULL DEFAULT 0,
 
 
                       PRIMARY KEY (User_id) );
 
 CREATE TABLE Chat (
                       Chat_Id INT NOT NULL AUTO_INCREMENT,
+                      User_id_1 INT     NOT NULL,
+                      User_id_2 INT     NOT NULL,
                       PRIMARY KEY (Chat_Id) );
+ALTER TABLE Chat  ADD CONSTRAINT FK_User_TO_Chat     FOREIGN KEY (User_id_1)     REFERENCES User (User_id) ON DELETE CASCADE;
+
+ALTER TABLE Chat   ADD CONSTRAINT FK_User_TO_Chat1    FOREIGN KEY (User_id_2)     REFERENCES User (User_id) ON DELETE CASCADE;
+
 
 CREATE TABLE Hobbies (
                          Hobby_id   INT     NOT NULL AUTO_INCREMENT,
@@ -93,9 +100,9 @@ ALTER TABLE Matches   ADD CONSTRAINT FK_Chat_TO_Matches     FOREIGN KEY (Chat_Id
 
 CREATE TABLE Messages (
                           Chat_Id      INT     NOT NULL,
-                          Message_Id   INT     NOT NULL,
+                          Message_Id   INT     NOT NULL auto_increment,
                           Message_Text VARCHAR(500) NOT NULL,
-                          Date         DATE    NOT NULL,
+                          Date         DATETIME    NOT NULL DEFAULT current_timestamp,
                           User_id      INT     NOT NULL,
                           primary key (Message_Id) );
 
@@ -112,3 +119,10 @@ CREATE TABLE Premium_Users (
 ALTER TABLE Premium_Users   ADD CONSTRAINT FK_User_TO_Premium_Users     FOREIGN KEY (User_id)     REFERENCES User (User_id) ON DELETE CASCADE;
 
 
+INSERT INTO Kinder_Base.User (User_id, Mail, First_Name, Birth_Date, City, Gender, Show_Gender, Preference, Orientation, Bio, Horoscope, Company, Job, School, Min_Age, Max_Age, Registration_Date, Show_Active, Last_Session, Hided, Role, Show_To_Liked, Balance) VALUES (1, 'kkura18@freeuni.edu.ge', 'ka', '2000-06-20', 'tbilisi', 'Man', 1, 'Women', 'Straight', null, null, null, null, null, null, null, '2022-08-31 00:17:54', 0, null, 0, 'USER', 0, 100);
+INSERT INTO Kinder_Base.User (User_id, Mail, First_Name, Birth_Date, City, Gender, Show_Gender, Preference, Orientation, Bio, Horoscope, Company, Job, School, Min_Age, Max_Age, Registration_Date, Show_Active, Last_Session, Hided, Role, Show_To_Liked, Balance) VALUES (2, 'kakhikurasbediani@gmail.com', 'vano', '2000-05-20', 'tbilisi', 'Man', 1, 'Women', 'Gay', null, null, null, null, null, null, null, '2022-08-31 00:20:57', 0, null, 0, 'USER', 0, 100);
+INSERT INTO Kinder_Base.User (User_id, Mail, First_Name, Birth_Date, City, Gender, Show_Gender, Preference, Orientation, Bio, Horoscope, Company, Job, School, Min_Age, Max_Age, Registration_Date, Show_Active, Last_Session, Hided, Role, Show_To_Liked, Balance) VALUES (3, 'megi.shashikadze.99@gmail.com', 'megi', '2000-05-20', 'tbilisi', 'Woman', 1, 'Men', 'Gay', null, null, null, null, null, null, null, '2022-08-31 00:20:57', 0, null, 0, 'USER', 0, 100);
+
+INSERT INTO Kinder_Base.Images (Image_Id, User_id, Image_Url, IsProfile, Date) VALUES (1, 1, 'IMG_9061.jpg', 0, '2022-08-31 00:17:54');
+INSERT INTO Kinder_Base.Images (Image_Id, User_id, Image_Url, IsProfile, Date) VALUES (2, 2, 'first.jpg', 0, '2022-08-31 00:20:57');
+INSERT INTO Kinder_Base.Images (Image_Id, User_id, Image_Url, IsProfile, Date) VALUES (3, 3, 'second.jpg', 0, '2022-08-31 00:20:57');

@@ -1,14 +1,17 @@
 package ge.kinder.Listeners;
 
-import ge.kinder.DAO.DAOimpl.HobbiesDAOimpl;
-import ge.kinder.DAO.DAOimpl.ImagesDAOimpl;
-import ge.kinder.DAO.DAOimpl.UserDAOimpl;
+import ge.kinder.DAO.DAOimpl.*;
 import ge.kinder.DAO.HobbiesDAO;
 import ge.kinder.DAO.ImagesDAO;
+import ge.kinder.DAO.LikesDAO;
 import ge.kinder.DAO.UserDAO;
 import ge.kinder.Database.MyDatabase;
 import ge.kinder.Security.Authentificator;
+import ge.kinder.Services.Implementation.LikesServiceImpl;
+import ge.kinder.Services.Implementation.MatchesServiceImpl;
+import ge.kinder.Services.Implementation.SuggestionServiceImpl;
 import ge.kinder.Services.Implementation.UserServiceImpl;
+import ge.kinder.Services.SuggestionService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -35,11 +38,20 @@ public class ContextListener implements ServletContextListener {
         Connection connection =  database.getConnection();
         HobbiesDAOimpl hobbiesDAO  = new HobbiesDAOimpl(connection);
         ImagesDAOimpl imagesDAO = new ImagesDAOimpl(connection);
+        LikesDAOimpl likesDAO = new LikesDAOimpl(connection);
+        MessageDAOimpl messagesDAO = new MessageDAOimpl(connection);
 
         UserDAO userDAO = new UserDAOimpl(connection,hobbiesDAO,imagesDAO);
         Authentificator authentificator = new Authentificator(new HashMap<>());
         sc.setAttribute("USER_SERVICE",new UserServiceImpl(userDAO,authentificator));
         sc.setAttribute("USERDAO",userDAO);
+        sc.setAttribute("IMAGESDAO",imagesDAO);
+        sc.setAttribute("HOBBIESDAO",hobbiesDAO);
+        sc.setAttribute("SUGGESTION_SERVICE", new SuggestionServiceImpl(userDAO));
+        sc.setAttribute("LIKES_SERVICE", new LikesServiceImpl(userDAO,likesDAO));
+        sc.setAttribute("MATCHES_SERVICE", new MatchesServiceImpl(new MatchesDAOimpl(connection,messagesDAO,likesDAO)));
+        sc.setAttribute("MESSAGED_SERVICE", messagesDAO);
+
 
 
 

@@ -23,7 +23,7 @@
 <div id = "error_text"><%=Registration_Error%></div>
 <% }%>
 
-<form action="Registration_Confirmation" method="post" >
+<form action="Registration_Information" method="post" >
 
     <%
     String mail = request.getParameter("REGISTRATION_MAIL");

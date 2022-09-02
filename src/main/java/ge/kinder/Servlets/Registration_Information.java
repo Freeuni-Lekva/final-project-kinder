@@ -11,8 +11,8 @@ import java.io.IOException;
 
 
 
-@WebServlet(name = "Registration_Confirmation", urlPatterns = "/Registration_Confirmation")
-public class Registration_Confirmation extends HttpServlet {
+@WebServlet(name = "Registration_Information", urlPatterns = "/Registration_Information")
+public class Registration_Information extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String otp = req.getParameter("REGISTRATION_CODE");

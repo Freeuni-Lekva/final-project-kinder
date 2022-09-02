@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface HobbiesDAO {
 
-    void addHobby(Hobby hobby, int user_id) throws SQLException;
+    void addHobby(Hobby hobby, int user_id) throws SQLException; // works
 
-    boolean deleteHobby(Hobby hobby, int user_id) throws SQLException;
+    boolean deleteHobby(Hobby hobby, int user_id) throws SQLException; // works
 
-    List<Hobby> getHobbies(int user_id) throws SQLException;
+    List<Hobby> getHobbies(int user_id) throws SQLException; //works
 
 }

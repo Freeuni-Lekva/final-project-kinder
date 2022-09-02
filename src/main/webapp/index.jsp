@@ -18,20 +18,18 @@
 <br>
 <div class="text-center" id="buttons" >
 
-    <form action="Login" method="get">
+    <form action="Login" method="post">
         <%--        <button class="button_class" id="login">Log In</button>--%>
-        <button class="button_class btn btn-outline-light" style="color: aliceblue" id="login">Log in</button>
+        <button id="login" name="LOGIN" class="button_class btn btn-outline-light" style="color: aliceblue" id="login">Log in</button>
 
     </form>
 
     <br>
     <br>
-    <form action="Registration" method="get">
+    <form action="Registration" method="post">
 <%--        <button class="button_class" id="registration">Create Account</button>--%>
-        <p style="color: aliceblue">Not a member? <button style="color: #fc6880" class="button_class btn btn-light" id="registration">Register</button></p>
+        <p style="color: aliceblue">Not a member? <button id="registration" name = "CREATEACCOUNT" style="color: #fc6880" class="button_class btn btn-light" id="registration">Register</button></p>
     </form>
-
-
 
 <%--   <button id = "register" type="submit" onclick='javascript:window.open("/kinder/Registration","ModalPopUp", "scrollbars=1,resizable=1,height=300,width=450")'>Create Account</button>--%>
 

@@ -28,18 +28,23 @@ public class ImagesDAOimpl implements ImagesDAO {
             stm.setInt(1, user_id);
             stm.setString(2, path);
             stm.setInt(3, 0);
-
+            stm.executeUpdate();
+            connection.commit();
             // ექსეფშენების ამბავი
         } catch (SQLException e) {
+            System.out.println("ver mivxvdi");
             throw new RuntimeException(e);
+
         }
     }
 
     @Override
     public boolean deleteImage(String path, int user_id) throws SQLException {
+        boolean isProfile  = false;
         if (isProfile(path,user_id)){
-            setImage(minDateImage(user_id),user_id);
+            isProfile=true;
         }
+
         try {
             PreparedStatement stm = connection.prepareStatement(
                     "DELETE FROM %s WHERE %s = ? AND %s = ?;".formatted(
@@ -51,6 +56,8 @@ public class ImagesDAOimpl implements ImagesDAO {
             stm.setString(1, path);
             stm.setInt(2, user_id);
             if (stm.executeUpdate() == 1) {
+                connection.commit();
+                setImage(minDateImage(user_id),user_id);
                 return true;
             }
 
@@ -63,7 +70,7 @@ public class ImagesDAOimpl implements ImagesDAO {
     private String minDateImage(int user_id) throws SQLException {
         try {
             PreparedStatement stm = connection.prepareStatement(
-                    "SELECT %s FROM %s WHERE %s = (SELECT min(%s) FROM %s WHERE %s = ?;".formatted(
+                    "SELECT %s FROM %s WHERE %s = (SELECT min(%s) FROM %s WHERE %s = ?);".formatted(
                             TableConstants.IMAGE_URL,
                             TableConstants.IMAGES_TABLE,
                             TableConstants.IMAGE_DATE,
@@ -83,6 +90,7 @@ public class ImagesDAOimpl implements ImagesDAO {
     }
 
     private boolean isProfile(String path, int user_id) throws SQLException {
+        System.out.println(path+ " " + user_id);
         try {
             PreparedStatement stm = connection.prepareStatement(
                     "SELECT %s FROM %s WHERE %s = ? AND %s = ?;".formatted(
@@ -95,8 +103,9 @@ public class ImagesDAOimpl implements ImagesDAO {
             stm.setString(1, path);
             stm.setInt(2, user_id);
             ResultSet rs = stm.executeQuery();
-            rs.next();
-            return rs.getInt(1) == 1;
+            if(rs.next())
+                return rs.getInt(1) == 1;
+            return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -119,6 +128,7 @@ public class ImagesDAOimpl implements ImagesDAO {
                 images.add(rs.getString(1));
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
         return images;
@@ -140,11 +150,10 @@ public class ImagesDAOimpl implements ImagesDAO {
             stm.setString(2, path);
             stm.setInt(3, user_id);
             stm.executeUpdate();
+            connection.commit();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            connection.close();
         }
     }
 
@@ -162,6 +171,7 @@ public class ImagesDAOimpl implements ImagesDAO {
             stm.setInt(2, 1);
             stm.setInt(3, user_id);
             stm.executeUpdate();
+            connection.commit();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

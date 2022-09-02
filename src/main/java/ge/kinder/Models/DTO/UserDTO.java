@@ -138,4 +138,22 @@ public class UserDTO {
     public void setSchool(String school) {
         this.school = school;
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "user_id=" + user_id +
+                ", first_name='" + first_name + '\'' +
+                ", birth_date=" + birth_date +
+                ", city='" + city + '\'' +
+                ", gender='" + gender + '\'' +
+                ", images=" + images +
+                ", hobbies=" + hobbies +
+                ", bio='" + bio + '\'' +
+                ", horoscope='" + horoscope + '\'' +
+                ", company='" + company + '\'' +
+                ", job='" + job + '\'' +
+                ", school='" + school + '\'' +
+                '}';
+    }
 }

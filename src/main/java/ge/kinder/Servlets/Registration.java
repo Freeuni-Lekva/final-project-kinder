@@ -29,9 +29,14 @@ public class Registration extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         UserService userService = (UserService) req.getServletContext().getAttribute("USER_SERVICE");
-        String mail = req.getParameter("REGISTRATION_MAIL");
+
+        if (req.getParameter("CREATEACCOUNT") != null) {
+            req.getRequestDispatcher("/WEB-INF/Registration.jsp").forward(req, resp);
+        }
+        if (req.getParameter("REGISTRATION_MAIL") != null) {
+            String mail = req.getParameter("REGISTRATION_MAIL");
             try {
-              User user = userService.registerUser(mail);
+                User user = userService.registerUser(mail);
 
                 req.getSession().setAttribute("user", user);
 
@@ -41,6 +46,7 @@ public class Registration extends HttpServlet {
                 //throw exceptions
             }
         }
+    }
     }
 
 

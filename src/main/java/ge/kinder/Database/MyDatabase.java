@@ -18,7 +18,7 @@ public class MyDatabase {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = DriverManager.getConnection(("jdbc:mysql://localhost:3306/Kinder_Base"),
-                        "root", "admin");
+                        "root", "rootroot");
             } catch (Exception ex) {
                 System.out.println("Can`t connect to database");
             }
