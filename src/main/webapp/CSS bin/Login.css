@@ -1,0 +1,16 @@
+#contents {
+    text-align: center;
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+#contents h1{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#submitbutton  {
+    height: 30px;
+    padding: 3px;
+}
