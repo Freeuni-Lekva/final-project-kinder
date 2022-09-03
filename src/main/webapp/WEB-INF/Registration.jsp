@@ -10,7 +10,7 @@
 <head>
     <title>Registration Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel ="stylesheet" href="Registration.css">
+    <link rel ="stylesheet" href="/CSS%20bin/Registration.css">
 </head>
 <body style="background-image: url('https://theme.zdassets.com/theme_assets/302164/8e05540d6f7ea752f80938c848f3ed79b548b959.png');">
 <div class="text-center" id="contents">
@@ -21,9 +21,19 @@
 <h1 style="color: aliceblue"> Enter your email</h1>
     <br>
 <form action="Registration" method="post" >
-    <input type = "text" name="REGISTRATION_MAIL">
+<%--    <div class="input-group mb-3" >--%>
+<%--        <input name="REGISTRATION_MAIL" type="text" class="form-control" placeholder="yourmail@example.xyz" aria-label="yourmail@example.xyz" aria-describedby="inputGroup-sizing-sm" >--%>
+<%--        <button class="btn btn-outline-secondary button_class btn-light" type="button submit" disabled="disabled" id="submitbutton" style="color: #fc6880">Continue</button>--%>
+<%--    </div>--%>
+    <div class="input-group mb-3" style="padding-left: 560px; width: 865px"  >
+        <input name="REGISTRATION_MAIL" type="text" class="form-control"
+               placeholder="yourmail@example.xyz" aria-label="yourmail@example.xyz"
+               aria-describedby="inputGroup-sizing-sm" >
 
-    <button id = "submitbutton" type="submit" disabled="disabled" style="color: #fc6880" class="button_class btn btn-light">Continue</button>
+        <button class="btn btn-outline-secondary button_class btn-light"
+                type="button submit" disabled="disabled" id="submitbutton"
+                style="color: #fc6880">Continue</button>
+    </div>
 
     <script type="text/javascript" language="javascript">
         let txt = document.querySelectorAll('[type="text"]');
