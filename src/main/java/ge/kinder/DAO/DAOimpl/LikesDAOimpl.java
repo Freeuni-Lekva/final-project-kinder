@@ -66,6 +66,35 @@ public class LikesDAOimpl implements LikesDAO {
         }
         return false;
     }
+    @Override
+    public boolean isDisliked(int user_id_1, int user_id_2) throws SQLException {
+        try {
+            PreparedStatement stm = connection.prepareStatement(
+                    "SELECT 1 FROM %s WHERE %s = ? AND %s = ? AND %s = ?;".formatted(
+                            TableConstants.LIKE_TABLE,
+                            TableConstants.LIKE_USER_ID1,
+                            TableConstants.LIKE_USER_ID2,
+                            TableConstants.LIKE_STATUS
+                    )
+            );
+            stm.setInt(1, user_id_1);
+            stm.setInt(2, user_id_2);
+            stm.setString(3, Status.DISLIKE.toString());
+
+            ResultSet rs = stm.executeQuery();
+
+            while(rs.next()){
+                if(rs.getInt(1) == 1){
+                    return true;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
 
     @Override
     public int numberOfLikes(int user_id_1) throws SQLException {

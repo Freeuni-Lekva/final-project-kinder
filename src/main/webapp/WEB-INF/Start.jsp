@@ -165,13 +165,12 @@
 
 
         Show me on Tinder
-        <input type="checkbox" id="show_me" class="checkbox" name = "SHOW_ME"/>
+        <input type="checkbox" id="show_me" class="checkbox" name = "SHOW_ME" <%if(user.isIs_hided() == 0){%> checked = "checked" <%}%>/>
 
-        <
         <br/>
         <br/>
             Show Activity Status
-            <input type="checkbox" id="activity_status" class="checkbox" name ="SHOW_STATUS" />
+            <input type="checkbox" id="activity_status" class="checkbox" name ="SHOW_STATUS" <%if(user.getShowActiveStatus() == 1){%> checked = "checked" <%}%> />
 
             <br/>
         <br/>
@@ -221,9 +220,15 @@
             <br/>
     <% if (user.isGenderIsShown()==1) {%> <%=user.getGender()%> <% }%>
             <br/>
+            PASSIONS
+            <br/>
+
     <% for (Hobby hobby : user.getHobbies()) { %>
-        <%=hobby.toString()%>
+        <%=hobby.toString().substring(0,1).toUpperCase() + hobby.toString().substring(1).toLowerCase()%>
     <%}%>
+            <br/>
+
+            <button name="settingsButton" type="submit" value="EditInfo">Edit Info</button>
 
         </div>
     </div>

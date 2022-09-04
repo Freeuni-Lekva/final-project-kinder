@@ -66,16 +66,22 @@ public class Settings extends HttpServlet {
             userDAOimpl.updateRow(user, User.USER_MIN_AGE, 18);
             userDAOimpl.updateRow(user, User.USER_MAX_AGE, 100);
         }
-        if(show_me !=null) {
+        if(show_me != null) {
 
             user.setIs_hided(0);
             userDAOimpl.updateRow(user, User.USER_HIDED,0);
-
         }else {
             user.setIs_hided(1);
             userDAOimpl.updateRow(user, User.USER_HIDED,1);
         }
 
+        if(show_activity != null) {
+            user.setShowActiveStatus(1);
+            userDAOimpl.updateRow(user, User.USER_SHOW_ACTIVE,1);
+        }else {
+            user.setShowActiveStatus(0);
+            userDAOimpl.updateRow(user, User.USER_SHOW_ACTIVE,0);
+        }
         if ( req.getParameter("BackFromCity")!=null || req.getParameter("BackFromPref")!=null) {
             req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
         }
@@ -114,6 +120,8 @@ public class Settings extends HttpServlet {
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }
+            } else if (settings.equals("EditInfo")){
+                req.getRequestDispatcher("/WEB-INF/Settings/Edit.jsp").forward(req,resp);
             }
         }
 

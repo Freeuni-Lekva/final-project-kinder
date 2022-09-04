@@ -2,6 +2,7 @@ package ge.kinder.DAO.DAOimpl;
 
 import ge.kinder.DAO.HobbiesDAO;
 import ge.kinder.DAO.ImagesDAO;
+import ge.kinder.DAO.LikesDAO;
 import ge.kinder.DAO.PremiumUserDAO;
 import ge.kinder.Models.DTO.UserDTO;
 import ge.kinder.Models.User;
@@ -16,9 +17,11 @@ import java.util.List;
 public class PremiumUserDAOimpl extends UserDAOimpl implements PremiumUserDAO {
     private ImagesDAO imagesDAO;
     private HobbiesDAO hobbiesDAO;
+    private LikesDAO likesDAO;
+
     private final Connection connection;
-    public PremiumUserDAOimpl(Connection connection, HobbiesDAO hobbiesDAO, ImagesDAO imagesDAO) {
-        super(connection,hobbiesDAO,imagesDAO);
+    public PremiumUserDAOimpl(Connection connection, HobbiesDAO hobbiesDAO, ImagesDAO imagesDAO, LikesDAO likesDAO) {
+        super(connection,hobbiesDAO,imagesDAO,likesDAO);
         this.connection = connection;
     }
 

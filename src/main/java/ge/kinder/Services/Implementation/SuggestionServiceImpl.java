@@ -22,11 +22,11 @@ public class SuggestionServiceImpl implements SuggestionService {
     public List<UserDTO> getSuggestions(User user) {
         try {
             System.out.println("getSuggestion-->user-->" + user);
-            List<UserDTO> users = getUserSuggestionByAgeAndCity(user);
+            List<UserDTO> users = getUserSuggestionsByAgeAndCity(user);
             System.out.println("getSuggestion-->AGE AND CITY-->" + users);
             if (users.isEmpty()) {
 
-                users = getUserSuggestionByCity(user);
+                users = getUserSuggestionsByCity(user);
                 System.out.println("getSuggestion-->CITY-->" + users);
             }
 
@@ -40,7 +40,7 @@ public class SuggestionServiceImpl implements SuggestionService {
         return new ArrayList<>();
     }
 
-    private List<UserDTO> getUserSuggestionByAgeAndCity(User user) {
+    private List<UserDTO> getUserSuggestionsByAgeAndCity(User user) {
         try {
             return userDAO.getUsers(user.getMin_age(), user.getMax_age(), user.getCity(), user.getUser_id());
         } catch (SQLException e) {
@@ -48,12 +48,51 @@ public class SuggestionServiceImpl implements SuggestionService {
             return new ArrayList<>();
         }
     }
-    private List<UserDTO> getUserSuggestionByCity(User user) {
+    private List<UserDTO> getUserSuggestionsByCity(User user) {
         try {
             return userDAO.getUsers(user.getCity(), user.getUser_id());
         } catch (SQLException e) {
             e.printStackTrace();
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public UserDTO getSuggestion(User user) {
+        try {
+            System.out.println("getSuggestion-->user-->" + user);
+            UserDTO sUser = getUserSuggestionByAgeAndCity(user);
+            System.out.println("getSuggestion-->AGE AND CITY-->" + sUser);
+            if (sUser == null) {
+
+                sUser = getUserSuggestionByCity(user);
+                System.out.println("getSuggestion-->CITY-->" + sUser);
+            }
+
+            return sUser;
+        } catch (Exception e){
+            e.printStackTrace();
+            List<UserDTO> l = new ArrayList<>();
+
+            //l.add(new UserDTO(user.getUser_id(),user.getFirst_name()))
+        }
+        return null;
+    }
+
+    private UserDTO getUserSuggestionByAgeAndCity(User user) {
+        try {
+            return userDAO.getUser(user.getMin_age(), user.getMax_age(), user.getCity(), user.getUser_id());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new UserDTO();
+        }
+    }
+    private UserDTO getUserSuggestionByCity(User user) {
+        try {
+            return userDAO.getUser(user.getCity(), user.getUser_id());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new UserDTO();
         }
     }
 }

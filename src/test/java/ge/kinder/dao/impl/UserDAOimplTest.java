@@ -3,9 +3,11 @@ package ge.kinder.dao.impl;
 
 import ge.kinder.DAO.DAOimpl.HobbiesDAOimpl;
 import ge.kinder.DAO.DAOimpl.ImagesDAOimpl;
+import ge.kinder.DAO.DAOimpl.LikesDAOimpl;
 import ge.kinder.DAO.DAOimpl.UserDAOimpl;
 import ge.kinder.DAO.HobbiesDAO;
 import ge.kinder.DAO.ImagesDAO;
+import ge.kinder.DAO.LikesDAO;
 import ge.kinder.DAO.UserDAO;
 import ge.kinder.Database.MyDatabase;
 import ge.kinder.Models.User;
@@ -33,7 +35,8 @@ class UserDAOimplTest {
         connection = db.getConnection();
         HobbiesDAO hobbiesDAO = new HobbiesDAOimpl(connection);
         ImagesDAO imagesDAO = new ImagesDAOimpl(connection);
-        userDAO = new UserDAOimpl(connection,hobbiesDAO,imagesDAO);
+        LikesDAO likesDAO = new LikesDAOimpl(connection);
+        userDAO = new UserDAOimpl(connection,hobbiesDAO,imagesDAO,likesDAO);
     }
     @Test
     void addUserTest() throws SQLException {

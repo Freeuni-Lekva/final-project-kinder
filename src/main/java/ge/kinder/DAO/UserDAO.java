@@ -22,7 +22,7 @@ public interface UserDAO  {
 
 
 
-
+    UserDTO getUser(String city, int user_id) throws SQLException;
 
     // აქ უნდა გავითვალისწინოთ, რომ როდესაც ვამატებთ სიაში იუზერს, უნდა შევამოწმოთ :
     // 1) დისლაიქი ხომ არ დამიწერა. თუ დამიწერა, აღარ ვაგდებ სიაში.
@@ -32,7 +32,7 @@ public interface UserDAO  {
     // მაგაზე უნდა შევთანხმდეთ როგორ ვიზამთ
     List<UserDTO> getUsers(String city, int user_id) throws SQLException;
     //works without taking into account special cases
-
+    UserDTO getUser(int min_age, int max_age, String city, int user_id) throws SQLException;
     List<UserDTO> getUsers(int min_age, int max_age, String city, int user_id) throws SQLException;
       //works without taking into account special cases
 
