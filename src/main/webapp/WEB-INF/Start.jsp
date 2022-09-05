@@ -59,12 +59,12 @@
         <br/>
 
         <label for="pref_1">Min Age Preference</label>
-        <input type="range"  value = "18" id="pref_1" name="pref_1" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
+        <input type="range" id="pref_1"  <%if(user.getSearchInRange()==0){%>value = "18" <%}else{%>value="<%=user.getMin_age()%>"<%}%>  name="pref_1" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
             <output name="min"></output>
         <br/>
         <br/>
         <label for="pref_2">Max Age Preference</label>
-            <input type="range"  value = "100" id="pref_2" name="pref_2" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
+            <input type="range"  id="pref_2" <%if(user.getSearchInRange()==0){ %>value = "100" <%}else{%>value="<%=user.getMax_age()%>" <%}%> name="pref_2" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
             <output name ="max"></output>
         <br/>
         <br/>
@@ -72,7 +72,8 @@
 
 
         Only show people in this range
-        <input type="checkbox" id="age_range" class="checkbox" name ="SHOW" />
+            <% System.out.println("HI "+user.getSearchInRange());%>
+        <input type="checkbox" id="age_range" class="checkbox" name ="SHOW" <%if(user.getSearchInRange()==1){ %>checked = "checked" <%}%>  />
 
                 <br/>
                 <br/>
@@ -85,12 +86,12 @@
                 <br/>
 
                 <label class="btn btn-primary">
-                        <input type="radio" name="test_1" checked="checked" value="0">Balanced Recomendations &#x00A; See the most relevant people to you(default)
+                        <input type="radio" name="test_1" <%if(user.getShow_active_people()==0 || user.getIs_premium()==0) {%> checked="checked"<%}%> value="0">Balanced Recomendations &#x00A; See the most relevant people to you(default)
                 </label>
                 <br/>
                 <br/>
                 <label class="btn btn-primary">
-                        <input type="radio" name="test_1" value="1">Recently Active &#x00A; See the most recently active people first
+                        <input type="radio" name="test_1"<%if(user.getShow_active_people()==1) {%> checked="checked"<%}%> <%if(user.getIs_premium()==0) {%> disabled="disabled"<%}%> value="1">Recently Active &#x00A; See the most recently active people first
                 </label>
                 <br/>
                 <br/>
@@ -105,12 +106,12 @@
                 <br/>
 
                 <label class="btn btn-primary">
-                        <input type="radio" name="test" checked="checked" value="0">Standard &#x00A; Only be shown to certain types of people &#x00A; for individual recommendations
+                        <input type="radio" name="test" <%if(user.getShow_to_liked()==0 || user.getIs_premium()==0) {%> checked="checked"<%}%> value="0">Standard &#x00A; Only be shown to certain types of people &#x00A; for individual recommendations
                 </label>
                 <br/>
                 <br/>
                 <label class="btn btn-primary">
-                        <input type="radio" name="test" value="1">Only people I`ve Liked &#x00A; Only people I`ve right swiped will see me
+                        <input type="radio" name="test" <%if(user.getShow_to_liked()==1) {%> checked="checked"<%}%> <%if(user.getIs_premium()==0) {%> disabled="disabled"<%}%> value="1">Only people I`ve Liked &#x00A; Only people I`ve right swiped will see me
                 </label>
 
 

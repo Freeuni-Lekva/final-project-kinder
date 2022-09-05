@@ -20,9 +20,14 @@
 <html>
 <head>
     <title>My profile</title>
+
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+    <meta charset=utf-8 />
 </head>
 <body>
-<form action="" method="post">
+<form action="Settings" method="post">
 
     <div   style="display:block; width:100%;">
 
@@ -31,6 +36,7 @@
             <%
                 UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
                 User user = userDao.getUserByMail((String) session.getAttribute("mail"));
+
             %>
 
             <button name="settingsButton" type="submit" value="toMainPage">Main Page</button>
@@ -59,12 +65,12 @@
             <br/>
 
             <label for="pref_1">Min Age Preference</label>
-            <input type="range"  value = "18" id="pref_1" name="pref_1" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
+            <input type="range" id="pref_1"  <%if(user.getSearchInRange()==0){%>value = "18" <%}else{%>value="<%=user.getMin_age()%>"<%}%>  name="pref_1" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
             <output name="min"></output>
             <br/>
             <br/>
             <label for="pref_2">Max Age Preference</label>
-            <input type="range"  value = "100" id="pref_2" name="pref_2" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
+            <input type="range"  id="pref_2" <%if(user.getSearchInRange()==0){ %>value = "100" <%}else{%>value="<%=user.getMax_age()%>" <%}%> name="pref_2" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
             <output name ="max"></output>
             <br/>
             <br/>
@@ -72,7 +78,7 @@
 
 
             Only show people in this range
-            <input type="checkbox" id="age_range" class="checkbox" name ="SHOW" />
+            <input type="checkbox" id="age_range" class="checkbox" name ="SHOW" <%if(user.getSearchInRange()==1){ %>checked = "checked" <%}%>  />
 
             <br/>
             <br/>
@@ -85,12 +91,12 @@
                 <br/>
 
                 <label class="btn btn-primary">
-                    <input type="radio" name="test_1" checked="checked" value="0">Balanced Recomendations &#x00A; See the most relevant people to you(default)
+                    <input type="radio" name="test_1" <%if(user.getShow_active_people()==0 || user.getIs_premium()==0) {%> checked="checked"<%}%> value="0">Balanced Recomendations &#x00A; See the most relevant people to you(default)
                 </label>
                 <br/>
                 <br/>
                 <label class="btn btn-primary">
-                    <input type="radio" name="test_1" value="1">Recently Active &#x00A; See the most recently active people first
+                    <input type="radio" name="test_1"<%if(user.getShow_active_people()==1) {%> checked="checked"<%}%> <%if(user.getIs_premium()==0) {%> disabled="disabled"<%}%> value="1">Recently Active &#x00A; See the most recently active people first
                 </label>
                 <br/>
                 <br/>
@@ -105,12 +111,12 @@
                 <br/>
 
                 <label class="btn btn-primary">
-                    <input type="radio" name="test" checked="checked" value="0">Standard &#x00A; Only be shown to certain types of people &#x00A; for individual recommendations
+                    <input type="radio" name="test" <%if(user.getShow_to_liked()==0 || user.getIs_premium()==0) {%> checked="checked"<%}%> value="0">Standard &#x00A; Only be shown to certain types of people &#x00A; for individual recommendations
                 </label>
                 <br/>
                 <br/>
                 <label class="btn btn-primary">
-                    <input type="radio" name="test" value="1">Only people I`ve Liked &#x00A; Only people I`ve right swiped will see me
+                    <input type="radio" name="test" <%if(user.getShow_to_liked()==1) {%> checked="checked"<%}%> <%if(user.getIs_premium()==0) {%> disabled="disabled"<%}%> value="1">Only people I`ve Liked &#x00A; Only people I`ve right swiped will see me
                 </label>
 
 
@@ -184,24 +190,26 @@
 
         </div>
 
-        <div style="width:70%; height:100%; ">
+        <div style="width:70%; height:100%; overflow-y: scroll;  ">
+
+
             <% if (user.getImages().size()>0) {%>
-            <img src="images/<%=user.getImages().get(0)%>" alt="photo" width="200px" height="200px">
+            <img src="images/<%=user.getImages().get(0)%>"  alt="photo" width="200px" height="200px" >
             <% }%>
 
             <%
             if (user.getImages().size()>1) {%>
-            <img src="images/<%=user.getImages().get(1)%>" alt="photo" width="200px" height="200px">
+            <img src="images/<%=user.getImages().get(1)%>"  alt="photo" width="200px" height="200px">
             <% }%>
             <%
                 if (user.getImages().size()>2) { %>
-            <img src="images/<%=user.getImages().get(2)%>" alt="photo" width="200px" height="200px">
+            <img src="images/<%=user.getImages().get(2)%>"   alt="photo" width="200px" height="200px">
             <% } else { %>
 
             <div class="fileUpload btn btn-primary">
             <label class="upload">
                 <input type='file' name = "PHOTO_3"  onchange="readURL(this,'#photo_3');" />
-                <img id="photo_3" src=""  />
+                <img id="photo_3"  src=""  />
             </label>
             </div> <% }%>
 
@@ -238,45 +246,10 @@
                 </label>
             </div> <% }%>
 
-            <br/>
-            ABOUT <%=user.getFirst_name().toUpperCase()%>
-            <br/>
-            <input type = "text"  id = "bio" name="Bio" maxlength="500" size="500" >
-            <br/>
-            PASSIONS
-            <div class="multipleSelection">
-                <div class="selectBox"
-                     onclick="showCheckboxes()">
-                    <select>
-                        <option>Select hobbies</option>
-                    </select>
-                    <div class="overSelect"></div>
-                </div>
+            <style>input[type='file'] {
+                color: rgba(0, 0, 0, 0)
+            }</style>
 
-                <div id="checkBoxes">
-                    <label for="first">
-                        <input type="checkbox" id="first" name="SPORT" />
-                        Sport
-                    </label>
-
-                    <label for="second">
-                        <input type="checkbox" id="second" name="INSTAGRAM" />
-                        Instagram
-                    </label>
-                    <label for="third">
-                        <input type="checkbox" id="third"name="PHOTOS" />
-                        Photos
-                    </label>
-                    <label for="fourth">
-                        <input type="checkbox" id="fourth" name="CARS"/>
-                        Cars
-                    </label>
-                    <label for="fifth">
-                        <input type="checkbox" id="fifth"name="FOOTBALL" />
-                        Football
-                    </label>
-                </div>
-            </div>
             <script>
                 function readURL(input,url) {
                     if (input.files && input.files[0]) {
@@ -291,28 +264,78 @@
                     }
                 }
             </script>
-            <script>
-                var show = true;
 
-                function showCheckboxes() {
-                    var checkboxes =
-                        document.getElementById("checkBoxes");
+            <br/>
+            ABOUT <%=user.getFirst_name().toUpperCase()%>
+            <br/>
+            <input type = "text"  id = "bio" name="BIO" maxlength="500" <%if(user.getBio()!=null){%> value = "<%=user.getBio()%>"<%}%> />
+            <br/>
+            <br/>
+            PASSIONS
 
-                    if (show) {
-                        checkboxes.style.display = "block";
-                        show = false;
-                    } else {
-                        checkboxes.style.display = "none";
-                        show = true;
-                    }
-                }
-            </script>
+
+            <%
+                List<Hobby> hobbies = user.getHobbies();
+            %>
+            <div class="multipleSelection">
+              <div class="selectBox"
+             onclick="showCheckboxes()">
+            <select>
+                <option>Select hobbies</option>
+            </select>
+            <div class="overSelect"></div>
+          </div>
+
+          <div id="checkBoxes">
+            <label for="first">
+                <input type="checkbox" id="first" name="SPORT" <%if(hobbies.contains(Hobby.SPORT)){%> checked="checked"<%}%> />
+                Sport
+            </label>
+
+            <label for="second">
+                <input type="checkbox" id="second" name="INSTAGRAM" <%if(hobbies.contains(Hobby.INSTAGRAM)){%> checked="checked"<%}%>/>
+                Instagram
+            </label>
+            <label for="third">
+                <input type="checkbox" id="third"name="PHOTOS" <%if(hobbies.contains(Hobby.PHOTOS)){%> checked="checked"<%}%>/>
+                Photos
+            </label>
+            <label for="fourth">
+                <input type="checkbox" id="fourth" name="CARS" <%if(hobbies.contains(Hobby.CARS)){%> checked="checked"<%}%>/>
+                Cars
+            </label>
+            <label for="fifth">
+                <input type="checkbox" id="fifth"name="FOOTBALL"<%if(hobbies.contains(Hobby.FOOTBALL)){%> checked="checked"<%}%> />
+                Football
+            </label>
+           </div>
+
+
+
+        </div>
+    <script>
+        var show = true;
+
+        function showCheckboxes() {
+            var checkboxes =
+                document.getElementById("checkBoxes");
+
+            if (show) {
+                checkboxes.style.display = "block";
+                show = false;
+            } else {
+                checkboxes.style.display = "none";
+                show = true;
+            }
+        }
+    </script>
             <style>
 
 
                 .multipleSelection {
                     width: 300px;
                     background-color: #BCC2C1;
+                    /*position: absolute;*/
                 }
 
                 .selectBox {
@@ -345,8 +368,54 @@
                     background-color: #4F615E;
                 }
             </style>
-        </div>
+            <br/>
+            <br/>
+            JOB TITLE
+            <br/>
+            <br/>
+            <input type = "text"  id = "job" name="JOB" <%if(user.getJob()!=null){%>value ="<%=user.getJob()%>" <%}%>/>
+            <br/>
+            <br/>
+
+            COMPANY
+            <br/>
+            <br/>
+            <input type = "text"  id = "name" name="COMPANY" <%if(user.getCompany()!=null){%>value ="<%=user.getCompany()%>" <%}%> />
+            <br/>
+            <br/>
+            SCHOOL
+            <br/>
+            <br/>
+            <input type = "text"  id = "name" name="SCHOOL" <%if(user.getSchool()!=null){%>value ="<%=user.getSchool()%>" <%}%>/>
+            <br/>
+            <br/>
+            GENDER
+            <br/>
+            <br/>
+            <button name="settingsButton" type="submit" value="Gender"><%=user.getGender()%></button>
+            <br/>
+            <br/>
+
+            SEXUAL ORIENTATION
+            <br/>
+            <br/>
+            <%
+                String orientation = "";
+                if(user.getOrientation()!=null) {
+                    orientation = user.getOrientation();
+
+                }else {
+                    orientation = "Add sexual orientation";
+                }
+            %>
+            <button name="settingsButton" type="submit" value="Orientation"><%=orientation%></button>
+            <br/>
+            <br/>
+            <button name="settingsButton" type="submit" value="Save">Save</button>
+
     </div>
+    </div>
+
 
 
 </form>

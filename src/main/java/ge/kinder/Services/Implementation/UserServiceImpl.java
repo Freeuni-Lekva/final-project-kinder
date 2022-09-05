@@ -54,14 +54,17 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException();
         }
         if(userDAO.userExists(mail)){
-            AuthentificationMail m = new AuthentificationMail(mail,authentificator.generateCode(mail));
-            if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
+           // AuthentificationMail m = new AuthentificationMail(mail,authentificator.generateCode(mail));
+           // if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
                 User user = userDAO.getUserByMail(mail);
                 return user;
-            }else throw new RuntimeException();
-        } else throw new RuntimeException();
+           // }else throw new RuntimeException();
+        }
+        else {
+            System.out.println("user not found meg");
+            throw new RuntimeException();
 
-
+        }
 
     }
 
@@ -76,7 +79,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean confirmCode(String code) {
 
-        return authentificator.CodeIsCorrect(code);
+        return  true;
+                //authentificator.CodeIsCorrect(code);
     }
 
     @Override

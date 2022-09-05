@@ -32,7 +32,9 @@ public class User {
     public static final String SHOT_TO_LIKED = "Show_To_Liked";
 
     public static final String SHOW_RECENTLTY_ACTIVE = "Show_Recently_Active";
+    public static final String PREMIUM = "Premium";
 
+    public static final String AGE_RANGE = "Search_In_Range";
     private int user_id;
 
     private Role role;
@@ -81,6 +83,8 @@ public class User {
     private java.sql.Date registration_date; // es avtomaturad enicheba bazashi
     private int balance; // sawyisi defaultad hkondes 100 lari, rom sheedzlos premmiumis yidva
 
+    private int is_premium;
+    private int searchInRange;
 
     public User(String mail, String first_name, java.sql.Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images, List<Hobby> hobbies, String orientation) {
         this.mail = mail;
@@ -93,6 +97,7 @@ public class User {
         this.images = images;
         this.hobbies = hobbies;
         this.orientation = orientation;
+
     }
 
     public User(String mail, String first_name, java.sql.Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images) {
@@ -107,7 +112,7 @@ public class User {
     }
 
 
-    public User(int user_id, String role, String mail, String first_name, Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images, List<Hobby> hobbies, String orientation, String bio, String horoscope, String company, String job, String school, int min_age, int max_age, int showActiveStatus, Date last_session, int show_to_liked, int is_hided, Date registration_date, int balance,int show_active_people) {
+    public User(int user_id, String role, String mail, String first_name, Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images, List<Hobby> hobbies, String orientation, String bio, String horoscope, String company, String job, String school, int min_age, int max_age, int showActiveStatus, Date last_session, int show_to_liked, int is_hided, Date registration_date, int balance,int show_active_people,int is_premium,int searchInRange) {
         this.user_id = user_id;
         this.role = Role.valueOf(role);
         this.mail = mail;
@@ -134,10 +139,28 @@ public class User {
         this.registration_date = registration_date;
         this.balance = balance;
         this.show_active_people = show_active_people;
+        this.is_premium=is_premium;
+        this.searchInRange = searchInRange;
     }
 
     public User(){
 
+    }
+
+    public int getSearchInRange() {
+        return searchInRange;
+    }
+
+    public void setSearchInRange(int searchInRange) {
+        this.searchInRange = searchInRange;
+    }
+
+    public int getIs_premium() {
+        return is_premium;
+    }
+
+    public void setIs_premium(int is_premium) {
+        this.is_premium = is_premium;
     }
 
     public int getGenderIsShown() {

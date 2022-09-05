@@ -204,7 +204,8 @@
             <option value="Bisexual">Bisexual</option>
             <option value="Asexual">Asexual</option>
             <option value="Demisexual">Demisexual</option>
-            <option value="Queer">Pansexual</option>
+            <option value="Pansexual">Pansexual</option>
+            <option value="Queer">Queer</option>
             <option value="Questioning">Questioning</option>
 
         </select>

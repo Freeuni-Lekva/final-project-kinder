@@ -27,8 +27,8 @@ CREATE TABLE User (
                       Job              VARCHAR(15) NULL    ,
                       School           VARCHAR(15) NULL    ,
 
-                      Min_Age          INT     NULL    ,
-                      Max_Age          INT     NULL    ,
+                      Min_Age          INT     NULL  default 18,
+                      Max_Age          INT     NULL   default 100,
 
                       Registration_Date DATETiME    NOT NULL  DEFAULT   CURRENT_TIMESTAMP,
 
@@ -40,6 +40,8 @@ CREATE TABLE User (
                       Show_To_Liked     INT NULL default 0,
                       Balance           INT     NULL  DEFAULT 100 ,
                       Show_Recently_Active int NULL DEFAULT 0,
+                      Premium          INT NULL DEFAULT 0,
+                      Search_In_Range INT NULL DEFAULT 0,
 
 
                       PRIMARY KEY (User_id) );
@@ -124,7 +126,8 @@ INSERT INTO Kinder_Base.User (User_id, Mail, First_Name, Birth_Date, City, Gende
 INSERT INTO Kinder_Base.User (User_id, Mail, First_Name, Birth_Date, City, Gender, Show_Gender, Preference, Orientation, Bio, Horoscope, Company, Job, School, Min_Age, Max_Age, Registration_Date, Show_Active, Last_Session, Hided, Role, Show_To_Liked, Balance) VALUES (3, 'megi.shashikadze.99@gmail.com', 'megi', '2000-05-20', 'tbilisi', 'Woman', 1, 'Men', 'Gay', null, null, null, null, null, null, null, '2022-08-31 00:20:57', 0, null, 0, 'USER', 0, 100);
 INSERT INTO Kinder_Base.User (User_id, Mail, First_Name, Birth_Date, City, Gender, Show_Gender, Preference, Orientation, Bio, Horoscope, Company, Job, School, Min_Age, Max_Age, Registration_Date, Show_Active, Last_Session, Hided, Role, Show_To_Liked, Balance) VALUES (4, 'lgham18@freeuni.edu.ge', 'lasha', '2000-08-29', 'tbilisi', 'Man', 1, 'Women', 'Gay', null, null, null, null, null, null, null, '2022-08-31 00:20:57', 0, null, 0, 'USER', 0, 100);
 
-INSERT INTO Kinder_Base.Images (Image_Id, User_id, Image_Url, IsProfile, Date) VALUES (1, 1, 'IMG_9061.jpg', 0, '2022-08-31 00:17:54');
+INSERT INTO Kinder_Base.Images (Image_Id, User_id, Image_Url, IsProfile, Date) VALUES (1, 1, '2.jpg', 0, '2022-08-31 00:17:54');
+INSERT INTO Kinder_Base.Images (Image_Id, User_id, Image_Url, IsProfile, Date) VALUES (5, 1, '1.jpg', 0, '2022-08-31 00:17:54');
 INSERT INTO Kinder_Base.Images (Image_Id, User_id, Image_Url, IsProfile, Date) VALUES (2, 2, 'first.jpg', 0, '2022-08-31 00:20:57');
 INSERT INTO Kinder_Base.Images (Image_Id, User_id, Image_Url, IsProfile, Date) VALUES (3, 3, 'second.jpg', 0, '2022-08-31 00:20:57');
 INSERT INTO Kinder_Base.Images (Image_Id, User_id, Image_Url, IsProfile, Date) VALUES (4, 4, 'second.jpg', 0, '2022-08-31 00:20:57');
