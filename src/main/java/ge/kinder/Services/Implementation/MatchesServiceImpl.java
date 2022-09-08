@@ -26,7 +26,7 @@ public class MatchesServiceImpl implements MatchesService {
     }
 
     @Override
-    public List<UserDTO> getMatches(int userId) {
+    public List<Integer> getMatches(int userId) {
         return matchesDAO.getMatches(userId);
     }
 
@@ -40,3 +40,4 @@ public class MatchesServiceImpl implements MatchesService {
         }
     }
 }
+

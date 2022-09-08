@@ -7,7 +7,6 @@ import ge.kinder.DAO.UserDAO;
 import ge.kinder.Models.Hobby;
 import ge.kinder.Models.User;
 import ge.kinder.Services.UserService;
-import jdk.swing.interop.SwingInterOpUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +26,8 @@ public class Settings extends HttpServlet {
         if (!(req.getSession() != null && req.getSession().getAttribute("user") != null)) {
             req.getRequestDispatcher("/index.jsp").forward(req, resp);
         } else {
-            req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
+            System.out.println("Setting DO GET");
+            req.getRequestDispatcher("/WEB-INF/Admin.jsp").forward(req, resp);
         }
     }
 
@@ -129,6 +129,7 @@ public class Settings extends HttpServlet {
                 req.getSession(false).invalidate();
                 req.getRequestDispatcher("/index.jsp").forward(req, resp);
             }else if(settings.equals("toMainPage")){
+                System.out.println("Setting TO MAIN PAGE");
                 req.getRequestDispatcher("/WEB-INF/MainPage.jsp").forward(req, resp);
             } else if (settings.equals("Delete")){
                 req.getSession(false).invalidate();
@@ -261,11 +262,6 @@ public class Settings extends HttpServlet {
             userDAOimpl.updateRow(user, User.USER_ORIENTATION,orientation);
             req.getRequestDispatcher("/WEB-INF/Settings/Edit.jsp").forward(req, resp);
         }
-
-
-
-
-
 
     }
 }

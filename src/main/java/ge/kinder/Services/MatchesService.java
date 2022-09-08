@@ -7,8 +7,11 @@ import java.util.List;
 public interface MatchesService {
 
     void addMatch(int userId1, int userId2);
-    List<UserDTO> getMatches(int userId);
+    List<Integer> getMatches(int userId);
     void deleteMatch(int deleterUserId, int deletedUserId);
 
 
 }
+
+
+

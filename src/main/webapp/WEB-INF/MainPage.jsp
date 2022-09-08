@@ -1,338 +1,522 @@
 <%@ page import="ge.kinder.Models.User" %>
-<%@ page import="java.sql.Date" %>
-<%@ page import="java.time.LocalDate" %>
-<%@ page import="java.time.temporal.ChronoUnit" %>
-<%@ page import="java.time.temporal.Temporal" %>
-<%@ page import="ge.kinder.Models.DTO.UserDTO" %>
-<%@ page import="ge.kinder.DAO.UserDAO" %>
 <%@ page import="ge.kinder.DAO.DAOimpl.UserDAOimpl" %>
-<%@ page import="ge.kinder.Services.Implementation.SuggestionServiceImpl" %>
-<%@ page import="ge.kinder.Services.SuggestionService" %>
-<%@ page import="java.util.List" %><%--
-  Created by IntelliJ IDEA.
-  User: User
-  Date: 06.08.2022
-  Time: 16:27
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 
 <head>
     <meta charset="utf-8">
-    <title>Build a Full Featured Tinder Like Carousel in Vanilla JavaScript</title>
-    <style>
-        html,
-        body {
-            width: 70%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
+    <title>Main Page </title>
 
-        #board {
-            width: 70%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            background-color: rgb(245, 247, 250);
-        }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-        .card {
-            width: 320px;
-            height: 320px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            border-radius: 1%;
-            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
-            background-color: white;
-            transform: translateX(-50%) translateY(-50%) scale(0.95);
-        }
-    </style>
 </head>
 
 <body>
+
+
 <form action="ProfilePage" method="post">
+
+    <%--    <%--%>
+    <%--        String matchAlert = (String) request.getAttribute("MATCH");--%>
+    <%--        if (matchAlert!= null) {%>--%>
+    <%--    <script> alert('<%=matchAlert%>');</script>--%>
+
+    <%--    <% }%>--%>
+    <%
+        UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
+        User user = userDao.getUserByMail((String) session.getAttribute("mail"));
+
+    %>
 
     <div   style="display:block; width:100%;">
 
-        <div style="width: 30%; height: 100%; overflow-y: scroll;  float: left;">
+        <div id="leftDiv" style="width: 30%; height: 100%; overflow-y: scroll;  float: left;">
 
-            <%
-                UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
-                User user = userDao.getUserByMail((String) session.getAttribute("mail"));
-            %>
 
             <button name="mainPageButton" type="submit" value="toSettings">Settings</button>
-            <button name="mainPageButton" type="submit" value="matches">Matches</button>
-            <button name="mainPageButton" type="submit" value="messages">Messages</button>
+
+
+            <div class="chatsContainer"> <span  class="chatContainer__Header">Your Matches</span>
+
+                <div id ="chatsContainerBody" class="chatsContainerBody">
+
+                </div>
+
+                <div class="openedChatContainer">
+                    <button type="button" id="dismissChat" onclick="chatDismiss()" >Return</button>
+
+                    <div class="openedChatHeader"> <span id="currentOpenChatName"></span>
+
+                    </div>
+                    <div class="openedChatBody">  </div>
+                    <div class="openedChatInputContainer"> <input  class="openedChatInput" placeholder="Send message">
+                        <button type="button" id="sendMessageId" > Send</button>
+
+                    </div>
+                </div>
+
+            </div>
 
 
         </div>
 
 
-            <button name="mainPageButton" type="submit" value="nextPhoto">Next</button>
-            <button name="mainPageButton" type="submit" value="prevPhoto">Previous</button>
-            <button name="mainPageButton" type="submit" value="Info">Info</button>
+        <div id ="rightDiv" style="width: 70%; height: 100%; overflow-y: scroll;  float: left;">
 
-            <button name="mainPageButton" type="submit" value="dislike">Like</button>
-            <button name="mainPageButton" type="submit" value="superlike">Superlike</button>
-            <button name="mainPageButton" type="submit" value="like">Dislike</button>
 
-        <div id="board"></div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
-        <script>
-            /* LikeCarousel (c) 2019 Simone P.M. github.com/simonepm - Licensed MIT */
+            <button id = "nextButton" name="mainPageButton" type="button" onclick="getNextPhoto()"  value="nextPhoto">Next</button>
+            <button id = "previousButton" name="mainPageButton" type="button" onclick="getPrevPhoto()"  value="prevPhoto">Previous</button>
+            <br/>
+            <br/>
+            <button id= "infoButton_1" name="mainPageButton" type="button" onclick="getUserInfo()" value="ShowInfo">Show Info</button>
+            <button id= "infoButton_2" name="mainPageButton" type="button" onclick="hideUserInfo()" value="Info">Hide Info</button>
+            <br/>
+            <br/>
+            <button id="like" name="mainPageButton" type="button" onclick="likeUser(1)" value="like">Like</button>
 
-            class Carousel {
+            <button name="mainPageButton" type="button" onclick="likeUser(2)" <%if(user.getIs_premium()!=1){%> disabled="disabled" <%}%> value="superlike">Superlike</button>
+            <button id="dislike" name="mainPageButton" type="button" onclick="likeUser(3)" value="dislike">Dislike</button>
+            <br/>
+            <br/>
+            <br/>
 
-                constructor(element) {
 
-                    this.board = element
 
-                    // add first two cards programmatically
-                    this.push()
-                    <% System.out.println("FIRST PUSH"); %>
-                    this.push()
-                    <% System.out.println("SECOND PUSH"); %>
-                    this.push()
-                    <% System.out.println("THIRD PUSH"); %>
-                    // handle gestures
-                    this.handle()
+
+            <img id="image" src="" alt="photo" width="200px" height="200px">
+            <text id="name">hello </text>
+            <text id="age">hello </text>
+
+
+
+
+            <script>
+
+                let suggestedUserName
+                let suggestedUserID
+                let suggestedUserAge
+                let suggestedUserMail
+                let suggestedUserImage
+                var imagesArray
+                let suggestedUserJob
+                let suggestedUserCompany
+                let suggestedUserCity
+                let suggestedUserBio
+                let likeType
+                var hobbiesArray
+                var chatsArray
+                var messagesArray
+                var checkerThreadID = null
+                var checkerThreadID_2 = null
+                let thread_1
+                let thread_2
+
+                let displayCurrentChat
+                let chatDismiss
+
+
+                $('.openedChatContainer').css('display', 'none');
+                let currentChatMessage = $('.openedChatInput');
+
+                setInterval(getchats,1000)
+
+
+
+                let userID = "<%=user.getUser_id()%>"
+
+
+
+
+
+
+                function likeUser(status){
+                    likeType = status
+                    $.ajax({
+                        async: false,
+                        type: "POST",
+                        url: "LikesServlet",
+                        dataType: "json",
+                        data: {"user": userID, "suggestedUser": suggestedUserID,"type": likeType},
+                        success: function (msg) {
+                            const currMsg = JSON.stringify(msg);
+                            let response = JSON.parse(currMsg);
+                            let state = response.status;
+                            if (state == 2) {
+                                getUser();
+                                getImages();
+                                getHobbies();
+                            }else if(state==1) {
+                                getchats();
+                                getUser();
+                                getImages();
+                                getHobbies();
+
+                            }else {
+                                alert("Unexpected error");
+                            }
+                        },
+                        error: function (msg) {
+                            alert("Error");
+                        }
+                    });
 
                 }
 
-                handle() {
+                function getchats(){
+                    $.ajax({
+                        async: false,
+                        type: "POST",
+                        url: "ChatsServlet",
+                        dataType: "json",
+                        data: {"userID": userID},
+                        success: function (msg) {
 
-                    // list all cards
-                    this.cards = this.board.querySelectorAll('.card')
+                            chatsArray = msg;
 
-                    // get top card
-                    this.topCard = this.cards[this.cards.length - 1]
+                            if (chatsArray.length != 0) {
+                                $("#chatsContainerBody").empty();
+                                for(let i=0; i<chatsArray.length; i++)
+                                {
+                                    let img = chatsArray[i].img;
+                                    let name = chatsArray[i].name;
+                                    let chat_id = chatsArray[i].chat_id;
 
-                    // get next card
-                    this.nextCard = this.cards[this.cards.length - 2]
+                                    $("#chatsContainerBody").append( "<div onclick=\"displayCurrentChat('" + name + "', '" + chat_id + "')\" class=\"currentChatContainer\">\n" +
+                                        "            <img width=\"100px\" height=\"100px\" class=\"chatUserIcon\" src=" + img + ">\r\n" +
+                                        "            <span>" + name + "</span>\n" +
+                                        "        </div>");
+                                }
+                            }
 
-                    // if at least one card is present
-                    if (this.cards.length > 0) {
+                        },
+                        error: function (msg) {
+                            alert("No chats");
+                        }
+                    });
+                }
+                thread_1 = function(chatRoom){
 
-                        // set default top card position and scale
-                        this.topCard.style.transform =
-                            'translateX(-50%) translateY(-50%) rotate(0deg) rotateY(0deg) scale(1)'
+                    let oldMessages = 0;
+                    getMessages(chatRoom);
+                    if(messagesArray != null){
+                        // alert("mesijebi araa charieli")
+                        if(messagesArray.length > oldMessages) {
+                            //   alert("nolze metia")
+                            oldMessages = messagesArray.length;
+                            $('.openedChatBody').empty();
+                            for (let i = 0; i < messagesArray.length; i++) {
+                                let currentClass;
+                                if (messagesArray[i].user_id !=userID) currentClass = "yourLoversText";
+                                else currentClass = "myText";
 
-                        // destroy previous Hammer instance, if present
-                        if (this.hammer) this.hammer.destroy()
+                                $('.openedChatBody').append(`<div class="${currentClass}">`+messagesArray[i].message_text+`</div>`)
+                            }
+                        }
+                    }
+                };
 
-                        // listen for tap and pan gestures on top card
-                        this.hammer = new Hammer(this.topCard)
-                        this.hammer.add(new Hammer.Tap())
-                        this.hammer.add(new Hammer.Pan({
-                            position: Hammer.position_ALL,
-                            threshold: 0
-                        }))
+                function getMessages(chat_room_id){
+                    $.ajax({
+                        async: false,
+                        type: "POST",
+                        url: "MessagesServlet",
+                        dataType: "json",
+                        data: {"chatID": chat_room_id },
+                        success: function (msg) {
+                            messagesArray = msg;
 
-                        // pass events data to custom callbacks
-                        this.hammer.on('tap', (e) => {
-                            this.onTap(e)
-                        })
-                        this.hammer.on('pan', (e) => {
-                            this.onPan(e)
-                        })
+                            if(msg.status == 1){
+                                alert("You are not a participant!");
+                            }else if (msg.status == 2){
+                                alert("Something went wrong!");
+                            }
+                        },
+                        error: function (msg) {
+                            alert("No messages");
+                        }
+                    });
+                }
+                getUser();
+                getImages();
+                getHobbies();
+                getchats();
 
+                chatDismiss = function(){
+                    clearInterval(checkerThreadID);
+                    location.reload();
+                    //
+                    // $('.openedChatContainer').css('display', 'none');
+                    // $('.chatsContainerBody').css('display', 'block');
+                    //
+                    // $('.openedChatBody').empty();
+
+                }
+
+                displayCurrentChat = function (currentName, chatRoom){
+                    checkerThreadID = setInterval(function() {thread_1(chatRoom)}, 10);
+                    $('#currentOpenChatName').text(currentName);
+                    $('.openedChatContainer').css('display', 'block');
+                    $('.chatsContainerBody').css('display', 'none');
+                    alert("chatroom 1 "+chatRoom);
+
+                    $('#sendMessageId').click(function (){
+
+                        if(currentChatMessage.val() !== ""){
+                            alert("chatroom 3 "+chatRoom);
+                            sendMessage(chatRoom, currentChatMessage.val());
+                            //alert("chatroom 31 "+chatRoom);
+                            $('.openedChatBody').append(`<div class="${"myText"}">` +currentChatMessage.val()+`</div>`);
+                            currentChatMessage.val("") ;
+                        }
+                    })
+
+                }
+
+
+                function sendMessage(chatRoom, msg){
+                    //alert("chatroom 32 "+chatRoom);
+                    let userID = "<%=user.getUser_id()%>"
+                    $.ajax({
+                        async: false,
+                        type: "POST",
+                        url: "MessageServlet",
+                        dataType: "json",
+                        data: {"chatID": chatRoom, "msg": msg, "userID": userID},
+                        success: function (msg) {
+                            let response = msg;
+                            if (response.status == 1) {
+
+                            }
+                            else if (response.status == 2){
+                                alert("Something went wrong");
+                            }else if (response.status == 3){
+                                alert("You must be logged in!");
+                            }
+                        },
+                        error: function (msg) {
+                            alert("Couldn't send message");
+                            console.log(msg);
+                        }
+                    });
+                }
+
+
+                function getImages() {
+                    if (suggestedUserID != null) {
+                        $.ajax({
+                            async: false,
+                            type: "POST",
+                            url: "SuggestedUserImagesServlet",
+                            dataType: "json",
+                            data: {"suggestedUserMail": suggestedUserMail},
+                            success: function (msg) {
+                                try {
+                                    let response = JSON.parse(msg).status;
+                                    if (response === 0) {
+                                        suggestedUserImage = null;
+                                    }
+                                } catch (e) {
+                                    imagesArray = msg
+                                    suggestedUserImage = msg[0];
+                                    $("#image").attr("src", "images/"+suggestedUserImage);
+
+
+                                }
+                            },
+                            error: function (msg) {
+                                suggestedUserImage = null;
+
+                            }
+                        });
+                    }
+
+
+
+                }
+
+
+                function getHobbies(){
+                    if (suggestedUserID != null) {
+                        $.ajax({
+                            async: false,
+                            type: "POST",
+                            url: "SuggestedUserHobbiesServlet",
+                            dataType: "json",
+                            data: {"suggestedUserMail": suggestedUserMail},
+                            success: function (msg) {
+                                try {
+                                    let response = JSON.parse(msg).status;
+                                    if (response === 0) {
+
+                                    }
+                                } catch (e) {
+                                    hobbiesArray = msg
+
+
+                                }
+                            },
+                            error: function (msg) {
+
+                            }
+                        });
                     }
 
                 }
 
-                onTap(e) {
+                function getUser(){
+                    let userMail = "<%=user.getMail()%>"
+                    $.ajax({
+                        async: false,
+                        type: "POST",
+                        url: "SuggestedUserServlet",
+                        data: {"userMail": userMail},
+                        success: function (msg) {
+                            $("#previousButton").attr('disabled','true');
+                            $("#nextButton").removeAttr("disabled");
+                            try {
+                                let response = JSON.parse(msg).status;
+                                if (response === 0) {
+                                    suggestedUserID = null;
+                                }
+                            } catch (e) {
 
-                    // get finger position on top card
-                    let propX = (e.center.x - e.target.getBoundingClientRect().left) / e.target.clientWidth
+                                suggestedUserID = msg[0];
 
-                    // get rotation degrees around Y axis (+/- 15) based on finger position
-                    let rotateY = 15 * (propX < 0.05 ? -1 : 1)
+                                suggestedUserName = msg[1];
+                                $("#name").text(suggestedUserName);
 
-                    // enable transform transition
-                    this.topCard.style.transition = 'transform 100ms ease-out'
+                                suggestedUserAge = msg[2];
+                                $("#age").text(suggestedUserAge);
+                                suggestedUserMail = msg[3];
+                                suggestedUserJob =msg[4];
+                                suggestedUserCompany = msg[5];
+                                suggestedUserCity = msg[6];
+                                suggestedUserBio = msg[7];
 
-                    // apply rotation around Y axis
-                    this.topCard.style.transform =
-                        'translateX(-50%) translateY(-50%) rotate(0deg) rotateY(' + rotateY + 'deg) scale(1)'
 
-                    // wait for transition end
-                    setTimeout(() => {
-                        // reset transform properties
-                        this.topCard.style.transform =
-                            'translateX(-50%) translateY(-50%) rotate(0deg) rotateY(0deg) scale(1)'
-                    }, 100)
+
+
+
+
+                            }
+                        },
+                        error: function (msg) {
+                            alert("no more suggestions");
+                        }
+                    });
+
+
 
                 }
+            </script>
 
-                onPan(e) {
+            <script>
+                function getNextPhoto() {
 
-                    if (!this.isPanning) {
+                    var curImg = document.getElementById("image").src.substring(36);
 
-                        this.isPanning = true
+                    for (var i=0; i<imagesArray.length; i++){
+                        var obj = imagesArray[i];
 
-                        // remove transition properties
-                        this.topCard.style.transition = null
-                        if (this.nextCard) this.nextCard.style.transition = null
+                        if (obj === curImg){
+                            if(i !== imagesArray.length-1){
+                                document.getElementById("image").src = 'images/' + imagesArray[i+1]
+                            }
+                            if(i==imagesArray.length-2) document.getElementById("nextButton").disabled = true;
+                            if(i==0) document.getElementById("previousButton").disabled = false;
 
-                        // get top card coordinates in pixels
-                        let style = window.getComputedStyle(this.topCard)
-                        let mx = style.transform.match(/^matrix\((.+)\)$/)
-                        this.startPosX = mx ? parseFloat(mx[1].split(', ')[4]) : 0
-                        this.startPosY = mx ? parseFloat(mx[1].split(', ')[5]) : 0
-
-                        // get top card bounds
-                        let bounds = this.topCard.getBoundingClientRect()
-
-                        // get finger position on top card, top (1) or bottom (-1)
-                        this.isDraggingFrom =
-                            (e.center.y - bounds.top) > this.topCard.clientHeight / 2 ? -1 : 1
-
-                    }
-
-                    // get new coordinates
-                    let posX = e.deltaX + this.startPosX
-                    let posY = e.deltaY + this.startPosY
-
-                    // get ratio between swiped pixels and the axes
-                    let propX = e.deltaX / this.board.clientWidth
-                    let propY = e.deltaY / this.board.clientHeight
-
-                    // get swipe direction, left (-1) or right (1)
-                    let dirX = e.deltaX < 0 ? -1 : 1
-
-                    // get degrees of rotation, between 0 and +/- 45
-                    let deg = this.isDraggingFrom * dirX * Math.abs(propX) * 45
-
-                    // get scale ratio, between .95 and 1
-                    let scale = (95 + (5 * Math.abs(propX))) / 100
-
-                    // move and rotate top card
-                    this.topCard.style.transform =
-                        'translateX(' + posX + 'px) translateY(' + posY + 'px) rotate(' + deg + 'deg) rotateY(0deg) scale(1)'
-
-                    // scale up next card
-                    if (this.nextCard) this.nextCard.style.transform =
-                        'translateX(-50%) translateY(-50%) rotate(0deg) rotateY(0deg) scale(' + scale + ')'
-
-                    if (e.isFinal) {
-
-                        this.isPanning = false
-
-                        let successful = false
-
-                        // set back transition properties
-                        this.topCard.style.transition = 'transform 200ms ease-out'
-                        if (this.nextCard) this.nextCard.style.transition = 'transform 100ms linear'
-
-                        // check threshold and movement direction
-                        if (propX > 0.25 && e.direction == Hammer.DIRECTION_RIGHT) {
-
-                            successful = true
-                            // get right border position
-                            posX = this.board.clientWidth
-
-                        } else if (propX < -0.25 && e.direction == Hammer.DIRECTION_LEFT) {
-
-                            successful = true
-                            // get left border position
-                            posX = -(this.board.clientWidth + this.topCard.clientWidth)
-
-                        } else if (propY < -0.25 && e.direction == Hammer.DIRECTION_UP) {
-
-                            successful = true
-                            // get top border position
-                            posY = -(this.board.clientHeight + this.topCard.clientHeight)
 
                         }
+                    }
+                }
+            </script>
 
-                        if (successful) {
 
-                            // throw card in the chosen direction
-                            this.topCard.style.transform =
-                                'translateX(' + posX + 'px) translateY(' + posY + 'px) rotate(' + deg + 'deg)'
+            <script>
 
-                            // wait transition end
-                            setTimeout(() => {
-                                // remove swiped card
-                                this.board.removeChild(this.topCard)
-                                // add new card
-                                <% System.out.println("FROM ONPAN");%>
-                                this.push()
-                                <% System.out.println("TO ONPAN"); %>
+                function getPrevPhoto() {
 
-                                // handle gestures on new top card
-                                this.handle()
-                            }, 200)
+                    var curImg = document.getElementById("image").src.substring(36);
 
-                        } else {
 
-                            // reset cards position and size
-                            this.topCard.style.transform =
-                                'translateX(-50%) translateY(-50%) rotate(0deg) rotateY(0deg) scale(1)'
-                            if (this.nextCard) this.nextCard.style.transform =
-                                'translateX(-50%) translateY(-50%) rotate(0deg) rotateY(0deg) scale(0.95)'
+                    for (var i=0; i<imagesArray.length; i++){
+                        var obj = imagesArray[i];
 
+                        if (obj === curImg){
+                            if(i !== 0)document.getElementById("image").src = 'images/' + imagesArray[i-1]
+                            if(i==imagesArray.length-1) document.getElementById("nextButton").disabled = false;
+                            if(i==1) document.getElementById("previousButton").disabled = true;
                         }
+                    }
+                }
 
+            </script>
+
+
+            <script>
+                function getUserInfo(){
+
+                    document.getElementById("infoButton_1").disabled = true;
+                    document.getElementById("infoButton_2").disabled = false;
+                    const textTag = document.createElement("text");
+                    textTag.setAttribute("id","info");
+
+
+
+
+                    let job = suggestedUserJob+"\r\n";
+                    let company = suggestedUserCompany+"\r\n";
+                    let city=suggestedUserCity + "\r\n";
+                    let bio =suggestedUserBio + "\r\n";
+
+
+
+
+
+                    textTag.appendChild(document.createElement("br"));
+                    textTag.appendChild(document.createTextNode(city));
+                    textTag.appendChild(document.createElement("br"));
+                    textTag.appendChild(document.createTextNode(bio));
+                    textTag.appendChild(document.createElement("br"));
+                    textTag.appendChild(document.createTextNode(job));
+                    textTag.appendChild(document.createElement("br"));
+                    textTag.appendChild(document.createTextNode(company));
+                    textTag.appendChild(document.createElement("br"));
+
+                    for (var i=0; i<hobbiesArray.length; i++){
+                        let hobby = hobbiesArray[i] + "   ";
+                        textTag.appendChild(document.createTextNode(hobby));
                     }
 
+                    const parentEl = document.getElementById("rightDiv");
+                    parentEl.appendChild(textTag);
                 }
+            </script>
 
-                push() {
-                    <% System.out.println("PUSH"); %>
-                    <% SuggestionService ss = (SuggestionService) request.getSession().getServletContext().getAttribute("SUGGESTION_SERVICE");
-                UserDTO suggestion = ss.getSuggestion(user);
-                    System.out.println("SUGGESTED USER --> " + suggestion);
-                    String img = "";
-                    if (suggestion.getImages().size()>0) {
-                        img = suggestion.getImages().get(0);
-                      System.out.println("IMAGE --> "+ img);} %>
-                    <%--                        <img src="images/<%=userDTO.getImages().get(0)%>" alt="photo" width="200px" height="200px">--%>
-                    <%--                        <%=userDTO.getFirst_name()   %>--%>
-                    <%--                        <%=userDTO.getCity()   %>--%>
-                    <%--                        <%=(int) Math.floor((new Date(System.currentTimeMillis()).getTime()-userDTO.getBirth_date().getTime() ) / 3.15576e+10) %>--%>
+            <script>
+                function hideUserInfo(){
+                    document.getElementById("infoButton_1").disabled = false;
+                    document.getElementById("infoButton_2").disabled = true;
 
-<%--                    <% }%>--%>
-
-                    let card = document.createElement('div')
-
-                    card.classList.add('card')
-
-                    card.style.backgroundImage =
-<%--                    <%! String img() {--%>
-<%--                        SuggestionService ss = (SuggestionService) request.getSession().getServletContext().getAttribute("SUGGESTION_SERVICE");--%>
-<%--                UserDTO suggestion = ss.getSuggestion(user);--%>
-<%--                    System.out.println("SUGGESTED USER --> " + suggestion);--%>
-<%--                    String img = "";--%>
-<%--                    if (suggestion.getImages().size()>0) {--%>
-<%--                        img = suggestion.getImages().get(0);}--%>
-<%--                    return img;--%>
-<%--                      System.out.println("IMAGE --> "+ img);}--%>
-<%--                       %>--%>
-
-                    <% System.out.println("URL"); %>
-
-                    this.board.insertBefore(card, this.board.firstChild)
-
+                    const textTag = document.getElementById("info");
+                    const parentEl = document.getElementById("rightDiv");
+                    parentEl.removeChild(textTag);
                 }
+            </script>
 
-            }
 
-            let board = document.querySelector('#board')
 
-            let carousel = new Carousel(board)
-        </script>
 
-    </div>
+
+        </div>
     </div>
 
 </form>
 
 </body>
 </html>
+
+
 

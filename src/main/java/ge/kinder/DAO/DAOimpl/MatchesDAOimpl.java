@@ -6,9 +6,11 @@ import ge.kinder.DAO.MessageDAO;
 import ge.kinder.Database.TableConstants;
 import ge.kinder.Models.Chat;
 import ge.kinder.Models.DTO.UserDTO;
+import ge.kinder.Models.User;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MatchesDAOimpl implements MatchesDAO {
@@ -109,7 +111,7 @@ public class MatchesDAOimpl implements MatchesDAO {
 
     private void deleteChat(int user_id_1, int user_id_2) throws SQLException {
 
-       int chatId = getChatId(user_id_1,user_id_2);
+        int chatId = getChatId(user_id_1,user_id_2);
 
 
         try {
@@ -131,7 +133,38 @@ public class MatchesDAOimpl implements MatchesDAO {
     }
 
     @Override
-    public List<UserDTO> getMatches(int user_id) {
-        return null;
+    public List<Integer> getMatches(int user_id) {
+        List<Integer> matches = new ArrayList<>();
+        try {
+
+            PreparedStatement stm = connection.prepareStatement(
+                    "SELECT %s FROM %s WHERE %s = ?;".formatted(
+                            TableConstants.MATCH_USER_ID2,
+                            TableConstants.MATCH_TABLE,
+                            TableConstants.MATCH_USER_ID1
+                    ));
+            stm.setInt(1, user_id);
+
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                matches.add(rs.getInt(1));
+            }
+            PreparedStatement stm_1 = connection.prepareStatement(
+                    "SELECT %s FROM %s WHERE %s = ?;".formatted(
+                            TableConstants.MATCH_USER_ID1,
+                            TableConstants.MATCH_TABLE,
+                            TableConstants.MATCH_USER_ID2
+                    ));
+            stm_1.setInt(1, user_id);
+
+            ResultSet rs_1 = stm_1.executeQuery();
+            while(rs_1.next()){
+                matches.add(rs_1.getInt(1));
+            }
+
+            return matches;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

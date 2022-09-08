@@ -1,6 +1,8 @@
 package ge.kinder.Servlets;
 
+import ge.kinder.DAO.UserDAO;
 import ge.kinder.Models.DTO.UserDTO;
+import ge.kinder.Models.Role;
 import ge.kinder.Models.User;
 import ge.kinder.Services.UserService;
 
@@ -21,7 +23,14 @@ public class Login extends HttpServlet {
        if (!(req.getSession() != null && req.getSession().getAttribute("user") != null)) {
             req.getRequestDispatcher("/WEB-INF/Login.jsp").forward(req, resp);
         } else {
-            req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
+           User user = (User) req.getSession().getAttribute("user");
+           //System.out.println(LOGIN);
+           if(user.getRole().equals(Role.ADMIN.toString())){
+
+               req.getRequestDispatcher("/WEB-INF/Admin.jsp").forward(req, resp);
+           } else {
+               req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
+           }
         }
     }
 

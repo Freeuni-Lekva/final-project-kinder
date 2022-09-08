@@ -28,13 +28,34 @@ public class MessagesServiceImpl implements MessagesService {
     }
 
     @Override
-    public List<Message> getMessages(int userId1, int userId2) {
+    public void addMessage(int chat_id, String msg, int user_id_1) {
         try {
-            return messageDAO.getMessages(userId1,userId2);
+            messageDAO.addMessage( chat_id,  msg,  user_id_1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Message> getMessages(int chat_id) {
+        try {
+            return messageDAO.getMessages(chat_id);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
 
     }
+
+    @Override
+    public int getChatId(int user_id_1, int user_id_2) {
+        try {
+            return messageDAO.getChatId(user_id_1,user_id_2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }
+

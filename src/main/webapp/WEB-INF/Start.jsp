@@ -29,8 +29,9 @@
         <div style="width: 30%; height: 100%; overflow-y: scroll;  float: left;">
 
         <%
-            UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
+            UserDAO userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
             User user = userDao.getUserByMail((String) session.getAttribute("mail"));
+
         %>
 
             <button name="settingsButton" type="submit" value="toMainPage">Main Page</button>
@@ -185,8 +186,8 @@
 
         </div>
 
-        <div style="width:70%; height:100%; "> <%
-            if (user.getImages().size()>0) {%>
+        <div style="width:70%; height:100%; ">
+            <% if (user.getImages().size()>0) {%>
             <img src="images/<%=user.getImages().get(0)%>" alt="photo" width="200px" height="200px">
             <% }%>
 

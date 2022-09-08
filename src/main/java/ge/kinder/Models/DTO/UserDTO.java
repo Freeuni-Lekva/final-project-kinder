@@ -23,8 +23,9 @@ public class UserDTO {
     private String company;
     private String job;
     private String school;
+    private String mail;
 
-    public UserDTO(int user_id, String first_name, Date birth_date, String city, String gender, List<String> images, List<Hobby> hobbies, String bio, String horoscope, String company, String job, String school) {
+    public UserDTO(int user_id, String first_name, Date birth_date, String city, String gender, List<String> images, List<Hobby> hobbies, String bio, String horoscope, String company, String job, String school,String mail) {
         this.user_id = user_id;
         this.first_name = first_name;
         this.birth_date = birth_date;
@@ -37,10 +38,19 @@ public class UserDTO {
         this.company = company;
         this.job = job;
         this.school = school;
+        this.mail = mail;
     }
 
     public UserDTO(){
 
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public int getUser_id() {
@@ -157,3 +167,4 @@ public class UserDTO {
                 '}';
     }
 }
+

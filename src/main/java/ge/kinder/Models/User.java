@@ -35,6 +35,7 @@ public class User {
     public static final String PREMIUM = "Premium";
 
     public static final String AGE_RANGE = "Search_In_Range";
+    public static final String IS_BANNED = "Is_Banned";
     private int user_id;
 
     private Role role;
@@ -85,6 +86,7 @@ public class User {
 
     private int is_premium;
     private int searchInRange;
+    private int isBanned;
 
     public User(String mail, String first_name, java.sql.Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images, List<Hobby> hobbies, String orientation) {
         this.mail = mail;
@@ -112,7 +114,7 @@ public class User {
     }
 
 
-    public User(int user_id, String role, String mail, String first_name, Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images, List<Hobby> hobbies, String orientation, String bio, String horoscope, String company, String job, String school, int min_age, int max_age, int showActiveStatus, Date last_session, int show_to_liked, int is_hided, Date registration_date, int balance,int show_active_people,int is_premium,int searchInRange) {
+    public User(int user_id, String role, String mail, String first_name, Date birth_date, String city, String gender, String genderPref, int genderIsShown, List<String> images, List<Hobby> hobbies, String orientation, String bio, String horoscope, String company, String job, String school, int min_age, int max_age, int showActiveStatus, java.sql.Date last_session, int show_to_liked, int is_hided, Date registration_date, int balance,int show_active_people,int is_premium,int searchInRange, int isBanned) {
         this.user_id = user_id;
         this.role = Role.valueOf(role);
         this.mail = mail;
@@ -141,6 +143,7 @@ public class User {
         this.show_active_people = show_active_people;
         this.is_premium=is_premium;
         this.searchInRange = searchInRange;
+        this.isBanned = isBanned;
     }
 
     public User(){
@@ -192,7 +195,6 @@ public class User {
     }
 
     public String getRole() {
-
         return role.toString();
     }
 
@@ -378,7 +380,12 @@ public class User {
     public int isIs_hided() {
         return is_hided;
     }
-
+    public void setIsBanned(int isBanned){
+        this.isBanned = isBanned;
+    }
+    public int getIsBanned() {
+        return isBanned;
+    }
     public void setIs_hided(int is_hided) {
         this.is_hided = is_hided;
     }

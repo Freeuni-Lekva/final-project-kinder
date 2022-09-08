@@ -3,6 +3,7 @@ package ge.kinder.Services;
 import ge.kinder.Models.DTO.UserDTO;
 import ge.kinder.Models.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface SuggestionService {
@@ -11,3 +12,6 @@ public interface SuggestionService {
     UserDTO getSuggestion(User user);
 
 }
+
+
+

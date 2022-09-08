@@ -59,24 +59,29 @@ public class SuggestionServiceImpl implements SuggestionService {
 
     @Override
     public UserDTO getSuggestion(User user) {
+        UserDTO sUser = null;
         try {
-            System.out.println("getSuggestion-->user-->" + user);
-            UserDTO sUser = getUserSuggestionByAgeAndCity(user);
-            System.out.println("getSuggestion-->AGE AND CITY-->" + sUser);
-            if (sUser == null) {
-
-                sUser = getUserSuggestionByCity(user);
-                System.out.println("getSuggestion-->CITY-->" + sUser);
-            }
-
-            return sUser;
-        } catch (Exception e){
-            e.printStackTrace();
-            List<UserDTO> l = new ArrayList<>();
-
-            //l.add(new UserDTO(user.getUser_id(),user.getFirst_name()))
+//            System.out.println("getSuggestion-->user-->" + user);
+            sUser = userDAO.getUser(user.getCity(),user.getUser_id());
+//            System.out.println("getSuggestion-->AGE AND CITY-->" + sUser);
+//            if (sUser == null) {
+//
+//                sUser = getUserSuggestionByCity(user);
+//                System.out.println("getSuggestion-->CITY-->" + sUser);
+//            }
+//
+//            return sUser;
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            List<UserDTO> l = new ArrayList<>();
+//
+//            //l.add(new UserDTO(user.getUser_id(),user.getFirst_name()))
         }
-        return null;
+        catch (Exception e){
+            System.out.println("cant finddddd");
+        }
+        return sUser;
+
     }
 
     private UserDTO getUserSuggestionByAgeAndCity(User user) {
@@ -96,3 +101,4 @@ public class SuggestionServiceImpl implements SuggestionService {
         }
     }
 }
+

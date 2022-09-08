@@ -1,5 +1,6 @@
 package ge.kinder.DAO.DAOimpl;
 
+import com.google.gson.stream.JsonToken;
 import ge.kinder.DAO.HobbiesDAO;
 import ge.kinder.DAO.ImagesDAO;
 import ge.kinder.DAO.LikesDAO;
@@ -17,7 +18,7 @@ public class UserDAOimpl implements UserDAO {
     private final Connection connection;
     private ImagesDAO imagesDAO;
     private HobbiesDAO hobbiesDAO;
-    private LikesDAO likesDAO    ;
+    private LikesDAO likesDAO;
     public UserDAOimpl(Connection connection, HobbiesDAO hobbiesDAO, ImagesDAO imagesDAO, LikesDAO likesDAO) {
         this.hobbiesDAO = hobbiesDAO;
         this.imagesDAO = imagesDAO;
@@ -34,13 +35,13 @@ public class UserDAOimpl implements UserDAO {
                     "( %s, %s, %s, %s, %s, %s, %s, %s) " +
                     "VALUES (?, ?, ?, ?,?, ?, ?, ?)")
                     .formatted(User.USER_MAIL,
-                    User.USER_FIRST_NAME,
-                    User.USER_BIRTH_DATE,
-                    User.USER_CITY,
-                    User.USER_GENDER ,
-                    User.USER_SHOW_GENDER ,
-                    User.USER_PREFERENCE ,
-                    User.USER_ORIENTATION),Statement.RETURN_GENERATED_KEYS);
+                            User.USER_FIRST_NAME,
+                            User.USER_BIRTH_DATE,
+                            User.USER_CITY,
+                            User.USER_GENDER ,
+                            User.USER_SHOW_GENDER ,
+                            User.USER_PREFERENCE ,
+                            User.USER_ORIENTATION),Statement.RETURN_GENERATED_KEYS);
 
             stm.setString(1, user.getMail());
             stm.setString(2, user.getFirst_name());
@@ -83,23 +84,23 @@ public class UserDAOimpl implements UserDAO {
             throw new RuntimeException(e);
         }
     }
-        @Override
+    @Override
     public void updateRow(User user, String rowName, String value) {
-            int user_id = user.getUser_id();
+        int user_id = user.getUser_id();
 
-            try {
-                PreparedStatement stm = connection.prepareStatement(
-                        "UPDATE kinder_base.user SET %s = ? WHERE %s = ?;".formatted(
-                                rowName,
-                                User.USER_USER_ID));
-                stm.setString(1, value);
-                stm.setInt(2, user_id);
-                stm.executeUpdate();
-                connection.commit();
+        try {
+            PreparedStatement stm = connection.prepareStatement(
+                    "UPDATE kinder_base.user SET %s = ? WHERE %s = ?;".formatted(
+                            rowName,
+                            User.USER_USER_ID));
+            stm.setString(1, value);
+            stm.setInt(2, user_id);
+            stm.executeUpdate();
+            connection.commit();
 
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -122,8 +123,6 @@ public class UserDAOimpl implements UserDAO {
         }
 
     }
-
-
 
     @Override
     public boolean deleteUser(User user) throws SQLException {
@@ -174,14 +173,14 @@ public class UserDAOimpl implements UserDAO {
     }
 
     @Override
-    //აქ დავაბრუნოტ UserDTO
+
     public User getUserByMail(String mail) throws SQLException {
 
         try {
 
             PreparedStatement stm = connection.prepareStatement(
-                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s" +
-                            ", %s, %s, %s, %s, %s, %s, %s, %s FROM %s where %s = ?;").formatted(
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s," +
+                            "%s, %s, %s, %s, %s, %s, %s, %s FROM %s where %s = ?;").formatted(
                             User.USER_USER_ID,
                             User.USER_MAIL,
                             User.USER_FIRST_NAME,
@@ -208,10 +207,13 @@ public class UserDAOimpl implements UserDAO {
                             User.SHOW_RECENTLTY_ACTIVE,
                             User.PREMIUM,
                             User.AGE_RANGE,
+                            User.IS_BANNED,
                             User.USER_TABLE,
                             User.USER_MAIL
                     ));
-            stm.setString(1, mail);
+
+
+            stm.setString(1,mail);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 return new User(rs.getInt(1),
@@ -239,7 +241,10 @@ public class UserDAOimpl implements UserDAO {
                         rs.getInt(20),
                         rs.getDate(17),
                         rs.getInt(23),
-                        rs.getInt(24),rs.getInt(25),rs.getInt(26)
+                        rs.getInt(24),
+                        rs.getInt(25),
+                        rs.getInt(26),
+                        rs.getInt(27)
 
                 );
             }
@@ -249,12 +254,94 @@ public class UserDAOimpl implements UserDAO {
         }
         return null;
     }
+
+    @Override
+    public User getUserByID(int userID) throws SQLException {
+
+        try {
+
+            PreparedStatement stm = connection.prepareStatement(
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s," +
+                            "%s, %s, %s, %s, %s, %s, %s, %s FROM %s where %s = ?;").formatted(
+                            User.USER_USER_ID,
+                            User.USER_MAIL,
+                            User.USER_FIRST_NAME,
+                            User.USER_BIRTH_DATE,
+                            User.USER_CITY,
+                            User.USER_GENDER,
+                            User.USER_SHOW_GENDER,
+                            User.USER_PREFERENCE,
+                            User.USER_ORIENTATION,
+                            User.USER_BIO,
+                            User.USER_HOROSCOPE,
+                            User.USER_COMPANY,
+                            User.USER_JOB,
+                            User.USER_SCHOOL,
+                            User.USER_MIN_AGE,
+                            User.USER_MAX_AGE,
+                            User.USER_REGISTRATION_DATE,
+                            User.USER_SHOW_ACTIVE,
+                            User.USER_LAST_Session,
+                            User.USER_HIDED,
+                            User.USER_ROLE,
+                            User.SHOT_TO_LIKED,
+                            User.USER_BALANCE,
+                            User.SHOW_RECENTLTY_ACTIVE,
+                            User.PREMIUM,
+                            User.AGE_RANGE,
+                            User.IS_BANNED,
+                            User.USER_TABLE,
+                            User.USER_USER_ID
+                    ));
+            stm.setInt(1, userID);
+
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return new User(rs.getInt(1),
+                        rs.getString(21),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDate(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(8),
+                        rs.getInt(7),
+                        imagesDAO.getImages(rs.getInt(1)),
+                        hobbiesDAO.getHobbies(rs.getInt(1)),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getString(12),
+                        rs.getString(13),
+                        rs.getString(14),
+                        rs.getInt(15),
+                        rs.getInt(16),
+                        rs.getInt(18),
+                        rs.getDate(19),
+                        rs.getInt(22),
+                        rs.getInt(20),
+                        rs.getDate(17),
+                        rs.getInt(23),
+                        rs.getInt(24),
+                        rs.getInt(25),
+                        rs.getInt(26),
+                        rs.getInt(27)
+
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return null;
+    }
+
     public UserDTO getUser(String city, int user_id) throws SQLException {
-        System.out.println("CITY --> " + city + " USER_ID --> " + user_id);
+
         List<UserDTO> users = new ArrayList<>();
         try {
             PreparedStatement stm = connection.prepareStatement(
-                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s  " +
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s  " +
                             "FROM %s WHERE %s = ? AND %s != ? AND %s != ?;").formatted(
                             User.USER_USER_ID,
                             User.USER_FIRST_NAME,
@@ -266,6 +353,7 @@ public class UserDAOimpl implements UserDAO {
                             User.USER_COMPANY,
                             User.USER_JOB,
                             User.USER_SCHOOL,
+                            User.USER_MAIL,
                             User.USER_TABLE,
                             User.USER_CITY,
                             User.USER_USER_ID,
@@ -275,34 +363,43 @@ public class UserDAOimpl implements UserDAO {
             stm.setString(1, city);
             stm.setInt(2, user_id);
             stm.setInt(3, 1);
-            System.out.println(stm.toString());
+            //    System.out.println(stm.toString());
 
             ResultSet rs = stm.executeQuery();
-            //System.out.println("out-->"+ rs.getInt(1));
+            User curUser = getUserByID(user_id);
             while (rs.next()) {
-                System.out.println(rs.getInt(1));
-                if (!(likesDAO.isLiked(user_id, rs.getInt(1)) ||
-                        likesDAO.isDisliked(user_id, rs.getInt(1)) ||
-                        likesDAO.isDisliked(rs.getInt(1), user_id)))
-                    return new UserDTO(
-                            rs.getInt(1),
-                            rs.getString(2),
-                            rs.getDate(3),
-                            rs.getString(4),
-                            rs.getString(5),
-                            imagesDAO.getImages(rs.getInt(1)),
-                            hobbiesDAO.getHobbies(rs.getInt(1)),
-                            rs.getString(6),
-                            rs.getString(7),
-                            rs.getString(8),
-                            rs.getString(9),
-                            rs.getString(10)
-                    );
+                if(curUser.getGenderPref().equals(rs.getString(5)) &&
+                        (likesDAO.isLiked(user_id, rs.getInt(1)) ||
+                                likesDAO.isDisliked(user_id, rs.getInt(1)) ||
+                                likesDAO.isDisliked(rs.getInt(1), user_id))
+                ){
+                    if(!(rs.getString(12).equals(Role.PREMIUM_USER.toString()) &&
+                            rs.getInt(13) == 1 &&
+                            !likesDAO.isLiked(rs.getInt(1),user_id))){
+
+                        return  new UserDTO(
+                                rs.getInt(1),
+                                rs.getString(2),
+                                rs.getDate(3),
+                                rs.getString(4),
+                                rs.getString(5),
+                                imagesDAO.getImages(rs.getInt(1)),
+                                hobbiesDAO.getHobbies(rs.getInt(1)),
+                                rs.getString(6),
+                                rs.getString(7),
+                                rs.getString(8),
+                                rs.getString(9),
+                                rs.getString(10),
+                                rs.getString(11)
+                        );
+                    }
+                }
 
             }
 
-            System.out.println(users);
+            // System.out.println(users);
         } catch (SQLException e) {
+            System.out.println("cant");
             e.printStackTrace();
             throw new RuntimeException(e);
         }
@@ -311,12 +408,12 @@ public class UserDAOimpl implements UserDAO {
 
     @Override
     public List<UserDTO> getUsers(String city, int user_id) throws SQLException {
-        System.out.println("CITY --> " +city + " USER_ID --> " + user_id );
+
         List <UserDTO> users = new ArrayList<>();
         try {
             PreparedStatement stm = connection.prepareStatement(
-                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s  " +
-                       "FROM %s WHERE %s = ? AND %s != ? AND %s != ? ;").formatted(
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s  " +
+                            "FROM %s WHERE %s = ? AND %s != ? AND %s != ? ;").formatted(
                             User.USER_USER_ID,
                             User.USER_FIRST_NAME,
                             User.USER_BIRTH_DATE,
@@ -327,6 +424,7 @@ public class UserDAOimpl implements UserDAO {
                             User.USER_COMPANY,
                             User.USER_JOB,
                             User.USER_SCHOOL,
+                            User.USER_MAIL,
                             User.USER_TABLE,
                             User.USER_CITY,
                             User.USER_USER_ID,
@@ -336,43 +434,54 @@ public class UserDAOimpl implements UserDAO {
             stm.setString(1, city);
             stm.setInt(2, user_id);
             stm.setInt(3,1);
-            System.out.println(stm.toString());
+
 
             ResultSet rs = stm.executeQuery();
-            //System.out.println("out-->"+ rs.getInt(1));
+            User curUser = getUserByID(user_id);
+            System.out.println("BEFORE IF");
             while (rs.next()) {
-                System.out.println(rs.getInt(1));
-                users.add(new UserDTO(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getDate(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        imagesDAO.getImages(rs.getInt(1)),
-                        hobbiesDAO.getHobbies(rs.getInt(1)),
-                        rs.getString(6),
-                        rs.getString(7),
-                        rs.getString(8),
-                        rs.getString(9),
-                        rs.getString(10)
-                        ));
-
+                System.out.println("NO IF");
+                if(curUser.getGenderPref().equals(rs.getString(5)) &&
+                        (likesDAO.isLiked(user_id, rs.getInt(1)) ||
+                                likesDAO.isDisliked(user_id, rs.getInt(1)) ||
+                                likesDAO.isDisliked(rs.getInt(1), user_id))
+                ){
+                    System.out.println("First IF");
+                    if(!(rs.getString(12).equals(Role.PREMIUM_USER.toString()) &&
+                            rs.getInt(13) == 1 &&
+                            !likesDAO.isLiked(rs.getInt(1),user_id))){
+                        System.out.println("Second IF");
+                        UserDTO suggestedUser = new UserDTO(
+                                rs.getInt(1),
+                                rs.getString(2),
+                                rs.getDate(3),
+                                rs.getString(4),
+                                rs.getString(5),
+                                imagesDAO.getImages(rs.getInt(1)),
+                                hobbiesDAO.getHobbies(rs.getInt(1)),
+                                rs.getString(6),
+                                rs.getString(7),
+                                rs.getString(8),
+                                rs.getString(9),
+                                rs.getString(10),
+                                rs.getString(11)
+                        );
+                        users.add(suggestedUser);
+                    }
+                }
             }
-
-            System.out.println(users);
             return users;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        //return users;
     }
 
     public UserDTO getUser(int min_age, int max_age, String city, int user_id) throws SQLException {
-        System.out.println("CITY --> " + city + " USER_ID --> " + user_id);
+
         try {
             PreparedStatement stm = connection.prepareStatement(
-                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s  FROM %s WHERE %s = ? AND %s != ? " +
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s  FROM %s WHERE %s = ? AND %s != ? " +
                             "AND TIMESTAMPDIFF(year,%s,SYSDATE()) >= ? " +
                             "AND TIMESTAMPDIFF(year,%s,SYSDATE()) <= ? " +
                             "AND %s != ?;").formatted(
@@ -386,6 +495,7 @@ public class UserDAOimpl implements UserDAO {
                             User.USER_COMPANY,
                             User.USER_JOB,
                             User.USER_SCHOOL,
+                            User.USER_MAIL,
                             User.USER_TABLE,
                             User.USER_CITY,
                             User.USER_USER_ID,
@@ -400,27 +510,35 @@ public class UserDAOimpl implements UserDAO {
             stm.setInt(4,max_age);
             stm.setInt(5,1);
             ResultSet rs = stm.executeQuery();
-
-            //System.out.println("out-->"+ rs.getInt(1));
+            User curUser = getUserByID(user_id);
             while (rs.next()) {
-                System.out.println(rs.getInt(1));
-                if ((likesDAO.isLiked(user_id, rs.getInt(1)) ||
-                        likesDAO.isDisliked(user_id, rs.getInt(1)) ||
-                        likesDAO.isDisliked(rs.getInt(1), user_id)))
-                    return new UserDTO(
-                            rs.getInt(1),
-                            rs.getString(2),
-                            rs.getDate(3),
-                            rs.getString(4),
-                            rs.getString(5),
-                            imagesDAO.getImages(rs.getInt(1)),
-                            hobbiesDAO.getHobbies(rs.getInt(1)),
-                            rs.getString(6),
-                            rs.getString(7),
-                            rs.getString(8),
-                            rs.getString(9),
-                            rs.getString(10)
-                    );
+                if(curUser.getGenderPref().equals(rs.getString(5)) &&
+                        (likesDAO.isLiked(user_id, rs.getInt(1)) ||
+                                likesDAO.isDisliked(user_id, rs.getInt(1)) ||
+                                likesDAO.isDisliked(rs.getInt(1), user_id))
+                ){
+                    if(!(rs.getString(12).equals(Role.PREMIUM_USER.toString()) &&
+                            rs.getInt(13) == 1 &&
+                            !likesDAO.isLiked(rs.getInt(1),user_id))){
+
+                        return  new UserDTO(
+                                rs.getInt(1),
+                                rs.getString(2),
+                                rs.getDate(3),
+                                rs.getString(4),
+                                rs.getString(5),
+                                imagesDAO.getImages(rs.getInt(1)),
+                                hobbiesDAO.getHobbies(rs.getInt(1)),
+                                rs.getString(6),
+                                rs.getString(7),
+                                rs.getString(8),
+                                rs.getString(9),
+                                rs.getString(10),
+                                rs.getString(11)
+                        );
+                    }
+                }
+
             }
 
 
@@ -437,7 +555,7 @@ public class UserDAOimpl implements UserDAO {
         List <UserDTO> users = new ArrayList<>();
         try {
             PreparedStatement stm = connection.prepareStatement(
-                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s  FROM %s WHERE %s = ? AND %s != ? " +
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s,%s  FROM %s WHERE %s = ? AND %s != ? " +
                             "AND TIMESTAMPDIFF(year,%s,SYSDATE()) >= ? " +
                             "AND TIMESTAMPDIFF(year,%s,SYSDATE()) <= ? " +
                             "AND %s != ?;").formatted(
@@ -451,6 +569,9 @@ public class UserDAOimpl implements UserDAO {
                             User.USER_COMPANY,
                             User.USER_JOB,
                             User.USER_SCHOOL,
+                            User.USER_MAIL,
+                            User.USER_ROLE,
+                            User.SHOT_TO_LIKED,
                             User.USER_TABLE,
                             User.USER_CITY,
                             User.USER_USER_ID,
@@ -465,26 +586,38 @@ public class UserDAOimpl implements UserDAO {
             stm.setInt(4,max_age);
             stm.setInt(5,1);
             ResultSet rs = stm.executeQuery();
-
+            User curUser = getUserByID(user_id);
+            System.out.println("AGES-->BEFORE_WHILE");
             while (rs.next()) {
-//                Date birthDate = rs.getDate(3);
-//                int age = (int) Math.floor((new Date(System.currentTimeMillis()).getTime()-birthDate.getTime() ) / 3.15576e+10);
-//                if(age >= min_age && age <=max_age){
-                users.add(new UserDTO(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getDate(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        imagesDAO.getImages(rs.getInt(1)),
-                        hobbiesDAO.getHobbies(rs.getInt(1)),
-                        rs.getString(6),
-                        rs.getString(7),
-                        rs.getString(8),
-                        rs.getString(9),
-                        rs.getString(10)
-                        ));
-              //}
+                System.out.println("AGES-->IN_WHILE");
+                if(curUser.getGenderPref().equals(rs.getString(5)) &&
+                        (likesDAO.isLiked(user_id, rs.getInt(1)) ||
+                        likesDAO.isDisliked(user_id, rs.getInt(1)) ||
+                        likesDAO.isDisliked(rs.getInt(1), user_id))
+                ){
+                    System.out.println("AGES-->FIRS_IF");
+                    if(!(rs.getString(12).equals(Role.PREMIUM_USER.toString()) &&
+                            rs.getInt(13) == 1 &&
+                            !likesDAO.isLiked(rs.getInt(1),user_id))){
+                        System.out.println("AGES-->SECOND_IF");
+                        UserDTO suggestedUser = new UserDTO(
+                                rs.getInt(1),
+                                rs.getString(2),
+                                rs.getDate(3),
+                                rs.getString(4),
+                                rs.getString(5),
+                                imagesDAO.getImages(rs.getInt(1)),
+                                hobbiesDAO.getHobbies(rs.getInt(1)),
+                                rs.getString(6),
+                                rs.getString(7),
+                                rs.getString(8),
+                                rs.getString(9),
+                                rs.getString(10),
+                                rs.getString(11)
+                        );
+                        users.add(suggestedUser);
+                    }
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -492,5 +625,165 @@ public class UserDAOimpl implements UserDAO {
         }
         return users;
     }
+    @Override
+    public List<User> getBannedUsers() throws SQLException {
+    List <User> users = new ArrayList<>();
+    try {
 
+        PreparedStatement stm = connection.prepareStatement(
+                ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s,%s" +
+                        ", %s, %s, %s, %s, %s, %s, %s, %s FROM %s where %s = ?;").formatted(
+                        User.USER_USER_ID,
+                        User.USER_MAIL,
+                        User.USER_FIRST_NAME,
+                        User.USER_BIRTH_DATE,
+                        User.USER_CITY,
+                        User.USER_GENDER,
+                        User.USER_SHOW_GENDER,
+                        User.USER_PREFERENCE,
+                        User.USER_ORIENTATION,
+                        User.USER_BIO,
+                        User.USER_HOROSCOPE,
+                        User.USER_COMPANY,
+                        User.USER_JOB,
+                        User.USER_SCHOOL,
+                        User.USER_MIN_AGE,
+                        User.USER_MAX_AGE,
+                        User.USER_REGISTRATION_DATE,
+                        User.USER_SHOW_ACTIVE,
+                        User.USER_LAST_Session,
+                        User.USER_HIDED,
+                        User.USER_ROLE,
+                        User.SHOT_TO_LIKED,
+                        User.USER_BALANCE,
+                        User.SHOW_RECENTLTY_ACTIVE,
+                        User.PREMIUM,
+                        User.AGE_RANGE,
+                        User.IS_BANNED,
+                        User.USER_TABLE,
+                        User.IS_BANNED
+                ));
+        stm.setInt(1, 1);
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            users.add(new User(rs.getInt(1),
+                    rs.getString(21),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getDate(4),
+                    rs.getString(5),
+                    rs.getString(6),
+                    rs.getString(8),
+                    rs.getInt(7),
+                    imagesDAO.getImages(rs.getInt(1)),
+                    hobbiesDAO.getHobbies(rs.getInt(1)),
+                    rs.getString(9),
+                    rs.getString(10),
+                    rs.getString(11),
+                    rs.getString(12),
+                    rs.getString(13),
+                    rs.getString(14),
+                    rs.getInt(15),
+                    rs.getInt(16),
+                    rs.getInt(18),
+                    rs.getDate(19),
+                    rs.getInt(22),
+                    rs.getInt(20),
+                    rs.getDate(17),
+                    rs.getInt(23),
+                    rs.getInt(24),
+                    rs.getInt(25),
+                    rs.getInt(26),
+                    rs.getInt(27)
+
+            ));
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return users;
 }
+    @Override
+    public List<User> getAllUsers() throws SQLException {
+        List <User> users = new ArrayList<>();
+        try {
+
+            PreparedStatement stm = connection.prepareStatement(
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s,%s" +
+                            ", %s, %s, %s, %s, %s, %s, %s, %s FROM %s where %s != ?;").formatted(
+                            User.USER_USER_ID,
+                            User.USER_MAIL,
+                            User.USER_FIRST_NAME,
+                            User.USER_BIRTH_DATE,
+                            User.USER_CITY,
+                            User.USER_GENDER,
+                            User.USER_SHOW_GENDER,
+                            User.USER_PREFERENCE,
+                            User.USER_ORIENTATION,
+                            User.USER_BIO,
+                            User.USER_HOROSCOPE,
+                            User.USER_COMPANY,
+                            User.USER_JOB,
+                            User.USER_SCHOOL,
+                            User.USER_MIN_AGE,
+                            User.USER_MAX_AGE,
+                            User.USER_REGISTRATION_DATE,
+                            User.USER_SHOW_ACTIVE,
+                            User.USER_LAST_Session,
+                            User.USER_HIDED,
+                            User.USER_ROLE,
+                            User.SHOT_TO_LIKED,
+                            User.USER_BALANCE,
+                            User.SHOW_RECENTLTY_ACTIVE,
+                            User.PREMIUM,
+                            User.AGE_RANGE,
+                            User.IS_BANNED,
+                            User.USER_TABLE,
+                            User.USER_ROLE
+                    ));
+            stm.setString(1, Role.ADMIN.toString());
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                users.add(new User(rs.getInt(1),
+                        rs.getString(21),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDate(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(8),
+                        rs.getInt(7),
+                        imagesDAO.getImages(rs.getInt(1)),
+                        hobbiesDAO.getHobbies(rs.getInt(1)),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getString(12),
+                        rs.getString(13),
+                        rs.getString(14),
+                        rs.getInt(15),
+                        rs.getInt(16),
+                        rs.getInt(18),
+                        rs.getDate(19),
+                        rs.getInt(22),
+                        rs.getInt(20),
+                        rs.getDate(17),
+                        rs.getInt(23),
+                        rs.getInt(24),
+                        rs.getInt(25),
+                        rs.getInt(26),
+                        rs.getInt(27)
+
+                ));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;
+    }
+}
+

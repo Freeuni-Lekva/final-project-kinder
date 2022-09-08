@@ -1,12 +1,9 @@
 package ge.kinder.DAO.DAOimpl;
 
-import com.mysql.cj.jdbc.ConnectionImpl;
 import ge.kinder.DAO.MessageDAO;
 import ge.kinder.Database.TableConstants;
-import ge.kinder.Models.Hobby;
 import ge.kinder.Models.Message;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +18,12 @@ public class MessageDAOimpl implements MessageDAO {
         this.connection = connection;
 
 
+
     }
 
 
-
-    private int getChatId(int user_id_1, int user_id_2) throws SQLException{
+    @Override
+    public int getChatId(int user_id_1, int user_id_2) throws SQLException{
 
         try {
 
@@ -46,6 +44,30 @@ public class MessageDAOimpl implements MessageDAO {
             ResultSet rs = stm.executeQuery();
             rs.next();
             return rs.getInt(1);
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void addMessage(int chat_id, String msg, int user_id_1) throws SQLException {
+        try {
+
+            PreparedStatement stm = connection.prepareStatement(
+                    "INSERT INTO %s (%s, %s,  %s) VALUES (?, ?, ?)".formatted(
+                            Message.MESSAGE_TABLE,
+                            Message.MESSAGE_CHAT_ID,
+                            Message.MESSAGE_MESSAGE_TEXT,
+
+                            Message.MESSAGE_USER_ID
+                    ), Statement.RETURN_GENERATED_KEYS);
+            stm.setInt(1, chat_id);
+            stm.setString(2, msg);
+            stm.setInt(3, user_id_1);
+            stm.executeUpdate();
+            connection.commit();
 
 
         } catch (SQLException e) {
@@ -101,9 +123,9 @@ public class MessageDAOimpl implements MessageDAO {
 
     }
     @Override
-    public List<Message> getMessages(int user_id_1,int user_id_2) throws SQLException {
-        int chat_id = getChatId(user_id_1,user_id_2);
-
+    public List<Message> getMessages(int chat_id) throws SQLException {
+        //  int chat_id = getChatId(user_id_1,user_id_2);
+        System.out.println("asked chat is " + chat_id);
         List <Message> messages = new ArrayList<>();
         try {
 
@@ -120,6 +142,7 @@ public class MessageDAOimpl implements MessageDAO {
                         rs.getString(3),rs.getDate(4),rs.getInt(5)));
 
             }
+            System.out.println("messages are  " + messages);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

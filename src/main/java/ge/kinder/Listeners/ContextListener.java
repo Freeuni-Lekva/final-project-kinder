@@ -6,11 +6,10 @@ import ge.kinder.DAO.ImagesDAO;
 import ge.kinder.DAO.LikesDAO;
 import ge.kinder.DAO.UserDAO;
 import ge.kinder.Database.MyDatabase;
+import ge.kinder.Models.Message;
 import ge.kinder.Security.Authentificator;
-import ge.kinder.Services.Implementation.LikesServiceImpl;
-import ge.kinder.Services.Implementation.MatchesServiceImpl;
-import ge.kinder.Services.Implementation.SuggestionServiceImpl;
-import ge.kinder.Services.Implementation.UserServiceImpl;
+import ge.kinder.Services.Implementation.*;
+import ge.kinder.Services.MessagesService;
 import ge.kinder.Services.SuggestionService;
 
 import javax.servlet.ServletContext;
@@ -21,6 +20,7 @@ import javax.swing.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
 @WebListener
 public class ContextListener implements ServletContextListener {
@@ -51,7 +51,7 @@ public class ContextListener implements ServletContextListener {
         sc.setAttribute("LIKES_SERVICE", new LikesServiceImpl(userDAO,likesDAO));
         sc.setAttribute("MATCHES_SERVICE", new MatchesServiceImpl(new MatchesDAOimpl(connection,messagesDAO,likesDAO)));
         sc.setAttribute("MESSAGED_SERVICE", messagesDAO);
-
+        sc.setAttribute("MESSAGES_SERVICE", new MessagesServiceImpl(messagesDAO));
 
 
 

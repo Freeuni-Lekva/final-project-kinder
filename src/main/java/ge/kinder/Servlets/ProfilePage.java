@@ -1,7 +1,11 @@
 package ge.kinder.Servlets;
 
 import ge.kinder.DAO.DAOimpl.UserDAOimpl;
+import ge.kinder.Models.DTO.UserDTO;
+import ge.kinder.Models.Status;
 import ge.kinder.Models.User;
+import ge.kinder.Services.LikesService;
+import ge.kinder.Services.MatchesService;
 import ge.kinder.Services.UserService;
 
 import javax.servlet.ServletException;
@@ -23,6 +27,8 @@ public class ProfilePage extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserService userService = (UserService) req.getServletContext().getAttribute("USER_SERVICE");
         UserDAOimpl userDAOimpl = (UserDAOimpl) req.getServletContext().getAttribute("USERDAO");
+        LikesService likesService = (LikesService) req.getServletContext().getAttribute("LIKES_SERVICE");
+        MatchesService matchesService = (MatchesService) req.getServletContext().getAttribute("MATCHES_SERVICE");
 
         User user = (User) req.getSession().getAttribute("user");
 
@@ -33,15 +39,27 @@ public class ProfilePage extends HttpServlet {
             if (mainPageButton.equals("toSettings")) {
                 req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
 
-            } else if (mainPageButton.equals("matches")) {
-                req.getRequestDispatcher("/WEB-INF/MainPage.jsp").forward(req, resp);
 
-            } else if(mainPageButton.equals("messages")){
-                req.getRequestDispatcher("/WEB-INF/Messages.jsp").forward(req, resp);
-            } else if(mainPageButton.equals("messages")) {
-                req.getRequestDispatcher("/WEB-INF/Messages.jsp").forward(req, resp);
-            } else if(mainPageButton.equals("messages")) {
-                req.getRequestDispatcher("/WEB-INF/Messages.jsp").forward(req, resp);
+            } else if(mainPageButton.equals("like")) {
+                UserDTO suggestedUser = (UserDTO) req.getSession().getAttribute("suggestedUser");
+                likesService.likeUser(user.getUser_id(),suggestedUser.getUser_id(), Status.LIKE);
+                if(likesService.isLiked(suggestedUser.getUser_id(),user.getUser_id())) {
+                    matchesService.addMatch(user.getUser_id(), suggestedUser.getUser_id());
+                    req.setAttribute("MATCH","It`s a match!.");
+                }
+                req.getRequestDispatcher("/WEB-INF/MainPage.jsp").forward(req, resp);
+            } else if(mainPageButton.equals("dislike")) {
+                UserDTO suggestedUser = (UserDTO) req.getSession().getAttribute("suggestedUser");
+                likesService.dislikeUser(user.getUser_id(),suggestedUser.getUser_id());
+                req.getRequestDispatcher("/WEB-INF/MainPage.jsp").forward(req, resp);
+            }else if(mainPageButton.equals("superlike")){
+                UserDTO suggestedUser = (UserDTO) req.getSession().getAttribute("suggestedUser");
+                likesService.likeUser(user.getUser_id(),suggestedUser.getUser_id(), Status.SUPERLIKE);
+                if(likesService.isLiked(suggestedUser.getUser_id(),user.getUser_id())) {
+                    matchesService.addMatch(user.getUser_id(), suggestedUser.getUser_id());
+                    req.setAttribute("MATCH","It`s a match!.");
+                }
+                req.getRequestDispatcher("/WEB-INF/MainPage.jsp").forward(req, resp);
             }
         }
     }

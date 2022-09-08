@@ -7,9 +7,13 @@ import java.util.List;
 
 public interface MessageDAO {
 
-    void addMessage(int user_id_1,int user_id_2,String msg) throws SQLException; //works
+    void addMessage(int chat_id, String msg, int user_id_1) throws SQLException;
 
-    List<Message> getMessages(int user_id_1,int user_id_2) throws SQLException; //works
+    void addMessage(int user_id_1, int user_id_2, String msg) throws SQLException; //works
+
+    List<Message> getMessages(int chat_id) throws SQLException; //works
+
+    int getChatId(int user_id_1, int user_id_2) throws SQLException;
 
 
     void deleteMessage(int message_id) throws SQLException; // works
