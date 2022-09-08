@@ -341,8 +341,8 @@ public class UserDAOimpl implements UserDAO {
         List<UserDTO> users = new ArrayList<>();
         try {
             PreparedStatement stm = connection.prepareStatement(
-                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s  " +
-                            "FROM %s WHERE %s = ? AND %s != ? AND %s != ?;").formatted(
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s,%s  " +
+                            "FROM %s WHERE %s = ? AND %s != ? AND %s != ? ;").formatted(
                             User.USER_USER_ID,
                             User.USER_FIRST_NAME,
                             User.USER_BIRTH_DATE,
@@ -354,6 +354,8 @@ public class UserDAOimpl implements UserDAO {
                             User.USER_JOB,
                             User.USER_SCHOOL,
                             User.USER_MAIL,
+                            User.USER_ROLE,
+                            User.SHOT_TO_LIKED,
                             User.USER_TABLE,
                             User.USER_CITY,
                             User.USER_USER_ID,
@@ -367,16 +369,20 @@ public class UserDAOimpl implements UserDAO {
 
             ResultSet rs = stm.executeQuery();
             User curUser = getUserByID(user_id);
+            System.out.println("CITI-->BEFORE");
             while (rs.next()) {
+                System.out.println("CITY-->AFTER-->"+curUser.getGenderPref()+"-->"+rs.getString(5));
+                System.out.println("CITY-->AFTER-->"+likesDAO.isLiked(user_id,rs.getInt(1)));
                 if(curUser.getGenderPref().equals(rs.getString(5)) &&
-                        (likesDAO.isLiked(user_id, rs.getInt(1)) ||
+                        !(likesDAO.isLiked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(rs.getInt(1), user_id))
                 ){
+                    System.out.println("CITY-->FIRSTIF");
                     if(!(rs.getString(12).equals(Role.PREMIUM_USER.toString()) &&
                             rs.getInt(13) == 1 &&
                             !likesDAO.isLiked(rs.getInt(1),user_id))){
-
+                        System.out.println("CITY-->SECONDIF");
                         return  new UserDTO(
                                 rs.getInt(1),
                                 rs.getString(2),
@@ -412,7 +418,7 @@ public class UserDAOimpl implements UserDAO {
         List <UserDTO> users = new ArrayList<>();
         try {
             PreparedStatement stm = connection.prepareStatement(
-                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s  " +
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s,%s  " +
                             "FROM %s WHERE %s = ? AND %s != ? AND %s != ? ;").formatted(
                             User.USER_USER_ID,
                             User.USER_FIRST_NAME,
@@ -425,6 +431,8 @@ public class UserDAOimpl implements UserDAO {
                             User.USER_JOB,
                             User.USER_SCHOOL,
                             User.USER_MAIL,
+                            User.USER_ROLE,
+                            User.SHOT_TO_LIKED,
                             User.USER_TABLE,
                             User.USER_CITY,
                             User.USER_USER_ID,
@@ -442,7 +450,7 @@ public class UserDAOimpl implements UserDAO {
             while (rs.next()) {
                 System.out.println("NO IF");
                 if(curUser.getGenderPref().equals(rs.getString(5)) &&
-                        (likesDAO.isLiked(user_id, rs.getInt(1)) ||
+                        !(likesDAO.isLiked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(rs.getInt(1), user_id))
                 ){
@@ -481,7 +489,7 @@ public class UserDAOimpl implements UserDAO {
 
         try {
             PreparedStatement stm = connection.prepareStatement(
-                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s  FROM %s WHERE %s = ? AND %s != ? " +
+                    ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s,%s  FROM %s WHERE %s = ? AND %s != ? " +
                             "AND TIMESTAMPDIFF(year,%s,SYSDATE()) >= ? " +
                             "AND TIMESTAMPDIFF(year,%s,SYSDATE()) <= ? " +
                             "AND %s != ?;").formatted(
@@ -496,6 +504,8 @@ public class UserDAOimpl implements UserDAO {
                             User.USER_JOB,
                             User.USER_SCHOOL,
                             User.USER_MAIL,
+                            User.USER_ROLE,
+                            User.SHOT_TO_LIKED,
                             User.USER_TABLE,
                             User.USER_CITY,
                             User.USER_USER_ID,
@@ -504,6 +514,7 @@ public class UserDAOimpl implements UserDAO {
                             User.USER_HIDED
                     )
             );
+
             stm.setString(1, city);
             stm.setInt(2, user_id);
             stm.setInt(3,min_age);
@@ -511,16 +522,19 @@ public class UserDAOimpl implements UserDAO {
             stm.setInt(5,1);
             ResultSet rs = stm.executeQuery();
             User curUser = getUserByID(user_id);
+            System.out.println("BEFORE WHILE");
             while (rs.next()) {
+                System.out.println("AFTER WHILE");
                 if(curUser.getGenderPref().equals(rs.getString(5)) &&
-                        (likesDAO.isLiked(user_id, rs.getInt(1)) ||
+                        !(likesDAO.isLiked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(rs.getInt(1), user_id))
                 ){
+                    System.out.println("FIRST IF");
                     if(!(rs.getString(12).equals(Role.PREMIUM_USER.toString()) &&
                             rs.getInt(13) == 1 &&
                             !likesDAO.isLiked(rs.getInt(1),user_id))){
-
+                        System.out.println("SECOND IF");
                         return  new UserDTO(
                                 rs.getInt(1),
                                 rs.getString(2),
@@ -591,7 +605,7 @@ public class UserDAOimpl implements UserDAO {
             while (rs.next()) {
                 System.out.println("AGES-->IN_WHILE");
                 if(curUser.getGenderPref().equals(rs.getString(5)) &&
-                        (likesDAO.isLiked(user_id, rs.getInt(1)) ||
+                        !(likesDAO.isLiked(user_id, rs.getInt(1)) ||
                         likesDAO.isDisliked(user_id, rs.getInt(1)) ||
                         likesDAO.isDisliked(rs.getInt(1), user_id))
                 ){
