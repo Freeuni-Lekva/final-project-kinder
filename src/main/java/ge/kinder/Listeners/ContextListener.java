@@ -38,7 +38,7 @@ public class ContextListener implements ServletContextListener {
         Connection connection =  database.getConnection();
         HobbiesDAOimpl hobbiesDAO  = new HobbiesDAOimpl(connection);
         ImagesDAOimpl imagesDAO = new ImagesDAOimpl(connection);
-        LikesDAOimpl likesDAO = new LikesDAOimpl(connection);
+        LikesDAOimpl likesDAO = new LikesDAOimpl(connection,imagesDAO,hobbiesDAO);
         MessageDAOimpl messagesDAO = new MessageDAOimpl(connection);
 
         UserDAO userDAO = new UserDAOimpl(connection,hobbiesDAO,imagesDAO,likesDAO);

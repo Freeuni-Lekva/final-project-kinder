@@ -160,4 +160,6 @@ INSERT INTO Kinder_Base.Hobbies ( User_id, Hobby_Name) VALUES (4,'FOOTBALL');
 
 # insert into Kinder_Base.Likes( Status, User_id_1, User_id_2)  values('LIKE',2,1);
 
- insert into Kinder_Base.Likes( Status, User_id_1, User_id_2)  values('LIKE',3,1);
+ insert into Kinder_Base.Likes( Status, User_id_1, User_id_2)  values('LIKE',1,3);
+insert into Kinder_Base.Likes( Status, User_id_1, User_id_2)  values('LIKE',2,3);
+insert into Kinder_Base.Likes( Status, User_id_1, User_id_2)  values('LIKE',4,3);

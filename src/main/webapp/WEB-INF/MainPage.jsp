@@ -7,7 +7,6 @@
 <head>
     <meta charset="utf-8">
     <title>Main Page </title>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
@@ -99,11 +98,101 @@
 
 
             <button name="mainPageButton" type="submit" value="toSettings">Settings</button>
+            <button id="likematch" name="mainPageButton" type="button"onclick="seeLikers()" <%if(user.getIs_premium()!=1){%> disabled="disabled" <%}%>value="Likes">See Likes</button>
+
+<script>
+    function seeLikers() {
+        var elem = document.getElementById("likematch");
+        if (elem.innerHTML=="See Likes") elem.innerHTML = "See Matches";
+        else elem.innerHTML = "See Likes";
+        if(state===0){
+            state=1;
+            $("#chatsContainerBody").empty();
+            $('.likesContainerBody').css('display', 'block');
+            $('.chatsContainerBody').css('display', 'none');
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "LikersServlet",
+            dataType: "json",
+            data: {"userID": userID},
+            success: function (msg) {
+
+                likersArray = msg;
+
+                if (likersArray.length != 0) {
+                    $("#likesContainerBody").empty();
+                    for (let i = 0; i < likersArray.length; i++) {
+
+                        getImagesOfLikers(likersArray[i].mail);
+                        let img="images/"+imagesOfLikers[0];
+                        let name = likersArray[i].first_name;
 
 
+                        $("#likesContainerBody").append("<div  class=\"currentChatContainer\">\n" +
+                            "            <img width=\"100px\" height=\"100px\" class=\"chatUserIcon\" src=" + img + ">\r\n" +
+                            "            <span>" + name + "</span>\n" +
+                            "        </div>");
+                    }
+                }
+
+            },
+            error: function (msg) {
+                alert("No chats");
+            }
+        });
+
+    }else {
+            state=0;
+            $("#likesContainerBody").empty();
+            getchats();
+
+            $('.chatsContainerBody').css('display', 'block');
+            $('.likesContainerBody').css('display', 'none');
+
+
+        }
+    }
+
+    function getImagesOfLikers(mail){
+       // alert(mail);
+
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "SuggestedUserImagesServlet",
+                dataType: "json",
+                data: {"suggestedUserMail": mail},
+                success: function (msg) {
+                    try {
+                        let response = JSON.parse(msg).status;
+                        if (response === 0) {
+
+                        }
+                    } catch (e) {
+                        imagesOfLikers = msg
+
+
+
+                    }
+                },
+                error: function (msg) {
+
+
+                }
+            });
+
+
+
+    }
+
+</script>
             <div class="chatsContainer"> <span  class="chatContainer__Header">Your Matches</span>
 
                 <div id ="chatsContainerBody" class="chatsContainerBody">
+
+                </div>
+                <div id ="likesContainerBody" class="likesContainerBody">
 
                 </div>
 
@@ -172,6 +261,8 @@
                 var hobbiesArray
                 var chatsArray
                 var messagesArray
+                var likersArray
+                var imagesOfLikers
 
                 let suggestedUserJob
                 let suggestedUserCompany
@@ -186,6 +277,7 @@
 
                 let displayCurrentChat
                 let chatDismiss
+                var state=0;
 
 
                 $('.openedChatContainer').css('display', 'none');
@@ -258,6 +350,7 @@
                                         "            <span>" + name + "</span>\n" +
                                         "        </div>");
                                 }
+
                             }
 
                         },
@@ -487,28 +580,21 @@
 
                     var curImg = document.getElementById("image").src.substring(36);
 
-                    for (var i=0; i<imagesArray.length; i++){
+                    for (var i = 0; i < imagesArray.length; i++) {
                         var obj = imagesArray[i];
 
-                        if (obj === curImg){
-                            if(i !== imagesArray.length-1){
-                                document.getElementById("image").src = 'images/' + imagesArray[i+1]
+                        if (obj === curImg) {
+                            if (i !== imagesArray.length - 1) {
+                                document.getElementById("image").src = 'images/' + imagesArray[i + 1]
                             }
-                            if(i==imagesArray.length-2) document.getElementById("nextButton").disabled = true;
-                            if(i==0) document.getElementById("previousButton").disabled = false;
+                            if (i == imagesArray.length - 2) document.getElementById("nextButton").disabled = true;
+                            if (i == 0) document.getElementById("previousButton").disabled = false;
 
 
                         }
                     }
                 }
             </script>
-
-
-
-
-
-
-
 
         </div>
     </div>
@@ -517,6 +603,3 @@
 
 </body>
 </html>
-
-
-

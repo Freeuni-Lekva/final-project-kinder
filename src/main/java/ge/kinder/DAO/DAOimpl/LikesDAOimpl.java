@@ -4,15 +4,21 @@ import ge.kinder.DAO.LikesDAO;
 import ge.kinder.Database.TableConstants;
 import ge.kinder.Models.DTO.UserDTO;
 import ge.kinder.Models.Status;
+import ge.kinder.Models.User;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LikesDAOimpl implements LikesDAO {
     private final Connection connection;
+    private ImagesDAOimpl imagesDAOimpl;
+    private HobbiesDAOimpl hobbiesDAOimpl;
 
-    public LikesDAOimpl(Connection connection) {
+    public LikesDAOimpl(Connection connection,ImagesDAOimpl imagesDAOimpl,HobbiesDAOimpl hobbiesDAOimpl) {
         this.connection = connection;
+        this.imagesDAOimpl = imagesDAOimpl;
+        this.hobbiesDAOimpl = hobbiesDAOimpl;
     }
 
     @Override
@@ -151,6 +157,58 @@ public class LikesDAOimpl implements LikesDAO {
 
     @Override
     public List<UserDTO> getLikers(int user_id) {
-        return null;
+        List <UserDTO> users = new ArrayList<>();
+        try {
+            PreparedStatement stm = connection.prepareStatement(
+                    ("SELECT User.%s, User.%s, User.%s, User.%s, User.%s, User.%s, User.%s, User.%s, User.%s, " +
+                            "User.%s, User.%s, User.%s, User.%s  FROM %s INNER JOIN User ON %s.%s = User.%s WHERE %s.%s = ?;").formatted(
+                            User.USER_USER_ID,
+                            User.USER_FIRST_NAME,
+                            User.USER_BIRTH_DATE,
+                            User.USER_CITY,
+                            User.USER_GENDER,
+                            User.USER_BIO,
+                            User.USER_HOROSCOPE,
+                            User.USER_COMPANY,
+                            User.USER_JOB,
+                            User.USER_SCHOOL,
+                            User.USER_MAIL,
+                            User.USER_ROLE,
+                            User.SHOT_TO_LIKED,
+                            TableConstants.LIKE_TABLE,
+                            TableConstants.LIKE_TABLE,
+                            TableConstants.LIKE_USER_ID1,
+                            User.USER_USER_ID,
+                            TableConstants.LIKE_TABLE,
+                            TableConstants.LIKE_USER_ID2
+                    )
+            );
+            stm.setInt(1, user_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                UserDTO likerUser = new UserDTO(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getDate(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        imagesDAOimpl.getImages(rs.getInt(1)),
+                        hobbiesDAOimpl.getHobbies(rs.getInt(1)),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getString(11)
+                );
+                users.add(likerUser);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+
+
     }
 }

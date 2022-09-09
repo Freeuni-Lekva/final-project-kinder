@@ -42,9 +42,10 @@ public class SuggestedUserImagesServlet extends HttpServlet {
             UserDAOimpl userDao = (UserDAOimpl) req.getServletContext().getAttribute("USERDAO");
             String suggestedUserMail = (req.getParameter("suggestedUserMail"));
 
-
+            System.out.println("meiliaaaaaa " + suggestedUserMail);
             User user = userDao.getUserByMail(suggestedUserMail);
             List<String> info =user.getImages();
+        System.out.println("photoebi " + info);
 
 
 
