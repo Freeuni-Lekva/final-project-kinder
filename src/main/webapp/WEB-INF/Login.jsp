@@ -25,6 +25,13 @@
 
     <h1 style="color: aliceblue"> Enter your email</h1>
     <br>
+
+    <%
+        String Login_Error = (String) request.getAttribute("LOGIN_ERROR");
+        if (Login_Error!= null) {%>
+    <div id = "error_text" style="color: #FFFFFF" ><%=Login_Error%></div>
+    <% }%>
+    <br>
 <form action="Login" method="post" >
     <div class="input-group mb-3" style="padding-left: 560px; width: 865px"  >
         <input name="LOGIN_MAIL" type="text" class="form-control"

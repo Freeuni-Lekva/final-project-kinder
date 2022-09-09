@@ -17,18 +17,82 @@
 
 <form action="ProfilePage" method="post">
 
-    <%--    <%--%>
-    <%--        String matchAlert = (String) request.getAttribute("MATCH");--%>
-    <%--        if (matchAlert!= null) {%>--%>
-    <%--    <script> alert('<%=matchAlert%>');</script>--%>
-
-    <%--    <% }%>--%>
     <%
         UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
         User user = userDao.getUserByMail((String) session.getAttribute("mail"));
 
     %>
+    <script>
 
+        function getPrevPhoto() {
+
+            var curImg = document.getElementById("image").src.substring(36);
+
+
+            for (var i=0; i<imagesArray.length; i++){
+                var obj = imagesArray[i];
+
+                if (obj === curImg){
+                    if(i !== 0)document.getElementById("image").src = 'images/' + imagesArray[i-1]
+                    if(i==imagesArray.length-1) document.getElementById("nextButton").disabled = false;
+                    if(i==1) document.getElementById("previousButton").disabled = true;
+                }
+            }
+        }
+
+    </script>
+
+
+    <script>
+        function getUserInfo(){
+
+            document.getElementById("infoButton_1").disabled = true;
+            document.getElementById("infoButton_2").disabled = false;
+            const textTag = document.createElement("text");
+            textTag.setAttribute("id","info");
+
+
+
+
+            let job = suggestedUserJob+"\r\n";
+            let company = suggestedUserCompany+"\r\n";
+            let city=suggestedUserCity + "\r\n";
+            let bio =suggestedUserBio + "\r\n";
+
+
+
+
+
+            textTag.appendChild(document.createElement("br"));
+            textTag.appendChild(document.createTextNode(city));
+            textTag.appendChild(document.createElement("br"));
+            textTag.appendChild(document.createTextNode(bio));
+            textTag.appendChild(document.createElement("br"));
+            textTag.appendChild(document.createTextNode(job));
+            textTag.appendChild(document.createElement("br"));
+            textTag.appendChild(document.createTextNode(company));
+            textTag.appendChild(document.createElement("br"));
+
+            for (var i=0; i<hobbiesArray.length; i++){
+                let hobby = hobbiesArray[i] + "   ";
+                textTag.appendChild(document.createTextNode(hobby));
+            }
+
+            const parentEl = document.getElementById("rightDiv");
+            parentEl.appendChild(textTag);
+        }
+    </script>
+
+    <script>
+        function hideUserInfo(){
+            document.getElementById("infoButton_1").disabled = false;
+            document.getElementById("infoButton_2").disabled = true;
+
+            const textTag = document.getElementById("info");
+            const parentEl = document.getElementById("rightDiv");
+            parentEl.removeChild(textTag);
+        }
+    </script>
     <div   style="display:block; width:100%;">
 
         <div id="leftDiv" style="width: 30%; height: 100%; overflow-y: scroll;  float: left;">
@@ -76,7 +140,7 @@
             <br/>
             <button id="like" name="mainPageButton" type="button" onclick="likeUser(1)" value="like">Like</button>
 
-            <button name="mainPageButton" type="button" onclick="likeUser(2)" <%if(user.getIs_premium()!=1){%> disabled="disabled" <%}%> value="superlike">Superlike</button>
+            <button id="superlike" name="mainPageButton" type="button" onclick="likeUser(2)" <%if(user.getIs_premium()!=1){%> disabled="disabled" <%}%> value="superlike">Superlike</button>
             <button id="dislike" name="mainPageButton" type="button" onclick="likeUser(3)" value="dislike">Dislike</button>
             <br/>
             <br/>
@@ -86,7 +150,11 @@
 
 
             <img id="image" src="" alt="photo" width="200px" height="200px">
+            <br/>
+            <br/>
             <text id="name">hello </text>
+            <br/>
+            <br/>
             <text id="age">hello </text>
 
 
@@ -99,19 +167,22 @@
                 let suggestedUserAge
                 let suggestedUserMail
                 let suggestedUserImage
+
                 var imagesArray
+                var hobbiesArray
+                var chatsArray
+                var messagesArray
+
                 let suggestedUserJob
                 let suggestedUserCompany
                 let suggestedUserCity
                 let suggestedUserBio
+
                 let likeType
-                var hobbiesArray
-                var chatsArray
-                var messagesArray
+
                 var checkerThreadID = null
-                var checkerThreadID_2 = null
+
                 let thread_1
-                let thread_2
 
                 let displayCurrentChat
                 let chatDismiss
@@ -122,13 +193,12 @@
 
                 setInterval(getchats,1000)
 
-
-
                 let userID = "<%=user.getUser_id()%>"
 
-
-
-
+                getUser();
+                getImages();
+                getHobbies();
+                getchats();
 
 
                 function likeUser(status){
@@ -227,21 +297,14 @@
                         success: function (msg) {
                             messagesArray = msg;
 
-                            if(msg.status == 1){
-                                alert("You are not a participant!");
-                            }else if (msg.status == 2){
-                                alert("Something went wrong!");
-                            }
+
                         },
                         error: function (msg) {
                             alert("No messages");
                         }
                     });
                 }
-                getUser();
-                getImages();
-                getHobbies();
-                getchats();
+
 
                 chatDismiss = function(){
                     clearInterval(checkerThreadID);
@@ -259,12 +322,12 @@
                     $('#currentOpenChatName').text(currentName);
                     $('.openedChatContainer').css('display', 'block');
                     $('.chatsContainerBody').css('display', 'none');
-                    alert("chatroom 1 "+chatRoom);
+                    //alert("chatroom 1 "+chatRoom);
 
                     $('#sendMessageId').click(function (){
 
                         if(currentChatMessage.val() !== ""){
-                            alert("chatroom 3 "+chatRoom);
+                          //  alert("chatroom 3 "+chatRoom);
                             sendMessage(chatRoom, currentChatMessage.val());
                             //alert("chatroom 31 "+chatRoom);
                             $('.openedChatBody').append(`<div class="${"myText"}">` +currentChatMessage.val()+`</div>`);
@@ -286,14 +349,7 @@
                         data: {"chatID": chatRoom, "msg": msg, "userID": userID},
                         success: function (msg) {
                             let response = msg;
-                            if (response.status == 1) {
 
-                            }
-                            else if (response.status == 2){
-                                alert("Something went wrong");
-                            }else if (response.status == 3){
-                                alert("You must be logged in!");
-                            }
                         },
                         error: function (msg) {
                             alert("Couldn't send message");
@@ -379,14 +435,24 @@
                                 let response = JSON.parse(msg).status;
                                 if (response === 0) {
                                     suggestedUserID = null;
+                                    $("#name").text("No more suggestions");
+                                    $("#age").css('display','none');
+                                    $("#image").attr("src", "images/blankphoto.jpg");
+                                    document.getElementById("infoButton_1").disabled = true;
+                                    document.getElementById("infoButton_2").disabled = true;
+                                    document.getElementById("previousButton").disabled = true;
+                                    document.getElementById("nextButton").disabled = true;
+                                    document.getElementById("like").disabled = true;
+                                    document.getElementById("superlike").disabled = true;
+                                    document.getElementById("dislike").disabled = true;
+
                                 }
                             } catch (e) {
 
                                 suggestedUserID = msg[0];
-
                                 suggestedUserName = msg[1];
                                 $("#name").text(suggestedUserName);
-
+                                $("#age").css('display','block');
                                 suggestedUserAge = msg[2];
                                 $("#age").text(suggestedUserAge);
                                 suggestedUserMail = msg[3];
@@ -394,6 +460,10 @@
                                 suggestedUserCompany = msg[5];
                                 suggestedUserCity = msg[6];
                                 suggestedUserBio = msg[7];
+                                document.getElementById("infoButton_1").disabled = false;
+                                document.getElementById("nextButton").disabled = false;
+                                document.getElementById("like").disabled = false;
+                                document.getElementById("dislike").disabled = false;
 
 
 
@@ -434,77 +504,7 @@
             </script>
 
 
-            <script>
 
-                function getPrevPhoto() {
-
-                    var curImg = document.getElementById("image").src.substring(36);
-
-
-                    for (var i=0; i<imagesArray.length; i++){
-                        var obj = imagesArray[i];
-
-                        if (obj === curImg){
-                            if(i !== 0)document.getElementById("image").src = 'images/' + imagesArray[i-1]
-                            if(i==imagesArray.length-1) document.getElementById("nextButton").disabled = false;
-                            if(i==1) document.getElementById("previousButton").disabled = true;
-                        }
-                    }
-                }
-
-            </script>
-
-
-            <script>
-                function getUserInfo(){
-
-                    document.getElementById("infoButton_1").disabled = true;
-                    document.getElementById("infoButton_2").disabled = false;
-                    const textTag = document.createElement("text");
-                    textTag.setAttribute("id","info");
-
-
-
-
-                    let job = suggestedUserJob+"\r\n";
-                    let company = suggestedUserCompany+"\r\n";
-                    let city=suggestedUserCity + "\r\n";
-                    let bio =suggestedUserBio + "\r\n";
-
-
-
-
-
-                    textTag.appendChild(document.createElement("br"));
-                    textTag.appendChild(document.createTextNode(city));
-                    textTag.appendChild(document.createElement("br"));
-                    textTag.appendChild(document.createTextNode(bio));
-                    textTag.appendChild(document.createElement("br"));
-                    textTag.appendChild(document.createTextNode(job));
-                    textTag.appendChild(document.createElement("br"));
-                    textTag.appendChild(document.createTextNode(company));
-                    textTag.appendChild(document.createElement("br"));
-
-                    for (var i=0; i<hobbiesArray.length; i++){
-                        let hobby = hobbiesArray[i] + "   ";
-                        textTag.appendChild(document.createTextNode(hobby));
-                    }
-
-                    const parentEl = document.getElementById("rightDiv");
-                    parentEl.appendChild(textTag);
-                }
-            </script>
-
-            <script>
-                function hideUserInfo(){
-                    document.getElementById("infoButton_1").disabled = false;
-                    document.getElementById("infoButton_2").disabled = true;
-
-                    const textTag = document.getElementById("info");
-                    const parentEl = document.getElementById("rightDiv");
-                    parentEl.removeChild(textTag);
-                }
-            </script>
 
 
 

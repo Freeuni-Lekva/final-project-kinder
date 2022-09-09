@@ -30,9 +30,12 @@ public class Authentificator {
         return code;
     }
 
-    public boolean CodeIsCorrect(String code){
-        //add mail
-        return codes.containsKey(code);
+    public boolean CodeIsCorrect(String mail,String code){
+        if(codes.containsKey(code)){
+           // System.out.println("maili "+ mail);
+            return codes.get(code).equals(mail);
+        }
+       return false;
 
     }
 }

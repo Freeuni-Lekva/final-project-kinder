@@ -27,7 +27,7 @@ public class UserDAOimpl implements UserDAO {
     }
 
     @Override
-    public void addUser(User user) throws SQLException {
+    public void addUser(User user) {
 
         try {
 
@@ -60,7 +60,7 @@ public class UserDAOimpl implements UserDAO {
             connection.commit();
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+           e.printStackTrace();
 
         }
     }
@@ -81,7 +81,7 @@ public class UserDAOimpl implements UserDAO {
             connection.commit();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+           e.printStackTrace();
         }
     }
     @Override
@@ -99,7 +99,7 @@ public class UserDAOimpl implements UserDAO {
             connection.commit();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+           e.printStackTrace();
         }
 
     }
@@ -119,13 +119,13 @@ public class UserDAOimpl implements UserDAO {
             connection.commit();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+           e.printStackTrace();
         }
 
     }
 
     @Override
-    public boolean deleteUser(User user) throws SQLException {
+    public boolean deleteUser(User user) {
 
         try {
             PreparedStatement stm = connection.prepareStatement(
@@ -141,13 +141,13 @@ public class UserDAOimpl implements UserDAO {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+           e.printStackTrace();
         }
         return false;
     }
 
     @Override
-    public boolean userExists(String mail) throws SQLException {
+    public boolean userExists(String mail) {
         // tested
         try {
             PreparedStatement stm = connection.prepareStatement(
@@ -166,7 +166,7 @@ public class UserDAOimpl implements UserDAO {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
 
         }
         return false;
@@ -174,7 +174,7 @@ public class UserDAOimpl implements UserDAO {
 
     @Override
 
-    public User getUserByMail(String mail) throws SQLException {
+    public User getUserByMail(String mail)  {
 
         try {
 
@@ -256,7 +256,7 @@ public class UserDAOimpl implements UserDAO {
     }
 
     @Override
-    public User getUserByID(int userID) throws SQLException {
+    public User getUserByID(int userID){
 
         try {
 
@@ -336,7 +336,7 @@ public class UserDAOimpl implements UserDAO {
         return null;
     }
 
-    public UserDTO getUser(String city, int user_id) throws SQLException {
+    public UserDTO getUser(String city, int user_id)  {
 
         List<UserDTO> users = new ArrayList<>();
         try {
@@ -405,17 +405,16 @@ public class UserDAOimpl implements UserDAO {
 
             // System.out.println(users);
         } catch (SQLException e) {
-            System.out.println("cant");
             e.printStackTrace();
-            throw new RuntimeException(e);
+
         }
         return null;
     }
 
     @Override
-    public List<UserDTO> getUsers(String city, int user_id) throws SQLException {
+    public List<UserDTO> getUsers(String city, int user_id) {
 
-        List <UserDTO> users = new ArrayList<>();
+        List<UserDTO> users = new ArrayList<>();
         try {
             PreparedStatement stm = connection.prepareStatement(
                     ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s,%s  " +
@@ -441,24 +440,29 @@ public class UserDAOimpl implements UserDAO {
             );
             stm.setString(1, city);
             stm.setInt(2, user_id);
-            stm.setInt(3,1);
-
+            stm.setInt(3, 1);
+            System.out.println("statement is " + stm);
 
             ResultSet rs = stm.executeQuery();
             User curUser = getUserByID(user_id);
-            System.out.println("BEFORE IF");
+            //System.out.println("BEFORE IF");
             while (rs.next()) {
-                System.out.println("NO IF");
-                if(curUser.getGenderPref().equals(rs.getString(5)) &&
+             //   System.out.println("user to be choosen "+rs.getString(2) );
+
+                if (curUser.getGenderPref().equals(rs.getString(5)) &&
                         !(likesDAO.isLiked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(rs.getInt(1), user_id))
-                ){
-                    System.out.println("First IF");
-                    if(!(rs.getString(12).equals(Role.PREMIUM_USER.toString()) &&
+                ) {
+
+                   // System.out.println("user to be choosen "+rs.getString(2) );
+                    if (!(rs.getString(12).equals(Role.PREMIUM_USER.toString()) &&
                             rs.getInt(13) == 1 &&
-                            !likesDAO.isLiked(rs.getInt(1),user_id))){
-                        System.out.println("Second IF");
+                            !likesDAO.isLiked(rs.getInt(1), user_id))) {
+//                        System.out.println(rs.getString(12));
+//                        System.out.println(Role.PREMIUM_USER.toString());
+
+                       // System.out.println("choosed "+rs.getString(2) );
                         UserDTO suggestedUser = new UserDTO(
                                 rs.getInt(1),
                                 rs.getString(2),
@@ -481,11 +485,12 @@ public class UserDAOimpl implements UserDAO {
             return users;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+
         }
+        return null;
     }
 
-    public UserDTO getUser(int min_age, int max_age, String city, int user_id) throws SQLException {
+    public UserDTO getUser(int min_age, int max_age, String city, int user_id){
 
         try {
             PreparedStatement stm = connection.prepareStatement(
@@ -522,19 +527,19 @@ public class UserDAOimpl implements UserDAO {
             stm.setInt(5,1);
             ResultSet rs = stm.executeQuery();
             User curUser = getUserByID(user_id);
-            System.out.println("BEFORE WHILE");
+           // System.out.println("BEFORE WHILE");
             while (rs.next()) {
-                System.out.println("AFTER WHILE");
+              //  System.out.println("AFTER WHILE");
                 if(curUser.getGenderPref().equals(rs.getString(5)) &&
                         !(likesDAO.isLiked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(rs.getInt(1), user_id))
                 ){
-                    System.out.println("FIRST IF");
+                    //System.out.println("FIRST IF");
                     if(!(rs.getString(12).equals(Role.PREMIUM_USER.toString()) &&
                             rs.getInt(13) == 1 &&
                             !likesDAO.isLiked(rs.getInt(1),user_id))){
-                        System.out.println("SECOND IF");
+                      //  System.out.println("SECOND IF");
                         return  new UserDTO(
                                 rs.getInt(1),
                                 rs.getString(2),
@@ -558,13 +563,13 @@ public class UserDAOimpl implements UserDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+
         }
         return null;
     }
 
     @Override
-    public List<UserDTO> getUsers(int min_age, int max_age, String city, int user_id) throws SQLException {
+    public List<UserDTO> getUsers(int min_age, int max_age, String city, int user_id) {
 
         List <UserDTO> users = new ArrayList<>();
         try {
@@ -601,19 +606,19 @@ public class UserDAOimpl implements UserDAO {
             stm.setInt(5,1);
             ResultSet rs = stm.executeQuery();
             User curUser = getUserByID(user_id);
-            System.out.println("AGES-->BEFORE_WHILE");
+           // System.out.println("AGES-->BEFORE_WHILE");
             while (rs.next()) {
-                System.out.println("AGES-->IN_WHILE");
+             //   System.out.println("AGES-->IN_WHILE");
                 if(curUser.getGenderPref().equals(rs.getString(5)) &&
                         !(likesDAO.isLiked(user_id, rs.getInt(1)) ||
                         likesDAO.isDisliked(user_id, rs.getInt(1)) ||
                         likesDAO.isDisliked(rs.getInt(1), user_id))
                 ){
-                    System.out.println("AGES-->FIRS_IF");
+                   // System.out.println("AGES-->FIRS_IF");
                     if(!(rs.getString(12).equals(Role.PREMIUM_USER.toString()) &&
                             rs.getInt(13) == 1 &&
                             !likesDAO.isLiked(rs.getInt(1),user_id))){
-                        System.out.println("AGES-->SECOND_IF");
+                     //   System.out.println("AGES-->SECOND_IF");
                         UserDTO suggestedUser = new UserDTO(
                                 rs.getInt(1),
                                 rs.getString(2),
@@ -634,13 +639,13 @@ public class UserDAOimpl implements UserDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+         e.printStackTrace();
 
         }
         return users;
     }
     @Override
-    public List<User> getBannedUsers() throws SQLException {
+    public List<User> getBannedUsers()  {
     List <User> users = new ArrayList<>();
     try {
 
@@ -720,7 +725,7 @@ public class UserDAOimpl implements UserDAO {
     return users;
 }
     @Override
-    public List<User> getAllUsers() throws SQLException {
+    public List<User> getAllUsers()  {
         List <User> users = new ArrayList<>();
         try {
 

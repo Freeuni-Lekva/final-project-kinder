@@ -1,4 +1,4 @@
-<%--
+<%@ page import="ge.kinder.Models.User" %><%--
   Created by IntelliJ IDEA.
   User: User
   Date: 06.08.2022
@@ -24,13 +24,14 @@
 <%
     String Login_Error = (String) request.getAttribute("LOGIN_ERROR");
     if (Login_Error!= null) {%>
-<div id = "error_text"><%=Login_Error%></div>
+<div id = "error_text" style="color: #FFFFFF" ><%=Login_Error%></div>
 <% }%>
-
+<br>
 <form action="Profile" method="post" >
 
     <%
-        String mail = request.getParameter("LOGIN_MAIL");
+        User user = (User) session.getAttribute("user");
+        String mail = user.getMail();
         session.setAttribute("mail",mail);
 
     %>
@@ -40,7 +41,7 @@
 <%--        <button class="btn btn-outline-secondary button_class btn-light" type="button submit" disabled="disabled" id="submitbutton" style="color: #fc6880">Continue</button>--%>
 <%--    </div>--%>
     <div class="input-group mb-3" style="padding-left: 560px; width: 865px"  >
-        <input name="LOGIN_MODE" type="text" class="form-control"
+        <input name="LOGIN_CODE" type="text" class="form-control"
                placeholder="Enter your code here..." aria-label="Enter your code here..."
                aria-describedby="inputGroup-sizing-sm" >
 

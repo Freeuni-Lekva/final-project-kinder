@@ -24,8 +24,7 @@ public class LikesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        UserService userService = (UserService) req.getServletContext().getAttribute("USER_SERVICE");
-        UserDAOimpl userDAOimpl = (UserDAOimpl) req.getServletContext().getAttribute("USERDAO");
+
         LikesService likesService = (LikesService) req.getServletContext().getAttribute("LIKES_SERVICE");
         MatchesService matchesService = (MatchesService) req.getServletContext().getAttribute("MATCHES_SERVICE");
 
@@ -36,13 +35,11 @@ public class LikesServlet extends HttpServlet {
         int likeType =Integer.valueOf(req.getParameter("type"));
 
         String status = (likeType==1) ? "LIKE" : ((likeType==2) ? "SUPERLIKE" : "DISLIKE");
-//        System.out.println("userid : "+userID );
-//        System.out.println("suserId: " +suggestedUserID);
+
         if(status == "LIKE" || status == "SUPERLIKE") {
             likesService.likeUser(userID,suggestedUserID, Status.valueOf(status));
             if(likesService.isLiked(suggestedUserID,userID)) {
                 matchesService.addMatch(userID, suggestedUserID);
-                req.setAttribute("MATCH", "It`s a match!.");
                 out.print("{\"status\":1}");
             } else out.print("{\"status\":2}");
         } else if(status == "DISLIKE"){

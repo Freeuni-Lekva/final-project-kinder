@@ -11,13 +11,13 @@ public interface UserService {
 
 
 
-    User registerUser(String mail) throws SQLException;
+    User registerUser(String mail);
 
-    User loginUser(String user) throws SQLException;
+    User loginUser(String user);
 
     void verificateUser(User user,String mail);
 
-    boolean confirmCode(String code);
+    boolean confirmCode(User user,String code);
 
     User getUserByID(int userID) throws SQLException;
 

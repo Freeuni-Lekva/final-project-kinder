@@ -1,4 +1,4 @@
-<%--
+<%@ page import="ge.kinder.Models.User" %><%--
   Created by IntelliJ IDEA.
   User: User
   Date: 04.08.2022
@@ -27,13 +27,15 @@
 <%
     String Registration_Error = (String) request.getAttribute("REGISTRATION_ERROR");
     if (Registration_Error!= null) {%>
-<div id = "error_text" style="color: #fc6880"><%=Registration_Error%></div>
+<div id = "error_text" style="color: #FFFFFF"><%=Registration_Error%></div>
 <% }%>
-
+<br>
 <form action="Registration_Information" method="post" >
 
     <%
-    String mail = request.getParameter("REGISTRATION_MAIL");
+
+    User user = (User) session.getAttribute("user");
+    String mail = user.getMail();
     session.setAttribute("mail",mail);
 
     %>

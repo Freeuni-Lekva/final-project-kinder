@@ -5,6 +5,7 @@ import ge.kinder.DAO.DAOimpl.ImagesDAOimpl;
 import ge.kinder.DAO.DAOimpl.UserDAOimpl;
 import ge.kinder.DAO.UserDAO;
 import ge.kinder.Models.Hobby;
+import ge.kinder.Models.Role;
 import ge.kinder.Models.User;
 import ge.kinder.Services.UserService;
 
@@ -41,11 +42,9 @@ public class Settings extends HttpServlet {
         String otp = req.getParameter("VERIFICATION_CODE");
         User us = (User) req.getSession().getAttribute("user");
         User user = null;
-        try {
+
             user = userDAOimpl.getUserByMail(us.getMail());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
         String newEmail = (String) req.getSession().getAttribute("newMail");
 
         String settings = req.getParameter("settingsButton");
@@ -134,12 +133,9 @@ public class Settings extends HttpServlet {
             } else if (settings.equals("Delete")){
                 req.getSession(false).invalidate();
                 req.getRequestDispatcher("/index.jsp").forward(req, resp);
-                try {
+
                     userDAOimpl.deleteUser(user);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
-                }
+               
             } else if (settings.equals("EditInfo")){
                 req.getRequestDispatcher("/WEB-INF/Settings/Edit.jsp").forward(req,resp);
             } else if(settings.equals("Gender")){
@@ -226,13 +222,14 @@ public class Settings extends HttpServlet {
                 System.out.println(user.getBalance());
                 userDAOimpl.updateRow(user, User.USER_BALANCE,user.getBalance());
                 user.setIs_premium(1);
+                userDAOimpl.updateRow(user,User.USER_ROLE, String.valueOf(Role.PREMIUM_USER));
               userDAOimpl.updateRow(user, User.PREMIUM,1);
                 req.getRequestDispatcher("/WEB-INF/Settings/Premium.jsp").forward(req, resp);
             }
         }
 
         if (verification != null && verification.equals("verificationCode")) {
-            if (userService.confirmCode(otp)) {
+            if (userService.confirmCode(user,otp)) {
                 req.getSession().setAttribute("mail", newEmail);
                 user.setMail(newEmail);
                 System.out.println(newEmail);

@@ -24,11 +24,15 @@ public class PremiumUserDAOimpl extends UserDAOimpl implements PremiumUserDAO {
     public PremiumUserDAOimpl(Connection connection, HobbiesDAO hobbiesDAO, ImagesDAO imagesDAO, LikesDAO likesDAO) {
         super(connection,hobbiesDAO,imagesDAO,likesDAO);
         this.connection = connection;
+        this.likesDAO=likesDAO;
+        this.hobbiesDAO = hobbiesDAO;
+        this.imagesDAO = imagesDAO;
+
     }
     // ბოლო 24 საათის აქტიურობა
     @Override
     public List<UserDTO> getUsers(boolean most_recent, String city, int user_id) {
-
+        System.out.println("hey");
         List <UserDTO> users = new ArrayList<>();
         try {
             PreparedStatement stm = connection.prepareStatement(
@@ -55,21 +59,33 @@ public class PremiumUserDAOimpl extends UserDAOimpl implements PremiumUserDAO {
             stm.setString(1, city);
             stm.setInt(2, user_id);
             stm.setInt(3,1);
-
+            System.out.println(stm);
 
             ResultSet rs = stm.executeQuery();
             User curUser = getUserByID(user_id);
-
+            System.out.println("user" + curUser);
+            System.out.println("gender" + curUser.getGenderPref());
             while (rs.next()) {
+                System.out.println("1");
+                System.out.println(curUser.getGenderPref().equals(rs.getString(5)));
+                System.out.println(rs.getInt(1));
+                System.out.println(likesDAO.isLiked(user_id, rs.getInt(1)));
+                System.out.println(likesDAO.isDisliked(user_id, rs.getInt(1)));
+                System.out.println("ok");
+                System.out.println(likesDAO.isDisliked(rs.getInt(1), user_id));
+                System.out.println("ok");
                 if(curUser.getGenderPref().equals(rs.getString(5)) &&
-                        (likesDAO.isLiked(user_id, rs.getInt(1)) ||
+                        !(likesDAO.isLiked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(rs.getInt(1), user_id))
                 ){
+                    System.out.println("2");
                     if(!(rs.getString(12).equals(Role.PREMIUM_USER.toString()) &&
                             rs.getInt(13) == 1 &&
                             !likesDAO.isLiked(rs.getInt(1),user_id))){
+                        System.out.println("3");
                         if(!(curUser.getShow_active_people() == 1 && rs.getInt(12) > 24)) {
+                            System.out.println("last");
                             UserDTO suggestedUser = new UserDTO(
                                     rs.getInt(1),
                                     rs.getString(2),
@@ -88,13 +104,18 @@ public class PremiumUserDAOimpl extends UserDAOimpl implements PremiumUserDAO {
                             users.add(suggestedUser);
                         }
                     }
+                } else {
+                    System.out.println("vah");
                 }
             }
+            System.out.println("userebi "+ users);
             return users;
+
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+
         }
+        return users;
     }
 
     @Override
@@ -133,10 +154,12 @@ public class PremiumUserDAOimpl extends UserDAOimpl implements PremiumUserDAO {
             stm.setInt(5,1);
             ResultSet rs = stm.executeQuery();
             User curUser = getUserByID(user_id);
+            System.out.println(curUser.getGenderPref());
+
 
             while (rs.next()) {
                 if(curUser.getGenderPref().equals(rs.getString(5)) &&
-                        (likesDAO.isLiked(user_id, rs.getInt(1)) ||
+                        !(likesDAO.isLiked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(user_id, rs.getInt(1)) ||
                                 likesDAO.isDisliked(rs.getInt(1), user_id))
                 ){
@@ -166,9 +189,10 @@ public class PremiumUserDAOimpl extends UserDAOimpl implements PremiumUserDAO {
             }
             return users;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
 
         }
+        return users;
     }
 }
 

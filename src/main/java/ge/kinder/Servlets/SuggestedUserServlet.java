@@ -36,15 +36,23 @@ public class SuggestedUserServlet extends HttpServlet {
         String userMail = req.getParameter("userMail");
         PrintWriter out = resp.getWriter();
 
+        System.out.println("shemovedi");
 
-
-        try {
             UserDAOimpl userDao = (UserDAOimpl) req.getServletContext().getAttribute("USERDAO");
             SuggestionService suggestionService = (SuggestionService) req.getServletContext().getAttribute("SUGGESTION_SERVICE");
             LikesService likesService = (LikesService) req.getServletContext().getAttribute("LIKES_SERVICE");
             MatchesService matchesService = (MatchesService) req.getServletContext().getAttribute("MATCHES_SERVICE");
             User user = userDao.getUserByMail(userMail);
-            UserDTO suser = suggestionService.getSuggestion(user);
+        System.out.println("shemovedi22");
+            List<UserDTO> suggestedUsers = suggestionService.getSuggestions(user);
+            if(suggestedUsers.isEmpty()){
+                System.out.println("carielia");
+            out.print("{\"status\":0}");
+            return;
+        }
+            Random rand = new Random();
+            UserDTO suser = suggestedUsers.get(rand.nextInt(suggestedUsers.size()));
+        System.out.println("useeeeeeeer " + suser);
 
             List<String> info = new ArrayList<>();
 
@@ -65,9 +73,6 @@ public class SuggestedUserServlet extends HttpServlet {
             out.write(json);
 
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
 
 
     }

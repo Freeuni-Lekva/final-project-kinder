@@ -82,8 +82,8 @@
             Show Me
             <select name="SHOW_ME" id = "show">
                 <option value=""></option>
-                <option value="Men">Men</option>
-                <option value="Women">Women</option>
+                <option value="Man">Men</option>
+                <option value="Woman">Women</option>
                 <option value="Everyone">Everyone</option>
             </select>
 

@@ -1,6 +1,8 @@
 package ge.kinder.Servlets;
 
 import ge.kinder.DAO.UserDAO;
+import ge.kinder.Exceptions.InvalidMailException;
+import ge.kinder.Exceptions.UserNotFoundException;
 import ge.kinder.Models.DTO.UserDTO;
 import ge.kinder.Models.Role;
 import ge.kinder.Models.User;
@@ -48,8 +50,9 @@ public class Login extends HttpServlet {
                 User user = userService.loginUser(mail);
                 req.getSession().setAttribute("user", user);
                 req.getRequestDispatcher("/WEB-INF/Confirm_Login.jsp").forward(req, resp);
-            } catch (Exception e) {
-                System.out.println("user not found");
+            } catch (UserNotFoundException | InvalidMailException e) {
+                req.setAttribute("LOGIN_ERROR",e.getMessage());
+                req.getRequestDispatcher("/WEB-INF/Login.jsp").forward(req, resp);
             }
         }
 

@@ -1,5 +1,6 @@
 package ge.kinder.Servlets;
 
+import ge.kinder.Models.User;
 import ge.kinder.Services.UserService;
 
 import javax.servlet.ServletException;
@@ -21,7 +22,7 @@ public class Registration_Information extends HttpServlet {
             return;
         }else {
             UserService userService = (UserService) req.getServletContext().getAttribute("USER_SERVICE");
-            if(userService.confirmCode(otp)) {
+            if(userService.confirmCode((User) req.getSession().getAttribute("user"),otp)) {
                 req.getRequestDispatcher("/WEB-INF/Registration_Info.jsp").forward(req,resp);
             } else {
                 req.setAttribute("REGISTRATION_ERROR","Wrong code. Try again.");
@@ -37,7 +38,7 @@ public class Registration_Information extends HttpServlet {
         UserService userService = (UserService) req.getServletContext().getAttribute("USER_SERVICE");
         String otp = req.getParameter("REGISTRATION_CODE");
 
-       if(userService.confirmCode(otp)) {
+       if(userService.confirmCode((User) req.getSession().getAttribute("user"),otp)) {
             req.getRequestDispatcher("/WEB-INF/Registration_Info.jsp").forward(req,resp);
         } else {
             req.setAttribute("REGISTRATION_ERROR","Wrong code. Try again.");

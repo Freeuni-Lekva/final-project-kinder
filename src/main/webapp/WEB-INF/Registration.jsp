@@ -20,6 +20,12 @@
     <br>
 <h1 style="color: aliceblue"> Enter your email</h1>
     <br>
+    <%
+        String Registration_Error = (String) request.getAttribute("REGISTRATION_ERROR");
+        if (Registration_Error!= null) {%>
+    <div id = "error_text" style="color: #FFFFFF"><%=Registration_Error%></div>
+    <% }%>
+    <br>
 <form action="Registration" method="post" >
 <%--    <div class="input-group mb-3" >--%>
 <%--        <input name="REGISTRATION_MAIL" type="text" class="form-control" placeholder="yourmail@example.xyz" aria-label="yourmail@example.xyz" aria-describedby="inputGroup-sizing-sm" >--%>

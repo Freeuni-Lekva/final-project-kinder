@@ -42,12 +42,13 @@ public class ContextListener implements ServletContextListener {
         MessageDAOimpl messagesDAO = new MessageDAOimpl(connection);
 
         UserDAO userDAO = new UserDAOimpl(connection,hobbiesDAO,imagesDAO,likesDAO);
+        PremiumUserDAOimpl premiumUserDAOimpl = new PremiumUserDAOimpl(connection,hobbiesDAO,imagesDAO,likesDAO);
         Authentificator authentificator = new Authentificator(new HashMap<>());
         sc.setAttribute("USER_SERVICE",new UserServiceImpl(userDAO,authentificator));
         sc.setAttribute("USERDAO",userDAO);
         sc.setAttribute("IMAGESDAO",imagesDAO);
         sc.setAttribute("HOBBIESDAO",hobbiesDAO);
-        sc.setAttribute("SUGGESTION_SERVICE", new SuggestionServiceImpl(userDAO));
+        sc.setAttribute("SUGGESTION_SERVICE", new SuggestionServiceImpl(userDAO,premiumUserDAOimpl));
         sc.setAttribute("LIKES_SERVICE", new LikesServiceImpl(userDAO,likesDAO));
         sc.setAttribute("MATCHES_SERVICE", new MatchesServiceImpl(new MatchesDAOimpl(connection,messagesDAO,likesDAO)));
         sc.setAttribute("MESSAGED_SERVICE", messagesDAO);

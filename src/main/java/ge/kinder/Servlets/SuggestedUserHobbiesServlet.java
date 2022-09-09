@@ -39,7 +39,7 @@ public class SuggestedUserHobbiesServlet extends HttpServlet {
 
 
 
-        try {
+
             UserDAOimpl userDao = (UserDAOimpl) req.getServletContext().getAttribute("USERDAO");
             String suggestedUserMail = (req.getParameter("suggestedUserMail"));
 
@@ -59,9 +59,7 @@ public class SuggestedUserHobbiesServlet extends HttpServlet {
             out.write(json);
 
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        
 
 
     }

@@ -42,15 +42,13 @@ public class Profile extends HttpServlet {
         if (req.getParameter("LOGIN_CODE") != null) {
             String otp = req.getParameter("LOGIN_CODE");
 
-            if (userService.confirmCode(otp)) {
-
+            if (userService.confirmCode((User) req.getSession().getAttribute("user"),otp)) {
                 req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
             } else {
-
                 req.setAttribute("LOGIN_ERROR", "Wrong code. Try again.");
                 req.getRequestDispatcher("/WEB-INF/Confirm_Login.jsp").forward(req, resp);
 
-            }}
+            }}else {
 
         User user_1 = (User) req.getSession().getAttribute("user");
 
@@ -117,8 +115,7 @@ public class Profile extends HttpServlet {
                 req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
             }
         } else req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
-        }
-    catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -128,5 +125,5 @@ public class Profile extends HttpServlet {
 
 
         }
-    }
+    }}
 

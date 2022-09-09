@@ -80,7 +80,7 @@ public class LikesDAOimpl implements LikesDAO {
             stm.setInt(1, user_id_1);
             stm.setInt(2, user_id_2);
             stm.setString(3, Status.DISLIKE.toString());
-
+            System.out.println(stm);
             ResultSet rs = stm.executeQuery();
 
             while(rs.next()){
@@ -91,7 +91,7 @@ public class LikesDAOimpl implements LikesDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+
         }
         return false;
     }

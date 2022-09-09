@@ -1,5 +1,7 @@
 package ge.kinder.Servlets;
 
+import ge.kinder.Exceptions.InvalidMailException;
+import ge.kinder.Exceptions.UserAlreadyExistsException;
 import ge.kinder.Models.User;
 import ge.kinder.Services.UserService;
 
@@ -37,13 +39,12 @@ public class Registration extends HttpServlet {
             String mail = req.getParameter("REGISTRATION_MAIL");
             try {
                 User user = userService.registerUser(mail);
-
                 req.getSession().setAttribute("user", user);
 
                 req.getRequestDispatcher("/WEB-INF/Confirm_Registration.jsp").forward(req, resp);
-            } catch (Exception e) {
-
-                //throw exceptions
+            } catch (InvalidMailException | UserAlreadyExistsException e) {
+                req.setAttribute("REGISTRATION_ERROR",e.getMessage());
+                req.getRequestDispatcher("/WEB-INF/Registration.jsp").forward(req, resp);
             }
         }
     }
