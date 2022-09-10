@@ -42,7 +42,7 @@
 <%--        <input name="REGISTRATION_CODE" type="text" class="form-control" placeholder="Enter your code here..." aria-label="Enter your code here..." aria-describedby="inputGroup-sizing-sm" >--%>
 <%--        <button class="btn btn-outline-secondary button_class btn-light" type="button submit" disabled="disabled" id="submitbutton" style="color: #fc6880">Continue</button>--%>
 <%--    </div>--%>
-    <div class="input-group mb-3" style="padding-left: 560px; width: 865px"  >
+    <div class="input-group mb-3" style="padding-left: 500px; width: 865px"  >
         <input name="REGISTRATION_CODE" type="text" class="form-control"
                placeholder="Enter your code here..." aria-label="Enter your code here..."
                aria-describedby="inputGroup-sizing-sm" >
