@@ -31,6 +31,9 @@ public class Authentificator {
     }
 
     public boolean CodeIsCorrect(String mail,String code){
+        System.out.println(mail);
+        System.out.println(code);
+        System.out.println(codes);
         if(codes.containsKey(code)){
            // System.out.println("maili "+ mail);
             return codes.get(code).equals(mail);

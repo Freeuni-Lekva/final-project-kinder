@@ -229,13 +229,18 @@ public class Settings extends HttpServlet {
         }
 
         if (verification != null && verification.equals("verificationCode")) {
+           // String old  = user.getMail();
+            user.setMail(newEmail);
+            System.out.println("user mail" + user.getMail());
             if (userService.confirmCode(user,otp)) {
                 req.getSession().setAttribute("mail", newEmail);
-                user.setMail(newEmail);
                 System.out.println(newEmail);
                 userDAOimpl.updateRow(user, User.USER_MAIL, newEmail);
                 req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
-            } else System.out.println("nope");
+            } else{
+              //  user.setMail(old);
+                System.out.println("nope");
+            }
         }
         if (city != null) {
             user.setCity(city);

@@ -77,6 +77,7 @@ public class UserServiceImpl implements UserService {
 
         AuthentificationMail m = new AuthentificationMail(mail,authentificator.generateCode(mail));
         if(MailSender.sendMail(m.getMESSAGE(),m.getSUBJECT(), m.getRECEIVER())){
+
         }else throw new RuntimeException();
     }
 
