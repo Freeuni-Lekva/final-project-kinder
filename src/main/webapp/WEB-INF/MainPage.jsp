@@ -19,11 +19,13 @@
 <html>
 <head>
     <title>Main Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 </head>
-<body>
+<body style="background-image: url('https://theme.zdassets.com/theme_assets/302164/8e05540d6f7ea752f80938c848f3ed79b548b959.png')">
 <form action="ProfilePage" method="post">
 
-    <div   style="display:block; width:100%;">
+    <div   style="display:block; width:100%; overflow-y: hidden">
 
         <div style="width: 30%; height: 100%; overflow-y: scroll;  float: left;">
 
@@ -31,16 +33,18 @@
                 UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
                 User user = userDao.getUserByMail((String) session.getAttribute("mail"));
             %>
-
-            <button name="mainPageButton" type="submit" value="toSettings">Settings</button>
-            <button name="mainPageButton" type="submit" value="matches">Matches</button>
-            <button name="mainPageButton" type="submit" value="messages">Messages</button>
+            <button name="mainPageButton" type="button submit" class="btn btn-light" value="toSettings">Settings</button>
+            <button name="mainPageButton" type="button submit" class="btn btn-light" value="matches">Matches</button>
+            <button name="mainPageButton" type="button submit" class="btn btn-light" value="messages">Messages</button>
+<%--            <button name="mainPageButton" type="submit" value="toSettings">Settings</button>--%>
+<%--            <button name="mainPageButton" type="submit" value="matches">Matches</button>--%>
+<%--            <button name="mainPageButton" type="submit" value="messages">Messages</button>--%>
 
 
         </div>
 
 
-        <div style="width:70%; height:100%; ">
+        <div style="width:70%; height:100%;">
 
             <% SuggestionService ss = (SuggestionService) request.getSession().getServletContext().getAttribute("SUGGESTION_SERVICE");
                 List<UserDTO> suggestions = ss.getSuggestions(user);
@@ -54,13 +58,21 @@
 
             <% }}%>
 
-            <button name="mainPageButton" type="submit" value="nextPhoto">Next</button>
-            <button name="mainPageButton" type="submit" value="prevPhoto">Previous</button>
-            <button name="mainPageButton" type="submit" value="Info">Info</button>
+            <button name="mainPageButton" type="button submit" class="btn btn-light" value="nextPhoto">Next</button>
+            <button name="mainPageButton" type="button submit" class="btn btn-light" value="prevPhoto">Previous</button>
+            <button name="mainPageButton" type="button submit" class="btn btn-light" value="Info">Info</button>
 
-            <button name="mainPageButton" type="submit" value="dislike">Like</button>
-            <button name="mainPageButton" type="submit" value="superlike">Superlike</button>
-            <button name="mainPageButton" type="submit" value="like">Dislike</button>
+            <button name="mainPageButton" type="button submit" class="btn btn-light" value="dislike">Like</button>
+            <button name="mainPageButton" type="button submit" class="btn btn-light" value="superlike">Superlike</button>
+            <button name="mainPageButton" type="button submit" class="btn btn-light" value="like">Dislike</button>
+
+<%--            <button name="mainPageButton" type="submit" value="nextPhoto">Next</button>--%>
+<%--            <button name="mainPageButton" type="submit" value="prevPhoto">Previous</button>--%>
+<%--            <button name="mainPageButton" type="submit" value="Info">Info</button>--%>
+
+<%--            <button name="mainPageButton" type="submit" value="dislike">Like</button>--%>
+<%--            <button name="mainPageButton" type="submit" value="superlike">Superlike</button>--%>
+<%--            <button name="mainPageButton" type="submit" value="like">Dislike</button>--%>
 
         </div>
 
