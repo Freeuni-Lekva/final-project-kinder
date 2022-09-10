@@ -11,8 +11,10 @@
 <html>
 <head>
     <title>Looking for</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 </head>
-<body>
+<body style="background-image: url('https://theme.zdassets.com/theme_assets/302164/8e05540d6f7ea752f80938c848f3ed79b548b959.png')">
 <form action="Settings" method="post">
     <%
         UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
@@ -25,25 +27,26 @@
             <%
                 String mail = (String) session.getAttribute("mail");
 
-
             %>
-            <button id = "backButton" name="BackFromPref" type="submit" >Back</button>
+<%--            <button id = "backButton" name="BackFromPref" type="submit" >Back</button>--%>
+            <button type="button submit" id = "backButton" class="btn btn-light">Back</button>
+
 
             <br/>
             <br/>
-            <div class="preference_buttons" data-toggle="buttons">
+            <div class="preference_buttons" data-toggle="buttons" style="color: aliceblue">
 
                 <br/>
                 <br/>
 
                 <label class="btn-pref">
                     <input type="radio" name="preference"
-                    <%if (user.getGenderPref().equals("Men")) {%> checked="checked"<% }%> value="Men">Men
+                    <%if (user.getGenderPref().equals("Men")) {%> checked="checked"<% }%> value="Men" >Men
                 </label>
                 <br/>
                 <br/>
                 <label class="btn-pref">
-                    <input type="radio" name="preference"  <%if (user.getGenderPref().equals("Women")) {%> checked="checked"<% }%> value="Women">Women
+                    <input type="radio" name="preference"  <%if (user.getGenderPref().equals("Women")) {%> checked="checked"<% }%> value="Women"> Women
                 </label>
                 <br/>
                 <br/>
@@ -58,7 +61,9 @@
 
             <br/>
             <br/>
-            <button id = "changeButton" name="changePref" type="submit"  disabled="disabled">Change Preference</button>
+<%--            <button id = "changeButton" name="changePref" type="submit"  disabled="disabled">Change Preference</button>--%>
+            <button type="button submit" id = "changeButton" class="btn btn-light" disabled = "disabled">Change Preference</button>
+
 
             <script>
                 let results_1 = document.getElementById("results_1");
@@ -71,9 +76,6 @@
                         // Populate the results area with the value of the clicked element
                         results_1.textContent = "You will see "+ evt.target.value;
                         document.getElementById("changeButton").disabled = false;
-
-
-
                     }
                 });
 
@@ -83,10 +85,19 @@
 
         <div style="width:70%; height:100%; ">
 
-            <%
-                if (user.getImages().size()>0) {%>
-            <img src="images/<%=user.getImages().get(0)%>" alt="photo" width="200px" height="200px">
-            <% }%>
+            <div class="card bg-dark text-white">
+                <img  class="card-img" src="images/<%=user.getImages().get(0)%>" alt="No image">
+                <div class="card-img-overlay">
+                    <h5 class="card-title"><%=user.getFirst_name()   %></h5>
+                    <p class="card-text"><%=(int) Math.floor((new Date(System.currentTimeMillis()).getTime()-user.getBirth_date().getTime() ) / 3.15576e+10) %></p>
+                    <p class="card-text"><% if (user.isGenderIsShown()==1) {%> <%=user.getGender()%> <% }%></p>
+                </div>
+            </div>
+
+<%--            <%--%>
+<%--                if (user.getImages().size()>0) {%>--%>
+<%--            <img src="images/<%=user.getImages().get(0)%>" alt="photo" width="200px" height="200px">--%>
+<%--            <% }%>--%>
             <%--            <%--%>
             <%--            if (user.getImages().size()>1) {%>--%>
             <%--            <img src="images/<%=user.getImages().get(1)%>" alt="photo" width="200px" height="200px">--%>
@@ -111,13 +122,13 @@
 
 
 
-            <br/>
-            <%=user.getFirst_name()   %>
+<%--            <br/>--%>
+<%--            <%=user.getFirst_name()   %>--%>
 
-            <%=(int) Math.floor((new Date(System.currentTimeMillis()).getTime()-user.getBirth_date().getTime() ) / 3.15576e+10) %>
+<%--            <%=(int) Math.floor((new Date(System.currentTimeMillis()).getTime()-user.getBirth_date().getTime() ) / 3.15576e+10) %>--%>
 
-            <br/>
-            <% if (user.isGenderIsShown()==1) {%> <%=user.getGender()%> <% }%>
+<%--            <br/>--%>
+<%--            <% if (user.isGenderIsShown()==1) {%> <%=user.getGender()%> <% }%>--%>
 
         </div>
     </div>
