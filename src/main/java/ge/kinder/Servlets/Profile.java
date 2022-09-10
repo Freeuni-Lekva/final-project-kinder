@@ -5,6 +5,7 @@ import ge.kinder.DAO.DAOimpl.HobbiesDAOimpl;
 import ge.kinder.DAO.DAOimpl.ImagesDAOimpl;
 import ge.kinder.DAO.DAOimpl.UserDAOimpl;
 import ge.kinder.Models.Hobby;
+import ge.kinder.Models.Role;
 import ge.kinder.Models.User;
 import ge.kinder.Services.UserService;
 
@@ -43,7 +44,12 @@ public class Profile extends HttpServlet {
             String otp = req.getParameter("LOGIN_CODE");
 
             if (userService.confirmCode((User) req.getSession().getAttribute("user"),otp)) {
-                req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
+                User user = (User) req.getSession().getAttribute("user");
+
+                String role = String.valueOf(Role.ADMIN);
+                if(user.getRole().equals(role)) {
+                    req.getRequestDispatcher("/WEB-INF/Admin.jsp").forward(req, resp);
+                } else req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
             } else {
                 req.setAttribute("LOGIN_ERROR", "Wrong code. Try again.");
                 req.getRequestDispatcher("/WEB-INF/Confirm_Login.jsp").forward(req, resp);
