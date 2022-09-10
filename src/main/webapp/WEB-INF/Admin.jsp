@@ -24,7 +24,7 @@
 <html>
 <head><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script></head>
 
-<form action="ProfilePage" method="post">
+<form action="Settings" method="post">
 
     <%
         UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
@@ -63,6 +63,9 @@
 
         <div id="leftDiv" style="width: 30%; height: 100%; overflow-y: scroll;  float: left;">
 
+            <button name="settingsButton" type="submit" value="Logout">Logout</button>
+            <br/>
+            <br/>
 
             <button id="banUnban" name="mainPageButton" type="button"onclick="seeUsers()" value="Users">See All Users</button>
 
@@ -70,7 +73,7 @@
 
 
 
-            <div class="chatsContainer"> <span  class="chatContainer__Header">Your Matches</span>
+            <div class="chatsContainer"> <span  class="chatContainer__Header"></span>
 
                 <div id ="chatsContainerBody" class="chatsContainerBody">
 
