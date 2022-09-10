@@ -21,7 +21,21 @@
 <head>
     <title>My profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
 
+        #image_place {
+            position: relative;
+            top: 10%;
+            left: 30%;
+            width: 40%;
+            height: 80%;
+        }
+
+    </style>
 </head>
 <body style="background-image: url('https://theme.zdassets.com/theme_assets/302164/8e05540d6f7ea752f80938c848f3ed79b548b959.png')">
 <form action="Settings" method="post">
@@ -42,6 +56,7 @@
             <br/>
       <h4   style="color: aliceblue">  ACCOUNT SETTINGS </h4>
             <br>
+            <button name="settingsButton" type="submit" value="EditInfo">Edit Info</button>
             <div>
                 <span>
                      <button name="settingsButton" type="button submit" value="TinderVersion" class="btn btn-light">Tinder+</button>
@@ -69,19 +84,19 @@
 
 
         <label style="color: aliceblue" for="pref_1">Min Age Preference</label>
-        <input type="range"  value = "18" id="pref_1" class="form-label" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
+        <input type="range"  id="pref_1" name="pref_1" <%if(user.getSearchInRange()==0){%>value = "18" <%}else{%>value="<%=user.getMin_age()%>"<%}%> class="form-label" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
             <output style="color: aliceblue" name="min"></output>
         <br/>
         <br/>
 
         <label style="color: aliceblue" for="pref_2">Max Age Preference</label>
-            <input type="range"  value = "100" id="pref_2" class="form-label" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
+            <input type="range"  id="pref_2" name="pref_2" <%if(user.getSearchInRange()==0){ %>value = "100" <%}else{%>value="<%=user.getMax_age()%>" <%}%> class="form-label" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
             <output style="color: aliceblue" name ="max"></output>
         <br/>
             <br>
         <span>
             <p   style="color: aliceblue">Only show people in this range
-            <input type="checkbox" id="age_range" class="checkbox" name ="SHOW" />
+            <input type="checkbox" id="age_range" class="checkbox" name ="SHOW" <%if(user.getSearchInRange()==1){ %>checked = "checked" <%}%> />
             </p>
         </span>
                 <br/>
@@ -89,16 +104,30 @@
 
                 ---------------------------------------
 
-                <div class="btn-group_1" data-toggle="buttons">
-                    <h4 style="color: aliceblue">CONTROL WHO YOU SEE </h4>
-                    <h5 style="color: aliceblue">Tinder+ Only</h5>
-                <br>
 
-                <input style="color: aliceblue"type="radio" class="btn-check" value ="0" name="test_1" id="option3" autocomplete="off" checked>
-                <label class="btn btn-secondary" for="option3">Balanced Recommendations</label>
+                    <div class="btn-group_1" data-toggle="buttons">
+                        <h4 style="color: aliceblue">CONTROL WHO YOU SEE </h4>
+                        <h5 style="color: aliceblue">Tinder+ Only</h5>
 
-                <input style="color: aliceblue" type="radio" class="btn-check" name="test_1" value="1" id="option4" autocomplete="off">
-                <label class="btn btn-secondary" for="option4">Recently Active</label>
+
+                        <label class="btn btn-primary">
+                            <input style="color: aliceblue" type="radio" name="test_1" <%if(user.getShow_active_people()==0 || user.getIs_premium()==0) {%> checked="checked"<%}%> value="0">Balanced Recomendations &#x00A; See the most relevant people to you(default)
+                        </label>
+                        <br/>
+                        <br/>
+                        <label class="btn btn-primary">
+                            <input style="color: aliceblue" type="radio" name="test_1"<%if(user.getShow_active_people()==1) {%> checked="checked"<%}%> <%if(user.getIs_premium()==0) {%> disabled="disabled"<%}%> value="1">Recently Active &#x00A; See the most recently active people first
+                        </label>
+                        <br/>
+                        <br/>
+
+                    </div>
+                    <div id="results_1" class="btn_1" ></div>
+<%--                <input style="color: aliceblue"type="radio" class="btn-check" value ="0" name="test_1" id="option3" autocomplete="off" checked>--%>
+<%--                <label class="btn btn-secondary" for="option3">Balanced Recommendations</label>--%>
+
+<%--                <input style="color: aliceblue" type="radio" class="btn-check" name="test_1" value="1" id="option4" autocomplete="off">--%>
+<%--                <label class="btn btn-secondary" for="option4">Recently Active</label>--%>
 <%--                <label class="btn btn-primary">--%>
 <%--                        <input style="color: aliceblue" type="radio" name="test_1" checked="checked" value="0">Balanced Recomendations &#x00A;--%>
 <%--                        <br>--%>
@@ -113,19 +142,36 @@
                 <br/>
                 <br/>
 
-        </div>
-        <div id="results_1" class="btn_1" ></div>
         ---------------------------------------
 
         <div class="btn-group_2" data-toggle="buttons">
             <h4 style="color: aliceblue">CONTROL WHO SEES YOU </h4>
             <h5 style="color: aliceblue">Tinder+ Only</h5>
-                <br/>
-            <input style="color: aliceblue"type="radio" class="btn-check" value ="0" name="options test" id="option1" autocomplete="off" checked>
-            <label class="btn btn-secondary" for="option1">Standard</label>
 
-            <input style="color: aliceblue" type="radio" class="btn-check" name="options test" value="0" id="option2" autocomplete="off">
-            <label class="btn btn-secondary" for="option2">Only people I've liked</label>
+
+            <label class="btn btn-primary">
+                <input style="color: aliceblue" type="radio" name="test" <%if(user.getShow_to_liked()==0 || user.getIs_premium()==0) {%> checked="checked"<%}%> value="0">Standard &#x00A; Only be shown to certain types of people &#x00A; for individual recommendations
+            </label>
+            <br/>
+            <br/>
+            <label class="btn btn-primary">
+                <input style="color: aliceblue" type="radio" name="test" <%if(user.getShow_to_liked()==1) {%> checked="checked"<%}%> <%if(user.getIs_premium()==0) {%> disabled="disabled"<%}%> value="1">Only people I`ve Liked &#x00A; Only people I`ve right swiped will see me
+            </label>
+
+
+            <br/>
+            <br/>
+
+        </div>
+        <div id="results_2" class="btn_2" ></div>
+<%--        <div class="btn-group_2" data-toggle="buttons">--%>
+<%--            --%>
+<%--                <br/>--%>
+<%--            <input style="color: aliceblue"type="radio" class="btn-check" value ="0" name="options test" id="option1" autocomplete="off" checked>--%>
+<%--            <label class="btn btn-secondary" for="option1">Standard</label>--%>
+
+<%--            <input style="color: aliceblue" type="radio" class="btn-check" name="options test" value="0" id="option2" autocomplete="off">--%>
+<%--            <label class="btn btn-secondary" for="option2">Only people I've liked</label>--%>
 
 
 
@@ -139,11 +185,7 @@
 <%--                </label>--%>
 
 
-                <br/>
-                <br/>
 
-        </div>
-        <div id="results_2" class="btn_2" ></div>
 
                 ---------------------------------------
 
@@ -190,7 +232,7 @@
 
 
             <p style="color: aliceblue"> Show me on Tinder
-        <input type="checkbox" id="show_me" class="checkbox" name = "SHOW_ME"/>
+        <input type="checkbox" id="show_me" class="checkbox" name = "SHOW_ME" <%if(user.isIs_hided() == 0){%> checked = "checked" <%}%>/>
             </p>
 
         <br/>
@@ -207,13 +249,17 @@
         <div style="width:70%; height:100%; ">
 
         <div class="card bg-dark text-white">
-            <img  class="card-img" src="images/<%=user.getImages().get(0)%>" alt="No image">
+            <% if (user.getImages().size()>0) {%>
+            <div id = "image_place">
+                <img id = "imade_style" class="card-img" src="images/<%=user.getImages().get(0)%>" alt="No image">
+            </div>
+            <% }%>
             <div class="card-img-overlay">
                 <h5 class="card-title"><%=user.getFirst_name()   %></h5>
                 <p class="card-text"><%=(int) Math.floor((new Date(System.currentTimeMillis()).getTime()-user.getBirth_date().getTime() ) / 3.15576e+10) %></p>
                 <p class="card-text"><% if (user.isGenderIsShown()==1) {%> <%=user.getGender()%> <% }%></p>
                 <p class="card-text"><% for (Hobby hobby : user.getHobbies()) { %>
-                    <%=hobby.toString()%>
+                    <%=hobby.toString().substring(0,1).toUpperCase() + hobby.toString().substring(1).toLowerCase()%>
                     <%}%></p>
             </div>
         </div>
