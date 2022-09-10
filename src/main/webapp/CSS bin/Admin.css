@@ -1,253 +1,253 @@
-body{
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
+/*body{*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    overflow: hidden;*/
+/*}*/
 
-.navMainContainer{
-    padding-right: 20px;
-    position: absolute;
-    left: 408px;
-    top: 0;
-    display: flex;
-    flex-direction: row;
-    width: calc(100% - 465px);
-    height: 80px;
-    padding-left: 40px;
-    justify-content: space-between;
-    align-items: center;
-    background: #E67826;
-}
+/*.navMainContainer{*/
+/*    padding-right: 20px;*/
+/*    position: absolute;*/
+/*    left: 408px;*/
+/*    top: 0;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    width: calc(100% - 465px);*/
+/*    height: 80px;*/
+/*    padding-left: 40px;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    background: #E67826;*/
+/*}*/
 
-.userBoxContainer{
-    position: absolute;
-    top: 90px;
-    left: 408px;
-    width: calc(100% - 409px);
-    height: calc(100% - 98px);
-    display: none;
-    background: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-
-
-.userContainer{
-    width: 500px;
-    padding: 10px;
-    height: 100%;
-    background: #E67826;
-    border-radius: 10px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.userContainerHeader{
-    padding-bottom: 10px;
-    width: 500px;
-    display: flex;
-    color: #ffffff;
-    font-size: 20px;
-    justify-content: space-around;
-    border-bottom: 2px solid white;
-    margin-bottom: 20px;
-
-}
-
-.userBanContainer{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
-
-.userName{
-    font-size: 20px;
-    color: #ffffff;
-    font-weight: 300;
-}
+/*.userBoxContainer{*/
+/*    position: absolute;*/
+/*    top: 90px;*/
+/*    left: 408px;*/
+/*    width: calc(100% - 409px);*/
+/*    height: calc(100% - 98px);*/
+/*    display: none;*/
+/*    background: none;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
 
 
-.userToggleButton{
-    cursor: pointer;
-    display: block;
-    width: 60px;
-    height: 60px;
-    border-radius: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-.userImageandInfoContainer{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
+/*.userContainer{*/
+/*    width: 500px;*/
+/*    padding: 10px;*/
+/*    height: 100%;*/
+/*    background: #E67826;*/
+/*    border-radius: 10px;*/
+/*    display: flex;*/
+/*    justify-content: flex-start;*/
+/*    align-items: center;*/
+/*    flex-direction: column;*/
+/*    gap: 10px;*/
+/*}*/
 
-.userInfoBox{
-    width: 230px;
-    display: flex;
-    gap: 7px;
-    flex-direction: column;
-}
+/*.userContainerHeader{*/
+/*    padding-bottom: 10px;*/
+/*    width: 500px;*/
+/*    display: flex;*/
+/*    color: #ffffff;*/
+/*    font-size: 20px;*/
+/*    justify-content: space-around;*/
+/*    border-bottom: 2px solid white;*/
+/*    margin-bottom: 20px;*/
 
-.userBanButton{
-    cursor: pointer;
-    width: 100px;
-    height: 50px;
-    background: none;
-    border: 2px solid red;
-    color: red;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    font-weight: 800;
-    margin-top: 30px;
-}
+/*}*/
 
-.userUnbanButton{
-    cursor: pointer;
-    width: 100px;
-    height: 50px;
-    background: none;
-    border: 2px solid #6ADB58;
-    color: #6ADB58;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    font-weight: 800;
-    margin-top: 30px;
-}
-.userIsAdminDisplay{
-    cursor: pointer;
-    width: 100px;
-    height: 50px;
-    background: none;
-    border: 2px solid white;
-    color: white;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    font-weight: 800;
-    margin-top: 30px;
-}
+/*.userBanContainer{*/
+/*    width: 100%;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    gap: 20px;*/
+/*}*/
 
-.userInfoValue{
-    color: #ffffff;
-    font-size: 20px;
-}
+/*.userName{*/
+/*    font-size: 20px;*/
+/*    color: #ffffff;*/
+/*    font-weight: 300;*/
+/*}*/
 
 
-.userContainerImage{
-    width: 200px;
-    height: 300px;
-}
+/*.userToggleButton{*/
+/*    cursor: pointer;*/
+/*    display: block;*/
+/*    width: 60px;*/
+/*    height: 60px;*/
+/*    border-radius: 200px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
 
-.navWelcome{
-    font-size: 25px;
-    color: white;
-}
+/*.userImageandInfoContainer{*/
+/*    width: 100%;*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*}*/
 
-.navSignOut{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-    font-size: 20px;
-    color: white;
-    position: relative;
-    width: 110px;
-}
+/*.userInfoBox{*/
+/*    width: 230px;*/
+/*    display: flex;*/
+/*    gap: 7px;*/
+/*    flex-direction: column;*/
+/*}*/
 
-.signOutButton{
-    margin-top: 20px;
-    cursor: pointer;
-    background: none;
-    border: none;
-}
+/*.userBanButton{*/
+/*    cursor: pointer;*/
+/*    width: 100px;*/
+/*    height: 50px;*/
+/*    background: none;*/
+/*    border: 2px solid red;*/
+/*    color: red;*/
+/*    display: none;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    border-radius: 10px;*/
+/*    font-weight: 800;*/
+/*    margin-top: 30px;*/
+/*}*/
 
-.bannedUsersContainer{
-    width: 400px;
-    position: absolute;
-    height: calc(100% - 8px);
-    background: #FFFFFF;
-    border: 2px solid #E67826;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    top: 0px;
-    left: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
+/*.userUnbanButton{*/
+/*    cursor: pointer;*/
+/*    width: 100px;*/
+/*    height: 50px;*/
+/*    background: none;*/
+/*    border: 2px solid #6ADB58;*/
+/*    color: #6ADB58;*/
+/*    display: none;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    border-radius: 10px;*/
+/*    font-weight: 800;*/
+/*    margin-top: 30px;*/
+/*}*/
+/*.userIsAdminDisplay{*/
+/*    cursor: pointer;*/
+/*    width: 100px;*/
+/*    height: 50px;*/
+/*    background: none;*/
+/*    border: 2px solid white;*/
+/*    color: white;*/
+/*    display: none;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    border-radius: 10px;*/
+/*    font-weight: 800;*/
+/*    margin-top: 30px;*/
+/*}*/
 
-.bannedUsersContainer__Header{
-    position: absolute;
-    top: 0;
-    display: flex;
-    align-items: center;
-    width: calc(100% - 30px);
-    font-size: 40px;
-    color: #E67826;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-weight: 1000;
-    border-bottom: 3px solid black;
-}
+/*.userInfoValue{*/
+/*    color: #ffffff;*/
+/*    font-size: 20px;*/
+/*}*/
 
 
-::placeholder{
-    color: rgba(256,256,256, 0.8);
-}
-.searchForUserContainer{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    background: none;
-}
+/*.userContainerImage{*/
+/*    width: 200px;*/
+/*    height: 300px;*/
+/*}*/
 
-.searchForUserInput{
-    border: none;
-    font-size: 20px;
-    outline: none;
-    border-bottom: 2px solid white;
-    background: none;
-    color: white;
-    padding: 5px 3px;
-}
+/*.navWelcome{*/
+/*    font-size: 25px;*/
+/*    color: white;*/
+/*}*/
 
-.bannedUserBody{
-    position: absolute;
-    top: 75px;
-    left: 0;
-    height: calc(100% - 80px);
-    width: 100%;
-    overflow-y: auto;
-}
+/*.navSignOut{*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    justify-content: flex-start;*/
+/*    align-items: center;*/
+/*    gap: 20px;*/
+/*    font-size: 20px;*/
+/*    color: white;*/
+/*    position: relative;*/
+/*    width: 110px;*/
+/*}*/
 
-.bannedUserValue{
-    cursor: pointer;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    background: #BE0426;
-    border: 2px solid #E67826;
-    padding: 10px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 30px;
-    color: #ffffff;
-}
+/*.signOutButton{*/
+/*    margin-top: 20px;*/
+/*    cursor: pointer;*/
+/*    background: none;*/
+/*    border: none;*/
+/*}*/
+
+/*.bannedUsersContainer{*/
+/*    width: 400px;*/
+/*    position: absolute;*/
+/*    height: calc(100% - 8px);*/
+/*    background: #FFFFFF;*/
+/*    border: 2px solid #E67826;*/
+/*    border-radius: 8px;*/
+/*    margin-bottom: 8px;*/
+/*    top: 0px;*/
+/*    left: 2px;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    flex-direction: column;*/
+/*}*/
+
+/*.bannedUsersContainer__Header{*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    width: calc(100% - 30px);*/
+/*    font-size: 40px;*/
+/*    color: #E67826;*/
+/*    padding-top: 10px;*/
+/*    padding-bottom: 10px;*/
+/*    font-weight: 1000;*/
+/*    border-bottom: 3px solid black;*/
+/*}*/
+
+
+/*::placeholder{*/
+/*    color: rgba(256,256,256, 0.8);*/
+/*}*/
+/*.searchForUserContainer{*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    gap: 20px;*/
+/*    background: none;*/
+/*}*/
+
+/*.searchForUserInput{*/
+/*    border: none;*/
+/*    font-size: 20px;*/
+/*    outline: none;*/
+/*    border-bottom: 2px solid white;*/
+/*    background: none;*/
+/*    color: white;*/
+/*    padding: 5px 3px;*/
+/*}*/
+
+/*.bannedUserBody{*/
+/*    position: absolute;*/
+/*    top: 75px;*/
+/*    left: 0;*/
+/*    height: calc(100% - 80px);*/
+/*    width: 100%;*/
+/*    overflow-y: auto;*/
+/*}*/
+
+/*.bannedUserValue{*/
+/*    cursor: pointer;*/
+/*    margin-bottom: 10px;*/
+/*    border-radius: 8px;*/
+/*    background: #BE0426;*/
+/*    border: 2px solid #E67826;*/
+/*    padding: 10px;*/
+/*    display: flex;*/
+/*    justify-content: flex-start;*/
+/*    align-items: center;*/
+/*    gap: 30px;*/
+/*    color: #ffffff;*/
+/*}*/

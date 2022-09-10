@@ -2,6 +2,7 @@ package ge.kinder.Servlets;
 
 import ge.kinder.DAO.DAOimpl.UserDAOimpl;
 import ge.kinder.Models.DTO.UserDTO;
+import ge.kinder.Models.Role;
 import ge.kinder.Models.Status;
 import ge.kinder.Models.User;
 import ge.kinder.Services.LikesService;
@@ -19,8 +20,16 @@ import java.io.IOException;
 public class ProfilePage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = (User) req.getSession().getAttribute("user");
 
-        req.getRequestDispatcher("/WEB-INF/MainPage.jsp").forward(req, resp);
+        if ((req.getSession() != null && user != null)) {
+            if(user.getRole().equals(Role.ADMIN.toString())) {
+                req.getRequestDispatcher("/WEB-INF/Admin.jsp").forward(req, resp);
+            } else req.getRequestDispatcher("/WEB-INF/MainPage.jsp").forward(req, resp);
+        } else {
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        }
+
     }
 
     @Override

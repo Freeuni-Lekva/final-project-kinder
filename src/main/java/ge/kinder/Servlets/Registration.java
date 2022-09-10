@@ -2,6 +2,7 @@ package ge.kinder.Servlets;
 
 import ge.kinder.Exceptions.InvalidMailException;
 import ge.kinder.Exceptions.UserAlreadyExistsException;
+import ge.kinder.Models.Role;
 import ge.kinder.Models.User;
 import ge.kinder.Services.UserService;
 
@@ -18,11 +19,16 @@ public class Registration extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!(req.getSession() != null && req.getSession().getAttribute("user") != null)) {
-            req.getRequestDispatcher("/WEB-INF/Registration.jsp").forward(req, resp);
+        User user = (User) req.getSession().getAttribute("user");
+
+        if ((req.getSession() != null && user != null)) {
+            if(user.getRole().equals(Role.ADMIN.toString())) {
+                req.getRequestDispatcher("/WEB-INF/Admin.jsp").forward(req, resp);
+            } else req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
         } else {
-            req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
+            req.getRequestDispatcher("/Registration.jsp").forward(req, resp);
         }
+
 
     }
 

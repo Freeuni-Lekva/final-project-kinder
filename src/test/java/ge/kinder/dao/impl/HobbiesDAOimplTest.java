@@ -39,7 +39,7 @@ public class HobbiesDAOimplTest {
         connection = db.getConnection();
         hobbiesDAO = new HobbiesDAOimpl(connection);
         imagesDAO = new ImagesDAOimpl(connection);
-        likesDAO = new LikesDAOimpl(connection);
+        likesDAO = new LikesDAOimpl(connection, (ImagesDAOimpl) imagesDAO, (HobbiesDAOimpl) hobbiesDAO);
         userDAO = new UserDAOimpl(connection,hobbiesDAO,imagesDAO,likesDAO);
     }
     @Test

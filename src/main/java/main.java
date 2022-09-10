@@ -35,7 +35,7 @@ public class main {
 
         HobbiesDAOimpl hobbiesDAO  = new HobbiesDAOimpl(connection);
         ImagesDAOimpl imagesDAO = new ImagesDAOimpl(connection);
-        LikesDAOimpl likesDAO = new LikesDAOimpl(connection);
+        LikesDAOimpl likesDAO = new LikesDAOimpl(connection,imagesDAO,hobbiesDAO);
         UserDAOimpl userDAOimpl = new UserDAOimpl(connection,hobbiesDAO,imagesDAO,likesDAO);
         UserServiceImpl userService = new UserServiceImpl(userDAOimpl,new Authentificator(new HashMap<>()));
         System.out.println(likesDAO.isLiked(1,2));

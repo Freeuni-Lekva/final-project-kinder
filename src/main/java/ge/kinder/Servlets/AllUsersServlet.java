@@ -1,7 +1,6 @@
 package ge.kinder.Servlets;
 
-import ge.kinder.DAO.DAOimpl.UserDAOimpl;
-import ge.kinder.DAO.UserDAO;
+import com.google.gson.Gson;
 import ge.kinder.Models.Role;
 import ge.kinder.Models.User;
 import ge.kinder.Services.UserService;
@@ -13,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
+import java.util.List;
 
-@WebServlet(name = "UnBanUser", value = "/UnBanUser")
-public class UnBanUser extends HttpServlet {
+@WebServlet(name = "AllUsersServlet", value = "/AllUsersServlet")
+public class AllUsersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -24,20 +23,13 @@ public class UnBanUser extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("hey");
         UserService userService = (UserService) req.getServletContext().getAttribute("USER_SERVICE");
         PrintWriter out = resp.getWriter();
-        try{
-            User user = (User) req.getSession().getAttribute("user");
-            if(!user.getRole().equals(Role.ADMIN.toString())){
-                out.print("{\"status\":3}");
-                return;
-            }
-            userService.changeSettings(user, User.IS_BANNED,0);
-            out.print("{\"status\":1}");
 
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            out.print("{\"status\":2}");
-        }
+        List<User> users = userService.getAllUsers();
+        System.out.println("list of all users " + users);
+        String json = (new Gson()).toJson(users);
+        out.write(json);
     }
 }

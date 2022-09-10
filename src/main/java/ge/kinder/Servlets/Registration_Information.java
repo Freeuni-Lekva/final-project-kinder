@@ -1,5 +1,6 @@
 package ge.kinder.Servlets;
 
+import ge.kinder.Models.Role;
 import ge.kinder.Models.User;
 import ge.kinder.Services.UserService;
 
@@ -16,21 +17,26 @@ import java.io.IOException;
 public class Registration_Information extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String otp = req.getParameter("REGISTRATION_CODE");
-        if(otp == null) {
-            req.getRequestDispatcher("/WEB-INF/Confirm_Registration.jsp").forward(req, resp);
-            return;
-        }else {
-            UserService userService = (UserService) req.getServletContext().getAttribute("USER_SERVICE");
-            if(userService.confirmCode((User) req.getSession().getAttribute("user"),otp)) {
-                req.getRequestDispatcher("/WEB-INF/Registration_Info.jsp").forward(req,resp);
-            } else {
-                req.setAttribute("REGISTRATION_ERROR","Wrong code. Try again.");
-                req.getRequestDispatcher("/WEB-INF/Confirm_Registration.jsp").forward(req, resp);
-            }
-        }
+        User user = (User) req.getSession().getAttribute("user");
 
-    }
+        if ((req.getSession() != null && user != null)) {
+            if(user.getRole().equals(Role.ADMIN.toString())) {
+                req.getRequestDispatcher("/WEB-INF/Admin.jsp").forward(req, resp);
+            } else {
+                String otp = req.getParameter("REGISTRATION_CODE");
+                if (otp == null) {
+                    req.getRequestDispatcher("/WEB-INF/Confirm_Registration.jsp").forward(req, resp);
+                    return;
+                } else {
+                    UserService userService = (UserService) req.getServletContext().getAttribute("USER_SERVICE");
+                    if (userService.confirmCode((User) req.getSession().getAttribute("user"), otp)) {
+                        req.getRequestDispatcher("/WEB-INF/Registration_Info.jsp").forward(req, resp);
+                    } else {
+                        req.setAttribute("REGISTRATION_ERROR", "Wrong code. Try again.");
+                        req.getRequestDispatcher("/WEB-INF/Confirm_Registration.jsp").forward(req, resp);
+                    }
+
+    }}}}
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

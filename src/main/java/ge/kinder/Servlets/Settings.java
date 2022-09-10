@@ -24,11 +24,16 @@ import java.util.List;
 public class Settings extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!(req.getSession() != null && req.getSession().getAttribute("user") != null)) {
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+
+
+        User user = (User) req.getSession().getAttribute("user");
+
+        if ((req.getSession() != null && user != null)) {
+            if(user.getRole().equals(Role.ADMIN.toString())) {
+                req.getRequestDispatcher("/WEB-INF/Admin.jsp").forward(req, resp);
+            } else req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
         } else {
-            System.out.println("Setting DO GET");
-            req.getRequestDispatcher("/WEB-INF/Admin.jsp").forward(req, resp);
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
         }
     }
 
@@ -40,10 +45,9 @@ public class Settings extends HttpServlet {
         ImagesDAOimpl imagesDAOimpl= (ImagesDAOimpl) req.getServletContext().getAttribute("IMAGESDAO");
 
         String otp = req.getParameter("VERIFICATION_CODE");
-        User us = (User) req.getSession().getAttribute("user");
-        User user = null;
+        User user = (User) req.getSession().getAttribute("user");
 
-            user = userDAOimpl.getUserByMail(us.getMail());
+        System.out.println("meili" + user.getMail());
 
         String newEmail = (String) req.getSession().getAttribute("newMail");
 
@@ -229,13 +233,20 @@ public class Settings extends HttpServlet {
         }
 
         if (verification != null && verification.equals("verificationCode")) {
+            String old  = user.getMail();
+            user.setMail(newEmail);
+            System.out.println("user mail" + user.getMail());
             if (userService.confirmCode(user,otp)) {
                 req.getSession().setAttribute("mail", newEmail);
-                user.setMail(newEmail);
                 System.out.println(newEmail);
                 userDAOimpl.updateRow(user, User.USER_MAIL, newEmail);
                 req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
-            } else System.out.println("nope");
+            } else{
+                 user.setMail(old);
+                req.setAttribute("LOGIN_ERROR", "Wrong code. Try again.");
+                req.getRequestDispatcher("/WEB-INF/Settings/Confirm_Email.jsp").forward(req, resp);
+                System.out.println("nope");
+            }
         }
         if (city != null) {
             user.setCity(city);
