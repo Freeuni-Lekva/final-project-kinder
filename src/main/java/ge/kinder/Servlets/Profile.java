@@ -49,6 +49,8 @@ public class Profile extends HttpServlet {
 
             if (userService.confirmCode((User) req.getSession().getAttribute("user"),otp)) {
                 User user = (User) req.getSession().getAttribute("user");
+              user.setLast_session(new Date(System.currentTimeMillis()));
+                userDao.updateRow(user,User.USER_LAST_Session,new Date(System.currentTimeMillis()));
 
                 String role = String.valueOf(Role.ADMIN);
                 if(user.getRole().equals(role)) {
