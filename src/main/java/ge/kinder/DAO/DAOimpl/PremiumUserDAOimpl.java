@@ -37,7 +37,7 @@ public class PremiumUserDAOimpl extends UserDAOimpl implements PremiumUserDAO {
         try {
             PreparedStatement stm = connection.prepareStatement(
                     ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, TIMESTAMPDIFF(hour,%s,SYSDATE()) " +
-                            "FROM %s WHERE %s = ? AND %s != ? AND %s != ? ;").formatted(
+                            "FROM %s WHERE %s = ? AND %s != ? AND %s != ? AND %s != ?;").formatted(
                             User.USER_USER_ID,
                             User.USER_FIRST_NAME,
                             User.USER_BIRTH_DATE,
@@ -53,12 +53,14 @@ public class PremiumUserDAOimpl extends UserDAOimpl implements PremiumUserDAO {
                             User.USER_TABLE,
                             User.USER_CITY,
                             User.USER_USER_ID,
-                            User.USER_HIDED
+                            User.USER_HIDED,
+                            User.IS_BANNED
                     )
             );
             stm.setString(1, city);
             stm.setInt(2, user_id);
             stm.setInt(3,1);
+            stm.setInt(4, 1);
             System.out.println(stm);
 
             ResultSet rs = stm.executeQuery();
@@ -126,7 +128,7 @@ public class PremiumUserDAOimpl extends UserDAOimpl implements PremiumUserDAO {
                     ("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, TIMESTAMPDIFF(hour,%s,SYSDATE())  FROM %s WHERE %s = ? AND %s != ? " +
                             "AND TIMESTAMPDIFF(year,%s,SYSDATE()) >= ? " +
                             "AND TIMESTAMPDIFF(year,%s,SYSDATE()) <= ?" +
-                            "AND %s != ?;").formatted(
+                            "AND %s != ? AND %s != ?;").formatted(
                             User.USER_USER_ID,
                             User.USER_FIRST_NAME,
                             User.USER_BIRTH_DATE,
@@ -144,7 +146,8 @@ public class PremiumUserDAOimpl extends UserDAOimpl implements PremiumUserDAO {
                             User.USER_USER_ID,
                             User.USER_BIRTH_DATE,
                             User.USER_BIRTH_DATE,
-                            User.USER_HIDED
+                            User.USER_HIDED,
+                            User.IS_BANNED
                     )
             );
             stm.setString(1, city);
@@ -152,6 +155,7 @@ public class PremiumUserDAOimpl extends UserDAOimpl implements PremiumUserDAO {
             stm.setInt(3,min_age);
             stm.setInt(4,max_age);
             stm.setInt(5,1);
+            stm.setInt(6, 1);
             ResultSet rs = stm.executeQuery();
             User curUser = getUserByID(user_id);
             System.out.println(curUser.getGenderPref());

@@ -31,7 +31,7 @@
         <div style="width: 30%; height: 100%; overflow-y: scroll;  float: left;">
 <%--            <button id = "backButton" name="BackFromEmail" type="submit" >Back</button>--%>
             <br>
-            <button type="button submit" id = "backButton" class="btn btn-light">Back</button>
+            <button type="button submit" id = "backButton" name = "BackFromEmail" class="btn btn-light">Back</button>
             <br>
             <br>
             <br>

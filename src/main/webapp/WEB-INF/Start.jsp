@@ -194,9 +194,6 @@
             </p>
 
         <br/>
-            <p style="color: aliceblue"> Show Activity Status
-            <input type="checkbox" id="activity_status" class="checkbox" name ="SHOW_STATUS" />
-            </p>
         <br/>
         <br/>
             <span>
