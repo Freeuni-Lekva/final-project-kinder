@@ -1,5 +1,6 @@
 package ge.kinder.Servlets;
 
+import ge.kinder.Models.Role;
 import ge.kinder.Models.User;
 import ge.kinder.Services.UserService;
 
@@ -14,10 +15,14 @@ import java.io.IOException;
 public class Email_Verification extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!(req.getSession() != null && req.getSession().getAttribute("user") != null)) {
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        User user = (User) req.getSession().getAttribute("user");
+
+        if ((req.getSession() != null && user != null)) {
+            if(user.getRole().equals(Role.ADMIN.toString())) {
+                req.getRequestDispatcher("/WEB-INF/Admin.jsp").forward(req, resp);
+            } else req.getRequestDispatcher("/WEB-INF/Confirm_Email.jsp").forward(req, resp);
         } else {
-            req.getRequestDispatcher("/WEB-INF/Confirm_Email.jsp").forward(req, resp);
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
         }
 
     }

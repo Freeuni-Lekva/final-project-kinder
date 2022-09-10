@@ -20,17 +20,14 @@ import java.time.LocalDate;
 public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       if (!(req.getSession() != null && req.getSession().getAttribute("user") != null)) {
-            req.getRequestDispatcher("/WEB-INF/Login.jsp").forward(req, resp);
-        } else {
-           User user = (User) req.getSession().getAttribute("user");
-           //System.out.println(LOGIN);
-           if(user.getRole().equals(Role.ADMIN.toString())){
+        User user = (User) req.getSession().getAttribute("user");
 
-               req.getRequestDispatcher("/WEB-INF/Admin.jsp").forward(req, resp);
-           } else {
-               req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
-           }
+        if ((req.getSession() != null && user != null)) {
+            if(user.getRole().equals(Role.ADMIN.toString())) {
+                req.getRequestDispatcher("/WEB-INF/Admin.jsp").forward(req, resp);
+            } else req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
+        } else {
+            req.getRequestDispatcher("/WEB-INF/Login.jsp").forward(req, resp);
         }
     }
 

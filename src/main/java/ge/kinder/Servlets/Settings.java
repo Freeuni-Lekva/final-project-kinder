@@ -24,11 +24,16 @@ import java.util.List;
 public class Settings extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!(req.getSession() != null && req.getSession().getAttribute("user") != null)) {
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+
+
+        User user = (User) req.getSession().getAttribute("user");
+
+        if ((req.getSession() != null && user != null)) {
+            if(user.getRole().equals(Role.ADMIN.toString())) {
+                req.getRequestDispatcher("/WEB-INF/Admin.jsp").forward(req, resp);
+            } else req.getRequestDispatcher("/WEB-INF/Start.jsp").forward(req, resp);
         } else {
-            System.out.println("Setting DO GET");
-            req.getRequestDispatcher("/WEB-INF/Admin.jsp").forward(req, resp);
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
         }
     }
 
