@@ -20,13 +20,148 @@
 <html>
 <head>
     <title>My profile</title>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
     <meta charset=utf-8 />
+    <style>
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        #image_place {
+            position: relative;
+            top: 4%;
+            left: 33%;
+            width: 34%;
+            height: 65%;
+        }
+
+        #image_style {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        #info_place {
+            position: absolute;
+            top: 70%;
+            height: 20%;
+            left: 63%;
+            width: 30%;
+        }
+
+        #edit_button_style{
+            position: absolute;
+            top:93%;
+            height: 5%;
+            left: 58%;
+            width: 16%;
+        }
+
+        #main_page_button {
+            position: relative;
+            top: 2%;
+            height: 5%;
+            width: 40%;
+            left: 30%;
+        }
+
+        #account_settings {
+            position: relative;
+            top: 5%;
+            left: 5%;
+            height: 15%;
+            width: 90%;
+            border: 2px dashed black;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        #account_settings_text {
+            position: relative;
+            top: 3%;
+        }
+
+        #account_settings_buttons {
+            position: relative;
+            top: 13%;
+            left: 5%;
+            width: 90%;
+            height: 10%;
+        }
+
+        #discovery_settings {
+            position: relative;
+            top: 8%;
+            left: 5%;
+            height: 35%;
+            width: 90%;
+            border: 2px dashed black;
+            border-radius: 10px;
+        }
+
+        #discovery_settings_buttons {
+            position: relative;
+            top: 6%;
+            left: 5%;
+            width: 90%;
+            height: 10%;
+        }
+
+        #age_preff {
+            position: relative;
+            top: 18%;
+            left: 5%;
+            width: 91%;
+        }
+
+        #control_who_you_see {
+            position: relative;
+            top: 11%;
+            height: 35%;
+            left: 5%;
+            width: 90%;
+            border: 2px dashed black;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        #control_who_you_see_2 {
+            position: relative;
+            top: 14%;
+            height: 35%;
+            left: 5%;
+            width: 90%;
+            border: 2px dashed black;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        #show_me_on_tinder {
+            position: relative;
+            top: 17%;
+            left: 10%;
+            width: 80%;
+            height: 5%;
+            border: 2px dashed black;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        #log_out_style {
+            position: relative;
+            top: 20%;
+            width: 90%;
+            left: 5%;
+        }
+
+
+    </style>
 </head>
-<body>
+<body style="background-image: url('https://theme.zdassets.com/theme_assets/302164/8e05540d6f7ea752f80938c848f3ed79b548b959.png')">
 <form action="Settings" method="post">
 
     <div   style="display:block; width:100%;">
@@ -34,99 +169,137 @@
         <div style="width: 30%; height: 100%; overflow-y: scroll;  float: left;">
 
             <%
-                UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
+                UserDAO userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");
                 User user = userDao.getUserByMail((String) session.getAttribute("mail"));
 
             %>
 
-            <button name="settingsButton" type="submit" value="toMainPage">Main Page</button>
+            <button id ="main_page_button" name="settingsButton" type="button submit" class="btn btn-light" value="toMainPage">Main Page</button>
 
-            <br/>
-            <br/>
-            ACCOUNT SETTINGS
-            <br/>
-            <br/>
-            <button name="settingsButton" type="submit" value="TinderVersion">Tinder+</button>
-            <br/>
-            <br/>
-            <button name="settingsButton" type="submit" value="Email">Email <%=user.getMail()%></button>
-            <br/>
-            <br/>
-
-            DISCOVERY SETTINGS
-            <br/>
-            <br/>
-
-            <button name="settingsButton" type="submit" value="City">City <%=user.getCity()%></button>
-            <br/>
-            <br/>
-            <button name="settingsButton" type="submit" value="Preference">Looking for <%=user.getGenderPref()%></button>
-            <br/>
-            <br/>
-
-            <label for="pref_1">Min Age Preference</label>
-            <input type="range" id="pref_1"  <%if(user.getSearchInRange()==0){%>value = "18" <%}else{%>value="<%=user.getMin_age()%>"<%}%>  name="pref_1" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
-            <output name="min"></output>
-            <br/>
-            <br/>
-            <label for="pref_2">Max Age Preference</label>
-            <input type="range"  id="pref_2" <%if(user.getSearchInRange()==0){ %>value = "100" <%}else{%>value="<%=user.getMax_age()%>" <%}%> name="pref_2" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
-            <output name ="max"></output>
-            <br/>
-            <br/>
-
-
-
-            Only show people in this range
-            <input type="checkbox" id="age_range" class="checkbox" name ="SHOW" <%if(user.getSearchInRange()==1){ %>checked = "checked" <%}%>  />
-
-            <br/>
-            <br/>
-
-            ---------------------------------------
-
-            <div class="btn-group_1" data-toggle="buttons">
-                CONTROL WHO YOU SEE Tinder Plus
-                <br/>
-                <br/>
-
-                <label class="btn btn-primary">
-                    <input type="radio" name="test_1" <%if(user.getShow_active_people()==0 || user.getIs_premium()==0) {%> checked="checked"<%}%> value="0">Balanced Recomendations &#x00A; See the most relevant people to you(default)
-                </label>
-                <br/>
-                <br/>
-                <label class="btn btn-primary">
-                    <input type="radio" name="test_1"<%if(user.getShow_active_people()==1) {%> checked="checked"<%}%> <%if(user.getIs_premium()==0) {%> disabled="disabled"<%}%> value="1">Recently Active &#x00A; See the most recently active people first
-                </label>
-                <br/>
-                <br/>
-
+            <div id = "account_settings">
+                <div id = "account_settings_text" > ACCOUNT SETTINGS </div>
+                <div id = "account_settings_buttons">
+                    <span>
+                         <button name="settingsButton" style="left: 5%; width: 45%;" type="button submit" value="TinderVersion" class="btn btn-light">Tinder+</button>
+                    </span>
+                    <span>
+                         <button name="settingsButton" style="left: 50%; width: 50%;" type="button submit"value="Email" class="btn btn-light">Change Email</button>
+                    </span>
+                </div>
             </div>
-            <div id="results_1" class="btn_1" ></div>
-            ---------------------------------------
+            <div id = "discovery_settings">
 
-            <div class="btn-group_2" data-toggle="buttons">
-                CONTROL WHO SEES YOU Tinder Plus
-                <br/>
-                <br/>
+                <div style="position: relative; top: 3%; text-align: center">  DISCOVERY SETTINGS </div>
+                <div id = "discovery_settings_buttons">
+                    <span>
+                         <button type="button submit" style="left: 5%; width: 35%;" name="settingsButton" value="City" class="btn btn-light">City: <%=user.getCity()%></button>
+                    </span>
+                    <span>
+                         <button type="button submit" style="left: 40%; width: 60%;" name="settingsButton" value="Preference" class="btn btn-light">Looking for: <%=user.getGenderPref()%></button>
+                    </span>
+                </div>
 
-                <label class="btn btn-primary">
-                    <input type="radio" name="test" <%if(user.getShow_to_liked()==0 || user.getIs_premium()==0) {%> checked="checked"<%}%> value="0">Standard &#x00A; Only be shown to certain types of people &#x00A; for individual recommendations
-                </label>
-                <br/>
-                <br/>
-                <label class="btn btn-primary">
-                    <input type="radio" name="test" <%if(user.getShow_to_liked()==1) {%> checked="checked"<%}%> <%if(user.getIs_premium()==0) {%> disabled="disabled"<%}%> value="1">Only people I`ve Liked &#x00A; Only people I`ve right swiped will see me
-                </label>
+                <div id = "age_preff">
+
+                    <label  for="pref_1">Min Age Preference</label>
+                    <input type="range"  id="pref_1" name="pref_1" <%if(user.getSearchInRange()==0){%>value = "18" <%}else{%>value="<%=user.getMin_age()%>"<%}%> class="form-label" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
+                    <output  name="min"></output>
+                    <br/>
+                    <br/>
+
+                    <label  for="pref_2">Max Age Preference</label>
+                    <input type="range"  id="pref_2" name="pref_2" <%if(user.getSearchInRange()==0){ %>value = "100" <%}else{%>value="<%=user.getMax_age()%>" <%}%> class="form-label" min="18" max="100" oninput="this.nextElementSibling.value = this.value">
+                    <output  name ="max"></output>
+                    <br/>
+                    <br>
+                    <span>
+                        <p >Only show people in this range
+                        <input type="checkbox" id="age_range" class="checkbox" name ="SHOW" <%if(user.getSearchInRange()==1){ %>checked = "checked" <%}%> />
+                        </p>
+                    </span>
+                </div>
+            </div>
 
 
-                <br/>
-                <br/>
+            <div id = "control_who_you_see">
+                <div class="btn-group_1" data-toggle="buttons">
+                    <h4 >CONTROL WHO YOU SEE </h4>
+                    <h5 >Tinder+ Only</h5>
 
+
+<%--                    <input type="radio" class="btn-check" name="test_1" id="test_1" autocomplete="off" <%if(user.getShow_active_people()==0 || user.getIs_premium()==0) {%> checked="checked"<%}%> value=0">--%>
+<%--                    <label class="btn btn-secondary" for="test_1">Balanced Recommendations</label>--%>
+
+<%--                    <input type="radio" class="btn-check" name="test_1" id="test_2" <%if(user.getShow_active_people()==1) {%> checked="checked"<%}%> <%if(user.getIs_premium()==0) {%> disabled="disabled"<%}%> value="1" autocomplete="off">--%>
+<%--                    <label class="btn btn-secondary" for="test_2">Radio</label>--%>
+
+                    <label class="btn btn-primary">
+                        <input  type="radio" name="test_1" <%if(user.getShow_active_people()==0 || user.getIs_premium()==0) {%> checked="checked"<%}%> value="0">Balanced Recomendations &#x00A; See the most relevant people to you(default)
+                    </label>
+                    <br/>
+                    <br/>
+                    <label class="btn btn-primary">
+                        <input  type="radio" name="test_1"<%if(user.getShow_active_people()==1) {%> checked="checked"<%}%> <%if(user.getIs_premium()==0) {%> disabled="disabled"<%}%> value="1">Recently Active &#x00A; See the most recently active people first
+                    </label>
+                    <br/>
+                    <br/>
+
+                </div>
+                <div id="results_1" class="btn_1" ></div>
+
+                <br/>
+                <br/>
+            </div>
+
+
+            <div id ="control_who_you_see_2">
+                <div class="btn-group_2" data-toggle="buttons">
+                    <h4 >CONTROL WHO SEES YOU </h4>
+                    <h5 >Tinder+ Only</h5>
+
+
+                    <label class="btn btn-primary">
+                        <input  type="radio" name="test" <%if(user.getShow_to_liked()==0 || user.getIs_premium()==0) {%> checked="checked"<%}%> value="0">Standard &#x00A; Only be shown to certain types of people &#x00A; for individual recommendations
+                    </label>
+                    <br/>
+                    <br/>
+                    <label class="btn btn-primary">
+                        <input  type="radio" name="test" <%if(user.getShow_to_liked()==1) {%> checked="checked"<%}%> <%if(user.getIs_premium()==0) {%> disabled="disabled"<%}%> value="1">Only people I`ve Liked &#x00A; Only people I`ve right swiped will see me
+                    </label>
+
+                    <br/>
+                    <br/>
+
+<%--                    <input type="radio" class="btn-check" name="test_2" id="test_3" autocomplete="off" <%if(user.getShow_to_liked()==0 || user.getIs_premium()==0) {%> checked="checked"<%}%> value="0">--%>
+<%--                    <label class="btn btn-secondary" for="test_3">Standard</label>--%>
+
+<%--                    <input type="radio" class="btn-check" name="test_2" id="test_4" autocomplete="off" <%if(user.getShow_to_liked()==1) {%> checked="checked"<%}%> <%if(user.getIs_premium()==0) {%> disabled="disabled"<%}%> value="1">--%>
+<%--                    <label class="btn btn-secondary" for="test_4">Only the people I've liked</label>--%>
+
+                </div>
             </div>
             <div id="results_2" class="btn_2" ></div>
+            <%--        <div class="btn-group_2" data-toggle="buttons">--%>
+            <%--            --%>
+            <%--                <br/>--%>
+            <%--            <input style="color: aliceblue"type="radio" class="btn-check" value ="0" name="options test" id="option1" autocomplete="off" checked>--%>
+            <%--            <label class="btn btn-secondary" for="option1">Standard</label>--%>
 
-            ---------------------------------------
+            <%--            <input style="color: aliceblue" type="radio" class="btn-check" name="options test" value="0" id="option2" autocomplete="off">--%>
+            <%--            <label class="btn btn-secondary" for="option2">Only people I've liked</label>--%>
+
+
+
+            <%--            <label class="btn btn-primary">--%>
+            <%--                        <input type="radio" name="test" checked="checked" value="0">Standard &#x00A; Only be shown to certain types of people &#x00A; for individual recommendations--%>
+            <%--                </label>--%>
+            <%--                <br/>--%>
+            <%--                <br/>--%>
+            <%--                <label class="btn btn-primary">--%>
+            <%--                        <input type="radio" name="test" value="1">Only people I`ve Liked &#x00A; Only people I`ve right swiped will see me--%>
+            <%--                </label>--%>
+
+
 
 
             <script>
@@ -166,29 +339,21 @@
                 }
 
             </style>
-            <br/>
-            <br/>
 
 
-            Show me on Tinder
-            <input type="checkbox" id="show_me" class="checkbox" name = "SHOW_ME" <%if(user.isIs_hided() == 0){%> checked = "checked" <%}%>/>
-
-            <br/>
-            <br/>
-            Show Activity Status
-            <input type="checkbox" id="activity_status" class="checkbox" name ="SHOW_STATUS" <%if(user.getShowActiveStatus() == 1){%> checked = "checked" <%}%> />
-
-            <br/>
-            <br/>
-
-            <button name="settingsButton" type="submit" value="Logout">Logout</button>
-            <br/>
-            <br/>
-
-            <button name="settingsButton" type="submit" value="Delete">Delete Account</button>
-
-
+            <div id ="show_me_on_tinder">
+                <p > Show me on Tinder
+                    <input type="checkbox" id="show_me" class="checkbox" name = "SHOW_ME" <%if(user.isIs_hided() == 0){%> checked = "checked" <%}%>/>
+                </p>
+            </div>
+            <div id = "log_out_style">
+            <span>
+                <button type="button submit" style="width:49%;" name="settingsButton" value="Logout" class="btn btn-light">Log Out</button>
+                <button type="button submit" style="left: 50%; width: 49%;" name="settingsButton" value="Delete" class="btn btn-light">Delete Account</button>
+            </span>
+            </div>
         </div>
+
 
         <div style="width:70%; height:100%; overflow-y: scroll;  ">
 

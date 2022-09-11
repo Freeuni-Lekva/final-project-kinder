@@ -11,7 +11,7 @@
 <head>
     <title>Tinder+</title>
 </head>
-<body>
+<body style="background-image: url('https://theme.zdassets.com/theme_assets/302164/8e05540d6f7ea752f80938c848f3ed79b548b959.png')">
 <form action="Settings" method="post">
     <%
         UserDAOimpl userDao = (UserDAOimpl) request.getServletContext().getAttribute("USERDAO");

@@ -23,7 +23,7 @@
 
 <html>
 <head><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script></head>
-
+<body  style="background-image: url('https://theme.zdassets.com/theme_assets/302164/8e05540d6f7ea752f80938c848f3ed79b548b959.png')">
 <form action="Settings" method="post">
 
     <%
@@ -31,33 +31,33 @@
         User user = userDao.getUserByMail((String) session.getAttribute("mail"));
 
     %>
-<script>
-    let suggestedUserName
-    let suggestedUserID
-    let suggestedUserAge
-    let suggestedUserMail
-    let suggestedUserImage
-    let userIsBanned
-    let activeMail
+    <script>
+        let suggestedUserName
+        let suggestedUserID
+        let suggestedUserAge
+        let suggestedUserMail
+        let suggestedUserImage
+        let userIsBanned
+        let activeMail
 
-    var imagesArray
-    var chatsArray
-    var likersArray
-    var imagesOfLikers
+        var imagesArray
+        var chatsArray
+        var likersArray
+        var imagesOfLikers
 
-    let suggestedUserJob
-    let suggestedUserCompany
-    let suggestedUserCity
-    let suggestedUserBio
+        let suggestedUserJob
+        let suggestedUserCompany
+        let suggestedUserCity
+        let suggestedUserBio
 
-    let displayCurrentChat
-    // setInterval(getchats,1000)
+        let displayCurrentChat
+        // setInterval(getchats,1000)
 
-    let userID = "<%=user.getUser_id()%>"
+        let userID = "<%=user.getUser_id()%>"
 
 
 
-</script>
+    </script>
 
     <div   style="display:block; width:100%;">
 
@@ -69,6 +69,37 @@
 
             <button id="banUnban" name="mainPageButton" type="button"onclick="seeUsers()" value="Users">See All Users</button>
 
+            <style>
+                .chatsContainer{
+                    width: 98%;
+                    /*position: absolute;*/
+                    height: calc(100% - 40px);
+                    /*// background: #FFFFFF;*/
+
+                    margin-bottom: 8px;
+                    top: 0px;
+                    left: 2px;
+                    display: flex;
+                    align-items: center;
+                    /*justify-content: center;*/
+                    flex-direction: column;
+
+                }
+
+
+                .currentChatContainer{
+
+                    border: 5px solid #FFFFFF;
+                    background: #FFFFFF;
+
+                }
+
+
+
+
+
+
+            </style>
 
 
 
@@ -113,7 +144,7 @@
                         dataType: "json",
 
                         success: function (msg) {
-                           // alert(msg);
+                            // alert(msg);
                             likersArray = msg;
 
                             if (likersArray.length != 0) {
@@ -125,10 +156,10 @@
                                     let name = likersArray[i].first_name;
                                     let id = likersArray[i].user_id;
 
-                                    $("#likesContainerBody").append("<div  onclick=\"displayCurrentChat('" + id+ "', '" + name + "', '" + mail + "', '" + img + "')\"class=\"currentChatContainer\">\n" +
-                                        "            <img width=\"100px\" height=\"100px\" class=\"chatUserIcon\" src=" + img + ">\r\n" +
+                                    $("#likesContainerBody").append("<br/> <div  onclick=\"displayCurrentChat('" + id+ "', '" + name + "', '" + mail + "', '" + img + "')\"class=\"currentChatContainer\">\n" +
+                                        "            <img width=\"100px\" height=\"100px\" class=\"chatUserIcon\" src=" + img + ">  <br/> " +
                                         "            <span>" + name + "</span>\n" +
-                                        "        </div>");
+                                        "    <br/>    </div>");
                                 }
                             }
 
@@ -202,10 +233,11 @@
                                 getImagesOfLikers(chatsArray[i].mail);
                                 let img="images/"+imagesOfLikers[0];
                                 let name = chatsArray[i].first_name;
-                                $("#chatsContainerBody").append( "<div  class=\"currentChatContainer\">\n" +
-                                    "            <img width=\"100px\" height=\"100px\" class=\"chatUserIcon\" src=" + img + ">\r\n" +
+
+                                $("#chatsContainerBody").append("<br/> <div  class=\"currentChatContainer\">\n" +
+                                    "            <img width=\"100px\" height=\"100px\" class=\"chatUserIcon\" src=" + img + ">  <br/> " +
                                     "            <span>" + name + "</span>\n" +
-                                    "        </div>");
+                                    "    <br/>    </div>");
                             }
 
                         }
@@ -308,16 +340,16 @@
 
                     getUserInfo(mail,img);
 
-                   // $("#banId").removeAttr("disabled");
+                    // $("#banId").removeAttr("disabled");
                     //$("#unbanId").removeAttr("disabled");
                     if(userIsBanned==="1") {
                         $("#unbanId").removeAttr("disabled");
-                         $("#banId").attr('disabled','true');
+                        $("#banId").attr('disabled','true');
 
                     }else {
 
-                         $("#unbanId").attr('disabled','true');
-                         $("#banId").removeAttr("disabled");
+                        $("#unbanId").attr('disabled','true');
+                        $("#banId").removeAttr("disabled");
                     }
 
 
