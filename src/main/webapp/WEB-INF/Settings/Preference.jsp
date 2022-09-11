@@ -41,12 +41,12 @@
 
                 <label class="btn-pref">
                     <input type="radio" name="preference"
-                    <%if (user.getGenderPref().equals("Men")) {%> checked="checked"<% }%> value="Men" >Men
+                    <%if (user.getGenderPref().equals("Man")) {%> checked="checked"<% }%> value="Men" >Men
                 </label>
                 <br/>
                 <br/>
                 <label class="btn-pref">
-                    <input type="radio" name="preference"  <%if (user.getGenderPref().equals("Women")) {%> checked="checked"<% }%> value="Women"> Women
+                    <input type="radio" name="preference"  <%if (user.getGenderPref().equals("Woman")) {%> checked="checked"<% }%> value="Woman"> Women
                 </label>
                 <br/>
                 <br/>

@@ -8,7 +8,8 @@
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
     <meta charset=utf-8 />
 </head>
-<body>
+<body  style="background-image: url('https://theme.zdassets.com/theme_assets/302164/8e05540d6f7ea752f80938c848f3ed79b548b959.png')">
+
 <form action="Profile" method="post">
     <h1> Create Account  </h1>
 <div style="display:block; width:100%;">
